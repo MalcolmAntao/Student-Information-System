@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+body.dark-mode {
+    background: #000; /* Dark mode background */
+}
+
+body.light-mode {
+    background: #d7cece; /* Light mode background */
+}
+
+section {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+/* Wave Gradient Background */
+section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 150%;
+    background: linear-gradient(#000, #0f0, #000); /* Dark mode wave */
+    animation: animate 5s linear infinite;
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+body.light-mode section::before {
+    background: linear-gradient(#d7cece, rgb(0, 140, 255), #d7cece); /* Light mode wave */
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/* Grid cells */
+section span {
+    position: relative;
+    display: block;
+    width: calc(6.25vw - 2px);
+    height: calc(6.25vw - 2px);
+    background: #181818; /* Dark mode default */
+    z-index: 2;
+    transition: background 0.3s ease;
+}
+
+body.light-mode section span {
+    background: #ffffff; /* Light mode grid cells */
+}
+
+section span:hover {
+    background: #0f0; /* Dark mode highlight */
+    transition: 0s;
+}
+
+body.light-mode section span:hover {
+    background: rgb(0, 140, 255); /* Light mode highlight */
+    transition: 0s;
+}
+
+section .signin {
+    position: absolute;
+    width: 600px;
+    height: 400px; /* Set the height to 300px */
+    background: #22222200;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Adjust padding for the reduced height */
+    margin-top: 10px;
+    border-radius: 4px;
+    /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9); */
+    transition: background 0.3s ease;
+}
+
+body.light-mode .signin {
+    background: #dddddd00;
+}
+
+/* Adjust the form content to fit */
+section .signin .content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px; /* Reduce the gap between elements */
+}
+
+section .signin .content h2 {
+    font-size: 1.5em; /* Reduce the heading size */
+    color: #0f0; /* Dark mode text */
+    text-transform: uppercase;
+}
+
+body.light-mode .signin .content h2 {
+    color: rgb(0, 140, 255); /* Light mode text */
+}
+
+section .signin .content form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Reduce the gap between input fields */
+}
+
+section .signin .content form input[type="email"],
+section .signin .content form input[type="password"] {
+    position: relative;
+    width: 100%;
+    background: #333;
+    border: none;
+    outline: none;
+    padding: 10px; /* Adjust padding inside input fields */
+    border-radius: 4px;
+    color: #fff;
+}
+
+body.light-mode section .signin .content input[type="email"],
+body.light-mode section .signin .content input[type="password"] {
+    background: #eee;
+    color: #000;
+}
+section .signin .content label {
+    color: #ffffff; /* Change to your desired color */
+}
+
+body.light-mode .signin .content label {
+    color: #ffffff; /* Text color for light mode */
+}
+section .signin .content p {
+    color: #ffffff; /* Change to your desired color */
+}
+
+body.light-mode .signin .content p {
+    color: #ffffff; /* Text color for light mode */
+}
+/* Submit button for dark mode */
+section .signin .content input[type="submit"] {
+    padding: 10px;
+    background-color: #0f0; /* Dark mode button background color */
+    color: #000; /* Dark mode text color */
+    font-weight: 600;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth color transition */
+}
+
+/* Submit button for light mode */
+body.light-mode .signin .content input[type="submit"] {
+    background-color: rgb(0, 140, 255); /* Light mode button background color */
+    color: #fff; /* Light mode text color */
+}
+
+input[type="submit"]:active {
+    opacity: 0.6;
+}
+
+
+/* Middle Layer (Image) */
+.middle-layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 500;
+}
+
+.middle-layer img {
+    max-width: 250vh;
+    height: auto;
+    margin-bottom: 150px;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 1001;
+}
+
+@media (max-width: 900px) {
+    section span {
+        width: calc(10vw - 2px);
+        height: calc(10vw - 2px);
+    }
+}
+
+@media (max-width: 600px) {
+    section span {
+        width: calc(20vw - 2px);
+        height: calc(20vw - 2px);
+    }
+}
+
+
+
