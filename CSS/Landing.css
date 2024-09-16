@@ -236,3 +236,81 @@ input[type="submit"]:active {
 
 
 
+
+@media (max-width: 1200px) {
+    section .signin {
+        width: 500px; /* Decrease width */
+        height: 350px; /* Decrease height */
+    }
+
+    section .signin .content h2 {
+        font-size: 1.4em; /* Decrease heading size */
+    }
+
+    section .signin .content form input[type="email"],
+    section .signin .content form input[type="password"] {
+        padding: 8px; /* Adjust padding inside input fields */
+    }
+
+    section .signin .content input[type="submit"] {
+        padding: 8px; /* Decrease submit button size */
+        font-size: 0.9em; /* Adjust font size */
+    }
+
+    .middle-layer img {
+        max-width: 200vh; /* Adjust image size */
+        margin-bottom: 100px; /* Adjust margin */
+    }
+}
+
+@media (max-width: 900px) {
+    section .signin {
+        width: 400px; /* Further decrease width */
+        height: 300px; /* Further decrease height */
+    }
+
+    section .signin .content h2 {
+        font-size: 1.2em; /* Further decrease heading size */
+    }
+
+    section .signin .content form input[type="email"],
+    section .signin .content form input[type="password"] {
+        padding: 6px; /* Adjust padding inside input fields */
+    }
+
+    section .signin .content input[type="submit"] {
+        padding: 6px; /* Further decrease submit button size */
+        font-size: 0.8em; /* Adjust font size */
+    }
+
+    .middle-layer img {
+        max-width: 150vh; /* Adjust image size */
+        margin-bottom: 80px; /* Adjust margin */
+    }
+}
+
+@media (max-width: 600px) {
+    section .signin {
+        width: 300px; /* Further decrease width */
+        height: 250px; /* Further decrease height */
+    }
+
+    section .signin .content h2 {
+        font-size: 1em; /* Further decrease heading size */
+    }
+
+    section .signin .content form input[type="email"],
+    section .signin .content form input[type="password"] {
+        padding: 5px; /* Further adjust padding */
+    }
+
+    section .signin .content input[type="submit"] {
+        padding: 5px; /* Further decrease submit button size */
+        font-size: 0.7em; /* Adjust font size */
+    }
+
+    .middle-layer img {
+        max-width: 100vh; /* Adjust image size */
+        margin-bottom: 60px; /* Adjust margin */
+    }
+}
