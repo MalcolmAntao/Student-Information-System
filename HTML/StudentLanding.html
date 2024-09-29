@@ -349,8 +349,8 @@
             document.getElementById('date-time').textContent = formattedDateTime;
         }
 
-        // Update every second
-        setInterval(updateDateTime, 1000);
+        // Update every minute
+        setInterval(updateDateTime, 60000);
         updateDateTime(); // Initial call
 
         // Dark mode toggle functionality
