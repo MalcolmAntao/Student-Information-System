@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Homepage</title>
+    <style>
+        :root {
+            --bg-color-dark: #121212;
+            --text-color-dark: #ffffff;
+            --bg-color-light: #ffffff;
+            --text-color-light: #000000;
+            --sidebar-bg-color-dark: #1e1e1e;
+            --sidebar-bg-color-light: #d1d1d1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-dark);
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 60px;
+            height: 100%;
+            background-color: var(--sidebar-bg-color-dark);
+            position: relative;
+            transition: width 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        body.light-mode .sidebar {
+            background-color: var(--sidebar-bg-color-light);
+        }
+
+        .sidebar:hover {
+            width: 200px; /* Expands on hover */
+        }
+
+        /* Sidebar hamburger icon */
+        .sidebar-icon-container {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* Sidebar icon (hamburger menu) */
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 24px; /* Adjusted height to fit 3 lines */
+        }
+
+        .sidebar-icon {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 0;
+            transition: 0.4s;
+        }
+
+        /* Sidebar content */
+        .sidebar-content {
+            padding: 20px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition-delay: 0s;
+        }
+
+        .sidebar:hover .sidebar-content {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.3s;
+        }
+
+        .sidebar:hover .sidebar-content h2 {
+            transition-delay: 0.3s;
+        }
+
+        .sidebar:hover .sidebar-content p {
+            transition-delay: 0.4s;
+        }
+
+        /* Sidebar links */
+        .sidebar-links a {
+            display: block;
+            padding: 10px 0;
+            color: #fff; /* Default dark mode text color */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .sidebar-links a {
+            color: #000; /* Darker color for light mode */
+        }
+
+        .sidebar-links a:hover {
+            color: #c0c0c0; /* Hover effect for dark mode */
+        }
+
+        body.light-mode .sidebar-links a:hover {
+            color: #555; /* Hover effect for light mode */
+        }
+
+        /* Main content area divided into columns */
+        .main-content {
+            display: flex;
+            flex: 4;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Column 2 layout */
+        .column-2 {
+            display: flex;
+            flex-direction: column;
+            flex: 2;
+            gap: 20px;
+        }
+
+        /* Column 3 layout */
+        .column-3 {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 20px;
+        }
+
+        /* Attendance and Date blocks smaller */
+        .small-block {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-mode .small-block {
+            background-color: #f0f0f0;
+        }
+
+        /* Flex container for date and attendance to be side by side */
+        .date-attendance {
+            display: flex;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Search bar styling */
+        .search-bar {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
+        body.light-mode .search-bar input {
+            background-color: #e0e0e0;
+            color: #000000;
+        }
+
+        /* Courses section with scrolling */
+        .courses {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        body.light-mode .courses {
+            background-color: #f0f0f0;
+        }
+
+        /* Course card style */
+        .course-card {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        body.light-mode .course-card {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        /* Icons styling */
+        .icons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon {
+            padding: 10px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        body.light-mode .icon {
+            background-color: #e0e0e0;
+        }
+
+        /* Flexbox adjustments for third column */
+        .column-3 > .small-block {
+            flex-shrink: 0;
+        }
+
+        /* Toggle button styling */
+        .toggle-button {
+            background-color: #2a2a2a;
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        body.light-mode .toggle-button {
+            background-color: #e0e0e0;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar hamburger icon -->
+            <div class="sidebar-icon-container">
+                <div class="hamburger-icon">
+                    <div class="sidebar-icon"></div>
+                    <div class="sidebar-icon"></div>
+                    <div class="sidebar-icon"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar content (only visible on hover) -->
+            <div class="sidebar-content">
+                <h2>Welcome back, Malcolm</h2>
+                <div class="sidebar-links">
+                    <a href="home.html">Home</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="profile.html">Profile</a>
+                    <a href="settings.html">Settings</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content area with two columns -->
+        <div class="main-content">
+            <!-- Column 2 -->
+            <div class="column-2">
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <form action="search.php" method="GET">
+                        <input type="text" name="query" placeholder="Search Pages">
+                    </form>
+                </div>
+
+                <!-- Date and Attendance (side by side) -->
+                <div class="date-attendance">
+                    <div class="small-block" id="date-block">
+                        <p id="date-time"></p>
+                    </div>
+                    <div class="small-block">
+                        <p>Attendance</p>
+                    </div>
+                </div>
+
+                <!-- Courses section with scrollable content -->
+                <div class="courses">
+                    <div class="course-card">Course 1</div>
+                    <div class="course-card">Course 2</div>
+                    <div class="course-card">Course 3</div>
+                </div>
+            </div>
+
+            <!-- Column 3 -->
+            <div class="column-3">
+                <!-- Icons (Reminders, Game, Profile) aligned to the right -->
+                <div class="icons">
+                    <div class="icon">Reminders</div>
+                    <div class="icon">Game</div>
+                    <div class="icon">Profile</div>
+                    <!-- Dark Mode Toggle Button -->
+                    <button class="toggle-button" id="toggle-mode">Dark Mode</button>
+                </div>
+
+                <!-- CGPA and SGPA block -->
+                <div class="small-block">
+                    <p>CGPA: </p>
+                    <p>SGPA: </p>
+                </div>
+
+                <!-- Profile section -->
+                <div class="small-block">
+                    <p>Profile Details </p>
+                </div>
+
+                <!-- Notices section -->
+                <div class="small-block">
+                    <p>Notices </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Date and time display
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            const formattedDateTime = now.toLocaleDateString('en-US', options).replace(',', ''); // Remove the comma after day
+            document.getElementById('date-time').textContent = formattedDateTime;
+        }
+
+        // Update every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call
+
+        // Dark mode toggle functionality
+        const toggleButton = document.getElementById('toggle-mode');
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                toggleButton.textContent = 'Light Mode';
+            } else {
+                toggleButton.textContent = 'Dark Mode';
+            }
+        });
+    </script>
+</body>
+</html>
