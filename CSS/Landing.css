@@ -96,7 +96,7 @@ section .signin {
     justify-content: center;
     align-items: center;
     padding: 20px; /* Adjust padding for the reduced height */
-    margin-top: 10px;
+    margin-bottom: 40px;
     border-radius: 4px;
     /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9); */
     transition: background 0.3s ease;
@@ -138,7 +138,7 @@ section .signin .content form input[type="email"],
 section .signin .content form input[type="password"] {
     position: relative;
     width: 100%;
-    background: #333;
+    background: #333333b9;
     border: none;
     outline: none;
     padding: 10px; /* Adjust padding inside input fields */
@@ -148,7 +148,7 @@ section .signin .content form input[type="password"] {
 
 body.light-mode section .signin .content input[type="email"],
 body.light-mode section .signin .content input[type="password"] {
-    background: #eee;
+    background: #32323286;
     color: #000;
 }
 section .signin .content label {
@@ -156,7 +156,7 @@ section .signin .content label {
 }
 
 body.light-mode .signin .content label {
-    color: #ffffff; /* Text color for light mode */
+    color: #000000; /* Text color for light mode */
 }
 section .signin .content p {
     color: #ffffff; /* Change to your desired color */
