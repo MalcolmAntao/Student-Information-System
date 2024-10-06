@@ -6,12 +6,12 @@
     <title>Student Homepage</title>
     <style>
         :root {
-            --bg-color-dark: #121212;
+            --bg-color-dark:#1D2433;
             --text-color-dark: #ffffff;
-            --bg-color-light: #ffffff;
+            --bg-color-light: #d9e8e8;
             --text-color-light: #000000;
-            --sidebar-bg-color-dark: #1e1e1e;
-            --sidebar-bg-color-light: #d1d1d1;
+            --sidebar-bg-color-dark: #232B3A;
+            --sidebar-bg-color-light: #253b42 ;
         }
 
         body {
@@ -36,7 +36,7 @@
 
         /* Sidebar styling */
         .sidebar {
-            width: 60px;
+            width: 45px;
             height: 100%;
             background-color: var(--sidebar-bg-color-dark);
             position: relative;
@@ -84,7 +84,9 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
             transition-delay: 0s;
         }
-
+        body.light-mode .sidebar-content h2{
+          color: #ffffff ;
+        }
         .sidebar:hover .sidebar-content {
             opacity: 1;
             transform: translateX(0);
@@ -103,21 +105,21 @@
         .sidebar-links a {
             display: block;
             padding: 10px 0;
-            color: #fff; /* Default dark mode text color */
+            color: #FFFFFF; /* Default dark mode text color */
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         body.light-mode .sidebar-links a {
-            color: #000; /* Darker color for light mode */
+            color: #cacaca; /* Darker color for light mode */
         }
 
         .sidebar-links a:hover {
-            color: #c0c0c0; /* Hover effect for dark mode */
+            color: #2F9DFF; /* Hover effect for dark mode */
         }
 
         body.light-mode .sidebar-links a:hover {
-            color: #555; /* Hover effect for light mode */
+            color: #4f8585; /* Hover effect for light mode */
         }
 
         /* Main content area divided into columns */
@@ -146,7 +148,7 @@
 
         /* Attendance and Date blocks smaller */
         .small-block {
-            background-color: #1e1e1e;
+            background-color: #232B3A;
             border-radius: 10px;
             padding: 10px;
             text-align: center;
@@ -158,7 +160,7 @@
         }
 
         body.light-mode .small-block {
-            background-color: #f0f0f0;
+            background-color: #c3d8da  ;
         }
 
         /* Flex container for date and attendance to be side by side */
@@ -179,18 +181,18 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background-color: #2a2a2a;
+            background-color: #232B3A;
             color: #ffffff;
         }
 
         body.light-mode .search-bar input {
-            background-color: #e0e0e0;
+            background-color: #c3d8da ;
             color: #000000;
         }
 
         /* Courses section with scrolling */
         .courses {
-            background-color: #1e1e1e;
+            background-color: #232B3A;
             border-radius: 10px;
             padding: 20px;
            /* flex-grow: 1;*/
@@ -203,12 +205,12 @@
         }
 
         body.light-mode .courses {
-            background-color: #f0f0f0;
+            background-color: #c3d8da ;
         }
 
         /* Course card style */
         .course-card {
-            background-color: #2a2a2a;
+            background-color: #1B222E;
             border-radius: 10px;
             padding: 10px;
             margin: 10px 0;
@@ -216,7 +218,7 @@
         }
 
         body.light-mode .course-card {
-            background-color: #e0e0e0;
+            background-color: #efeeee  ;
             color: #000;
         }
 
@@ -230,13 +232,13 @@
 
         .icon {
             padding: 10px;
-            background-color: #2a2a2a;
+            background-color: #232B3A;
             border-radius: 10px;
             cursor: pointer;
         }
 
         body.light-mode .icon {
-            background-color: #e0e0e0;
+            background-color: #c3d8da ;
         }
 
         /* Flexbox adjustments for third column */
@@ -246,7 +248,7 @@
 
         /* Toggle button styling */
         .toggle-button {
-            background-color: #2a2a2a;
+            background-color: #232B3A;
             border: none;
             border-radius: 10px;
             color: #ffffff;
@@ -255,7 +257,7 @@
         }
 
         body.light-mode .toggle-button {
-            background-color: #e0e0e0;
+            background-color: #c3d8da;
             color: #000000;
         }
     </style>
