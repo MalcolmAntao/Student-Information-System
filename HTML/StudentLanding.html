@@ -235,10 +235,18 @@
             background-color: #364562;
             border-radius: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
+        .icon:hover{
+            background-color: #4a6fa1 ;
+        }
         body.light-mode .icon {
             background-color: #95c0c4 ;
+        }
+
+        body.light-mode .icon:hover{
+            background-color: #c1e1e2 ;
         }
 
         /* Flexbox adjustments for third column */
@@ -254,11 +262,20 @@
             color: #ffffff;
             padding: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button:hover{
+            background-color: #4a6fa1 ;
         }
 
         body.light-mode .toggle-button {
             background-color: #95c0c4;
             color: #000000;
+        }
+
+        body.light-mode .toggle-button:hover{
+            background-color: #c1e1e2 ;
         }
     </style>
 </head>
