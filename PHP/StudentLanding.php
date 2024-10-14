@@ -4,8 +4,16 @@ include 'Session.php'; // Include session management
 
 $student_id = $_SESSION['student_id']; // Get logged-in student's ID
 
+// Fetch student details
+$sql = "SELECT Name, Date_Of_Birth, Contact_Info, Major
+        FROM Students
+        WHERE Student_ID = :student_id";
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['student_id' => $student_id]);
+$profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
 // Fetch courses the student is enrolled in
-$sql = "SELECT c.CourseName, c.Credits, g.Grade_Received
+$sql = "SELECT c.CourseName, c.Credits, c.Description, g.Grade_Received
         FROM Enrolls_In e
         JOIN Courses c ON e.Course_ID = c.Course_ID
         JOIN Grades g ON e.Course_ID = g.Course_ID AND e.Student_ID = g.Student_ID
@@ -13,6 +21,15 @@ $sql = "SELECT c.CourseName, c.Credits, g.Grade_Received
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['student_id' => $student_id]);
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch recent notices (announcements)
+$sql = "SELECT Announcement_ID, Title
+        FROM Announcements
+        ORDER BY Posting_Date DESC
+        LIMIT 5";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$announcements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Calculate CGPA and SGPA
 $totalCredits = 0;
@@ -192,10 +209,26 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
             flex: 1;
             height: 100px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
+        .small-block p {
+            margin: 0px;
+            padding: 5px 0px;
+        }
+        .notice-block{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .notice-block a{
+            color: #c1e1e2;
+            text-decoration: none;
+        }
         body.light-mode .small-block {
             background-color: #c3d8da  ;
         }
@@ -252,6 +285,7 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
             padding: 10px;
             margin: 10px 0;
             text-align: center;
+            max-width: 250px; /* Set a max width */
         }
 
         body.light-mode .course-card {
@@ -368,6 +402,7 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
                 <?php foreach ($courses as $course): ?>
                     <div class="course-card">
                         <?= $course['CourseName']; ?> <br>
+                        Description: <?= $course['Description']; ?> <br>
                         Credits: <?= $course['Credits']; ?> <br>
                         Grade: <?= $course['Grade_Received']; ?> <br>
                     </div>
@@ -388,18 +423,28 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
 
                 <!-- CGPA and SGPA block -->
                 <div class="small-block">
-                    <p>CGPA: </p>
-                    <p>SGPA: </p>
+                    <p>CGPA: <?= $cgpa; ?> </br></p>
+                    <p>SGPA: <?= $sgpa; ?></p>
                 </div>
 
                 <!-- Profile section -->
                 <div class="small-block">
-                    <p>Profile Details </p>
+                    <p>Name: <?= $profile['Name']; ?></p>
+                    <p>Date of Birth: <?= $profile['Date_Of_Birth']; ?></p>
+                    <p>Contact Info: <?= $profile['Contact_Info']; ?></p>
+                    <p>Major: <?= $profile['Major']; ?></p>
                 </div>
 
                 <!-- Notices section -->
                 <div class="small-block">
-                    <p>Notices </p>
+                    <p style="text-align: center;">Notices:</p>
+                    <ul class="notice-block">
+                        <?php foreach ($announcements as $announcement): ?>
+                            <li><a href="announcement.php?id=<?= $announcement['Announcement_ID']; ?>">
+                                <?= $announcement['Title']; ?>
+                            </a></li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
             </div>
         </div>
