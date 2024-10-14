@@ -368,9 +368,8 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
             <div class="sidebar-content">
                 <h2>Welcome back,  <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
-                    <a href="home.html">Home</a>
+                    <a href="StudentLanding.php">Home</a>
                     <a href="Announcements.php">Announcements</a>
-                    <a href="dashboard.html">Dashboard</a>
                     <a href="profile.html">Profile</a>
                     <a href="settings.html">Settings</a>
                     <a href="Landing.html">Logout</a>
