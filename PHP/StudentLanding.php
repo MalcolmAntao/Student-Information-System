@@ -11,6 +11,7 @@ $sql = "SELECT Name, Date_Of_Birth, Contact_Info, Major
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['student_id' => $student_id]);
 $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+$student_name = $profile['Name'];
 
 // Fetch courses the student is enrolled in
 $sql = "SELECT c.CourseName, c.Credits, c.Description, g.Grade_Received
@@ -365,9 +366,10 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
 
             <!-- Sidebar content (only visible on hover) -->
             <div class="sidebar-content">
-                <h2>Welcome back, Malcolm</h2>
+                <h2>Welcome back,  <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
                     <a href="home.html">Home</a>
+                    <a href="Announcements.php">Announcements</a>
                     <a href="dashboard.html">Dashboard</a>
                     <a href="profile.html">Profile</a>
                     <a href="settings.html">Settings</a>
@@ -440,7 +442,7 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
                     <p style="text-align: center;">Notices:</p>
                     <ul class="notice-block">
                         <?php foreach ($announcements as $announcement): ?>
-                            <li><a href="announcement.php?id=<?= $announcement['Announcement_ID']; ?>">
+                            <li><a href="Announcements.php?id=<?= $announcement['Announcement_ID']; ?>">
                                 <?= $announcement['Title']; ?>
                             </a></li>
                         <?php endforeach; ?>
