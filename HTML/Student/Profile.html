@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard UI</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f0f1f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .dashboard {
+            display: flex; /* Use flexbox for layout */
+            width: 100vw; /* Full width */
+            height: 100vh; /* Full height */
+            background-color: white;
+            overflow: hidden; /* Prevent overflow */
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 45px; /* Initial width */
+            height: 100%;
+            background-color: #273c75; /* Keep the original color */
+            position: relative;
+            transition: width 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .sidebar:hover {
+            width: 200px; /* Expands on hover */
+        }
+
+        /* Sidebar hamburger icon */
+        .sidebar-icon-container {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* Sidebar icon (hamburger menu) */
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 24px; /* Adjusted height to fit 3 lines */
+        }
+
+        .sidebar-icon {
+            width: 25px;
+            height: 3px;
+            background-color: #fff; /* White color for the hamburger lines */
+            margin: 0;
+            transition: 0.4s;
+        }
+
+        /* Sidebar content */
+        .sidebar-content {
+            padding: 20px;
+            opacity: 0; /* Initially hidden */
+            transform: translateX(-20px); /* Move content off-screen */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition-delay: 0s;
+        }
+
+        /* Show content on hover */
+        .sidebar:hover .sidebar-content {
+            opacity: 1; /* Make content visible */
+            transform: translateX(0); /* Slide content in */
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Spacing between links */
+        }
+
+        .sidebar-links a {
+            color: white; /* White color for links */
+            text-decoration: none; /* Remove underline from links */
+            transition: color 0.3s;
+        }
+
+        .sidebar-links a:hover {
+            color: #95c0c4; /* Change color on hover */
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column; /* Column layout for cards */
+            flex: 1; /* Take up remaining space */
+            padding: 20px;
+            overflow-y: auto; /* Allow vertical scrolling if necessary */
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px; /* Curved borders */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: auto; /* Allow width to adjust to content */
+            min-width: 200px; /* Set a minimum width */
+            max-width: 400px; /* Optionally, set a maximum width */
+            display: flex;
+            flex-direction: column; /* Flex direction for content inside card */
+            justify-content:center; /* Space out content */
+        }
+
+        .interest {
+            background: white; /* White background for visibility */
+            padding: 15px; /* Inner spacing */
+            border-radius: 15px; /* Curved borders */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+            margin-bottom: 20px; /* Spacing below the card */
+            width: auto; /* Allow width to adjust to content */
+            min-width: 200px; /* Minimum width */
+            max-width: 400px; /* Maximum width */
+            display: flex; /* Flexbox layout for contents */
+            flex-direction: column; /* Column layout for interests */
+            justify-content: flex-start; /* Align interests at the start */
+        }
+
+        .interest h3 {
+            margin-bottom: 10px; /* Space below the title */
+        }
+
+        .interest ul {
+            list-style-type: none; /* Remove default list styling */
+            padding: 0; /* Remove default padding */
+        }
+
+        .interest li {
+            padding: 5px 0; /* Space between list items */
+            border-bottom: 1px solid #eee; /* Optional: bottom border for list items */
+        }
+
+        .interest li:last-child {
+            border-bottom: none; /* Remove border for the last item */
+        }
+
+        .top-row, .middle-row, .bottom-row {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap; /* Ensure cards wrap as needed */
+            
+            gap: 20px; /* Space between cards */
+        }
+
+        .profile-summary {
+            padding: 20px;
+            background: white;
+            border-radius: 15px; /* Curved borders */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 0 0 300px; /* Fixed width for profile card */
+        }
+
+        .profile-summary img {
+            border-radius: 50%;
+            width: 100px;
+        }
+
+        .soft-skills .chart {
+            width: 100%;
+            height: 300px;
+        }
+
+        .teachers {
+            display: flex;
+            gap: 10px;
+        }
+
+        .teacher img {
+            border-radius: 50%;
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar hamburger icon -->
+            <div class="sidebar-icon-container">
+                <div class="hamburger-icon">
+                    <div class="sidebar-icon"></div>
+                    <div class="sidebar-icon"></div>
+                    <div class="sidebar-icon"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar content (only visible on hover) -->
+            <div class="sidebar-content">
+                <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
+                <div class="sidebar-links">
+                    <a href="StudentLanding.php">Home</a>
+                    <a href="Announcements.php">Announcements</a>
+                    <a href="profile.html">Profile</a>
+                    <a href="settings.html">Settings</a>
+                    <a href="../HTML/Landing.html">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Top row: Soft skills, interest -->
+            <div class="top-row">
+                <div class="card soft-skills">
+                    <h3>Soft Skills</h3>
+                    <canvas id="radarChart" class="chart"></canvas>
+                </div>
+                <div class="card interest">
+                    <h3>Interests</h3>
+                    <ul>
+                        <li>Sports</li>
+                        <li>Technology</li>
+                        <li>Music</li>
+                        <li>Art</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Middle row: Learning time, current courses -->
+            <div class="middle-row">
+                <div class="card time-learning">
+                    <h3>Learning Time</h3>
+                    <p>Total: 180 hours</p>
+                    <div class="time-distribution">
+                        <div>Face-to-Face</div>
+                        <div>Online</div>
+                    </div>
+                </div>
+                <div class="card courses">
+                    <h3>Ongoing Courses</h3>
+                    <p>Math Course (March 1, 2023 - May 1, 2023)</p>
+                    <p>Japanese Course (March 14, 2023 - June 14, 2023)</p>
+                    <p>English Course (Feb 8, 2023 - April 8, 2023)</p>
+                </div>
+            </div>
+
+            <!-- Bottom row: Teacher history, reward -->
+            <div class="bottom-row">
+                <div class="card teacher-history">
+                    <h3>Teacher History</h3>
+                    <div class="teachers">
+                        <div class="teacher">
+                            <img src="teacher1.png" alt="Ridwan B">
+                            <p>Ridwan B</p>
+                        </div>
+                        <div class="teacher">
+                            <img src="teacher2.png" alt="Diana L">
+                            <p>Diana L</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card rewards">
+                    <h3>Rewards</h3>
+                    <div class="reward-icons"> <!-- Add reward icons here --> </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile card -->
+        <div class="profile-summary">
+            <img src="avatar_large.png" alt="Profile Image">
+            <h3>Iqbaal Ramadhan</h3>
+            <p>December 28, 2004</p>
+            <p>Pelita Harapan School</p>
+            <p>Jl. Lavender III, Tangerang</p>
+            <p>Hi! I'm Iqbaal, usually called Ale...</p>
+        </div>
+    </div>
+
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Radar chart for Soft Skills
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Problem Solving', 'Discipline', 'Creativity', 'Critical Thinking', 'Skills'],
+                datasets: [{
+                    label: 'Soft Skills',
+                    data: [8, 7, 6, 9, 7],
+                    backgroundColor: 'rgba(39, 60, 117, 0.2)',
+                    borderColor: '#273c75',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
