@@ -111,7 +111,7 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
         .sidebar-icon-container {
             display: flex;
             justify-content: flex-end;
-            padding: 10px;
+            padding: 3px;
             position: relative;
         }
 
@@ -358,9 +358,7 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
             <!-- Sidebar hamburger icon -->
             <div class="sidebar-icon-container">
                 <div class="hamburger-icon">
-                    <div class="sidebar-icon"></div>
-                    <div class="sidebar-icon"></div>
-                    <div class="sidebar-icon"></div>
+                    <img src="../Assets/Hamburger.svg" alt="Menu" width="40" height="40">
                 </div>
             </div>
 
@@ -368,11 +366,10 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
             <div class="sidebar-content">
                 <h2>Welcome back,  <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
-                    <a href="StudentLanding.php">Home</a>
                     <a href="Announcements.php">Announcements</a>
                     <a href="profile.html">Profile</a>
                     <a href="settings.html">Settings</a>
-                    <a href="Landing.html">Logout</a>
+                    <a href="../HTML/Landing.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -415,11 +412,20 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
             <div class="column-3">
                 <!-- Icons (Reminders, Game, Profile) aligned to the right -->
                 <div class="icons">
-                    <div class="icon">Reminders</div>
-                    <div class="icon">Game</div>
-                    <div class="icon">Profile</div>
+                    <div class="icon">
+                        <img src="../Assets/Notification.svg" alt="Notification" width="25" height="25">
+                    </div>
+                    <div class="icon">
+                        <img src="../Assets/Game.svg" alt="Notification" width="25" height="25">
+                    </div>
+                    <div class="icon">
+                        <img src="../Assets/Profile.svg" alt="Notification" width="25" height="25">
+                    </div>
                     <!-- Dark Mode Toggle Button -->
-                    <button class="toggle-button" id="toggle-mode">Dark Mode</button>
+                    <button class="toggle-button" id="toggle-mode">
+                        <img src="../Assets/Dark_mode.svg" alt="Dark mode" width="25" height="25">
+                    </button>
+
                 </div>
 
                 <!-- CGPA and SGPA block -->
@@ -466,14 +472,28 @@ $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSe
 
         // Dark mode toggle functionality
         const toggleButton = document.getElementById('toggle-mode');
+        const toggleIcon = toggleButton.querySelector('img');
+
+        // Check local storage for saved mode preference
+        const savedMode = localStorage.getItem('mode');
+        if (savedMode) {
+            document.body.classList.toggle('light-mode', savedMode === 'light');
+            toggleIcon.src = savedMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
+        }
+
         toggleButton.addEventListener('click', function () {
             document.body.classList.toggle('light-mode');
+            
+            // Save the current mode in local storage
             if (document.body.classList.contains('light-mode')) {
-                toggleButton.textContent = 'Light Mode';
+                localStorage.setItem('mode', 'light');
+                toggleIcon.src = '../Assets/Light_mode.svg'; // Change icon to light mode
             } else {
-                toggleButton.textContent = 'Dark Mode';
+                localStorage.setItem('mode', 'dark');
+                toggleIcon.src = '../Assets/Dark_mode.svg'; // Change icon to dark mode
             }
         });
     </script>
+
 </body>
 </html>
