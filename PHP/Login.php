@@ -8,8 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try 
     {
-        // Prepare and execute the SQL statement
-        $stmt = $pdo->prepare("SELECT role, password FROM users WHERE email = :email");
+        // Modify the query to also select the id
+        $stmt = $pdo->prepare("SELECT Associated_ID, role, password FROM users WHERE email = :email");
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -17,20 +17,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->rowCount() > 0) 
         {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user_id = $user['Associated_ID'];  // Fetch the user ID
             $role = $user['role'];
             $hashed_password = $user['password'];
 
             // Verify password
             if (password_verify($password, $hashed_password)) 
             {
+                // Store email, role, and student_id (or user_id) in the session
                 $_SESSION['email'] = $email;
                 $_SESSION['role'] = $role;
+                $_SESSION['student_id'] = $user_id;  // Assuming student_id is stored as 'id'
 
                 // Redirect user based on role
                 switch ($role) 
                 {
                     case 'student':
-                        //print("Connection Successful");
                         header("Location: StudentLanding.php");
                         break;
                     case 'teacher':
@@ -41,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         break;
                 }
                 exit();
-            } else 
+            } 
+            else 
             {
                 echo "Invalid password.";
             }
