@@ -1,15 +1,29 @@
-document.getElementById('theme-toggle').addEventListener('click', function () {
-    // Toggle light/dark mode on the body
-    document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode');
-
-    // Change the middle layer image based on the current mode
+// Function to set the mode based on localStorage
+function setThemeMode(mode) {
     const middleImage = document.getElementById('middle-img');
-    if (document.body.classList.contains('dark-mode')) {
+    if (mode === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
         middleImage.src = '../Assets/Darkmode.png'; // Dark mode image
-        this.textContent = '🌙'; // Sun icon for light mode
+        document.getElementById('theme-toggle').textContent = '🌙'; // Sun icon for light mode
     } else {
+        document.body.classList.add('light-mode');
+        document.body.classList.remove('dark-mode');
         middleImage.src = '../Assets/Lightmode.png'; // Light mode image
-        this.textContent = '🌞'; // Moon icon for dark mode
+        document.getElementById('theme-toggle').textContent = '🌞'; // Moon icon for dark mode
     }
+}
+
+// On page load, check if a mode is stored in localStorage
+document.addEventListener('DOMContentLoaded', function () {
+    const storedMode = localStorage.getItem('themeMode') || 'light'; // Default to light mode if nothing is stored
+    setThemeMode(storedMode);
+});
+
+// Toggle theme and save the choice to localStorage
+document.getElementById('theme-toggle').addEventListener('click', function () {
+    let currentMode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    currentMode = currentMode === 'dark' ? 'light' : 'dark'; // Toggle mode
+    setThemeMode(currentMode);
+    localStorage.setItem('themeMode', currentMode); // Save mode to localStorage
 });
