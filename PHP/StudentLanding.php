@@ -599,7 +599,7 @@ if (!empty($profile['Profile_Picture'])) {
                         <img src="../Assets/Game.svg" alt="Game" width="25" height="25">
                     </div>
                     <div class="icon">
-                        <img src="" alt="Profile" width="25" height="25">
+                        <img src="../Assets/Profile.svg" alt="Profile" width="25" height="25">
                     </div>
                     <!-- Dark Mode Toggle Button -->
                     <button class="toggle-button" id="toggle-mode">
@@ -624,7 +624,6 @@ if (!empty($profile['Profile_Picture'])) {
                             <p><strong>Phone:</strong> <?= htmlspecialchars($profile['PhoneNo']); ?></p>
                             <p><strong>Roll No.:</strong> <?= htmlspecialchars($profile['Roll_No']); ?></p>
                             <p><strong>University No.:</strong> <?= htmlspecialchars($profile['University_No']); ?></p>
-                            <p><strong>Major:</strong> <?= htmlspecialchars($profile['Major']); ?></p>
                             <!-- Bio removed as per the requirement -->
                         </div>
                     </div>
