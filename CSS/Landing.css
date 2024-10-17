@@ -151,6 +151,7 @@ body.light-mode section .signin .content input[type="password"] {
     background: #32323286;
     color: #000;
 }
+
 section .signin .content label {
     color: #ffffff; /* Change to your desired color */
 }

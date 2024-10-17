@@ -6,32 +6,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    try 
-    {
-        // Modify the query to also select the id
-        $stmt = $pdo->prepare("SELECT Associated_ID, role, password FROM users WHERE email = :email");
+    try {
+        // Query to retrieve user data based on email
+        $stmt = $pdo->prepare("
+            SELECT u.User_ID, u.Password, r.Role_Name 
+            FROM users u
+            JOIN roles r ON u.Role_ID = r.Role_ID
+            WHERE u.Email = :email
+        ");
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
         // Check if user exists
-        if ($stmt->rowCount() > 0) 
-        {
+        if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            $user_id = $user['Associated_ID'];  // Fetch the user ID
-            $role = $user['role'];
-            $hashed_password = $user['password'];
+            $user_id = $user['User_ID'];
+            $role = $user['Role_Name'];
+            $hashed_password = $user['Password'];
 
             // Verify password
-            if (password_verify($password, $hashed_password)) 
-            {
-                // Store email, role, and student_id (or user_id) in the session
+            if (password_verify($password, $hashed_password)) {
+                // Store email, role, and User_ID in the session
                 $_SESSION['email'] = $email;
                 $_SESSION['role'] = $role;
-                $_SESSION['student_id'] = $user_id;  // Assuming student_id is stored as 'id'
+                $_SESSION['user_id'] = $user_id;
+
+                // Determine whether the user is a student or instructor
+                $role_stmt = $pdo->prepare("
+                    SELECT Student_ID, Instructor_ID
+                    FROM role_associations
+                    WHERE User_ID = :user_id
+                ");
+                $role_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+                $role_stmt->execute();
+                $role_info = $role_stmt->fetch(PDO::FETCH_ASSOC);
+
+                // Set session variables based on role association
+                if ($role_info['Student_ID']) {
+                    $_SESSION['student_id'] = $role_info['Student_ID'];
+                } elseif ($role_info['Instructor_ID']) {
+                    $_SESSION['instructor_id'] = $role_info['Instructor_ID'];
+                }
 
                 // Redirect user based on role
-                switch ($role) 
-                {
+                switch ($role) {
                     case 'student':
                         header("Location: StudentLanding.php");
                         break;
@@ -43,19 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         break;
                 }
                 exit();
-            } 
-            else 
-            {
+            } else {
                 echo "Invalid password.";
             }
-        } 
-        else 
-        {
+        } else {
             echo "No account found with that email.";
         }
-    } 
-    catch (PDOException $e) 
-    {
+    } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
