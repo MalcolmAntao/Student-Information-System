@@ -15,16 +15,17 @@ $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 // Full name concatenation
 $student_name = $profile['First_Name'] . " " . $profile['Last_Name'];
 
-// Fetch courses the student is enrolled in, including grades
+// Fetch courses the student is enrolled in, including grades (if available)
 $sql = "SELECT c.CourseName, c.Credits, c.Description, g.Semester, g.Year, a.IT1, a.IT2, a.IT3, a.Internal_Assessment, a.Sem
         FROM Enrolls_In e
         JOIN Courses c ON e.Course_ID = c.Course_ID
-        JOIN Grades g ON e.Course_ID = g.Course_ID AND e.Student_ID = g.Student_ID
-        JOIN Assessment a ON g.Assessment_ID = a.Assessment_ID
+        LEFT JOIN Grades g ON e.Course_ID = g.Course_ID AND e.Student_ID = g.Student_ID
+        LEFT JOIN Assessment a ON g.Assessment_ID = a.Assessment_ID
         WHERE e.Student_ID = :student_id";
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['student_id' => $student_id]);
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // Fetch recent notices (announcements)
 $sql = "SELECT Announcement_ID, Title
@@ -92,7 +93,7 @@ if (!empty($profile['Profile_Picture'])) {
     $profilePicture = 'data:image/jpeg;base64,' . base64_encode($profile['Profile_Picture']);
 } else {
     // Default image if no profile picture is set
-    $profilePicture = '../Assets/default-profile.png'; // Ensure this path is correct
+    $profilePicture = '../Assets/Profile.svg'; // Ensure this path is correct
 }
 ?>
 <!DOCTYPE html>
@@ -598,7 +599,7 @@ if (!empty($profile['Profile_Picture'])) {
                         <img src="../Assets/Game.svg" alt="Game" width="25" height="25">
                     </div>
                     <div class="icon">
-                        <img src="../Assets/Profile.svg" alt="Profile" width="25" height="25">
+                        <img src="" alt="Profile" width="25" height="25">
                     </div>
                     <!-- Dark Mode Toggle Button -->
                     <button class="toggle-button" id="toggle-mode">
