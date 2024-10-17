@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2024 at 05:24 PM
+-- Generation Time: Oct 17, 2024 at 10:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,8 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
-CREATE Database `studentdb`;
-USE `studentdb`;
+-- Database: `studentdb`
 --
 
 -- --------------------------------------------------------
@@ -102,32 +101,63 @@ INSERT INTO `assessment` (`Assessment_ID`, `IT1`, `IT2`, `IT3`, `Internal_Assess
 
 CREATE TABLE `courses` (
   `Course_ID` int(11) NOT NULL,
+  `course_code` varchar(50) NOT NULL,
   `CourseName` varchar(100) NOT NULL,
-  `Description` varchar(255) DEFAULT NULL,
+  `Description` varchar(255) NOT NULL,
   `Credits` int(11) NOT NULL,
-  `Department_ID` int(11) DEFAULT NULL
+  `Department_ID` int(11) NOT NULL,
+  `Semester` varchar(10) NOT NULL,
+  `Enrollment_Type_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`Course_ID`, `CourseName`, `Description`, `Credits`, `Department_ID`) VALUES
-(1, 'Data Structures', 'Introduction to data structures, covering arrays, linked lists, trees, and graphs.', 4, 1),
-(2, 'Operating Systems', 'Study of process management, memory management, and I/O systems.', 4, 1),
-(3, 'Database Systems', 'Foundations of database management systems, SQL, and query optimization.', 3, 1),
-(4, 'Computer Networks', 'Principles of networking, covering TCP/IP, routing, and security.', 4, 1),
-(5, 'Web Technologies', 'Web development with HTML, CSS, JavaScript, and backend systems.', 3, 2),
-(6, 'Artificial Intelligence', 'Introduction to AI concepts like search, learning, and reasoning.', 4, 2),
-(7, 'Machine Learning', 'Supervised, unsupervised, and reinforcement learning methods.', 3, 2),
-(8, 'Thermodynamics', 'Fundamentals of thermodynamics including laws, cycles, and applications.', 4, 3),
-(9, 'Mechanics of Materials', 'Study of stress, strain, and deformation in materials.', 3, 3),
-(10, 'Fluid Mechanics', 'Concepts of fluid flow, pressure, and fluid dynamics.', 4, 3),
-(11, 'Structural Analysis', 'Analysis of structures and forces in beams, columns, and frames.', 4, 4),
-(12, 'Construction Materials', 'Properties and uses of materials in construction.', 3, 4),
-(13, 'Geotechnical Engineering', 'Soil mechanics and foundation design principles.', 3, 4),
-(14, 'Embedded Systems', 'Study of embedded systems, microcontrollers, and real-time operating systems.', 4, 5),
-(15, 'Digital Signal Processing', 'Introduction to signal processing and applications in communication.', 3, 5);
+INSERT INTO `courses` (`Course_ID`, `course_code`, `CourseName`, `Description`, `Credits`, `Department_ID`, `Semester`, `Enrollment_Type_ID`) VALUES
+(1, 'CS101', 'Data Structures', 'Introduction to data structures, covering arrays, linked lists, trees, and graphs.', 4, 1, 'V', 5),
+(2, 'CS102', 'Operating Systems', 'Study of process management, memory management, and I/O systems.', 4, 1, 'V', 5),
+(3, 'CS103', 'Database Systems', 'Foundations of database management systems, SQL, and query optimization.', 3, 1, 'V', 5),
+(4, 'CS104', 'Computer Networks', 'Principles of networking, covering TCP/IP, routing, and security.', 4, 1, 'V', 5),
+(5, 'IT101', 'Web Technologies', 'Web development with HTML, CSS, JavaScript, and backend systems.', 3, 2, 'V', 5),
+(6, 'IT102', 'Artificial Intelligence', 'Introduction to AI concepts like search, learning, and reasoning.', 4, 2, 'V', 5),
+(7, 'IT103', 'Machine Learning', 'Supervised, unsupervised, and reinforcement learning methods.', 3, 2, 'V', 5),
+(8, 'ME101', 'Thermodynamics', 'Fundamentals of thermodynamics including laws, cycles, and applications.', 4, 3, 'V', 5),
+(9, 'ME102', 'Mechanics of Materials', 'Study of stress, strain, and deformation in materials.', 3, 3, 'V', 5),
+(10, 'ME103', 'Fluid Mechanics', 'Concepts of fluid flow, pressure, and fluid dynamics.', 4, 3, 'V', 5),
+(11, 'CE101', 'Structural Analysis', 'Analysis of structures and forces in beams, columns, and frames.', 4, 4, 'V', 5),
+(12, 'CE102', 'Construction Materials', 'Properties and uses of materials in construction.', 3, 4, 'V', 5),
+(13, 'CE103', 'Geotechnical Engineering', 'Soil mechanics and foundation design principles.', 3, 4, 'V', 5),
+(14, 'EC101', 'Embedded Systems', 'Study of embedded systems, microcontrollers, and real-time operating systems.', 4, 5, 'V', 5),
+(15, 'EC102', 'Digital Signal Processing', 'Introduction to signal processing and applications in communication.', 3, 5, 'V', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_selections`
+--
+
+CREATE TABLE `course_selections` (
+  `Selection_ID` int(11) NOT NULL,
+  `Student_ID` int(11) NOT NULL,
+  `Course_ID` int(11) NOT NULL,
+  `Accepted` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Triggers `course_selections`
+--
+DELIMITER $$
+CREATE TRIGGER `after_course_acceptance` AFTER UPDATE ON `course_selections` FOR EACH ROW BEGIN
+    -- Check if the course has been accepted
+    IF NEW.Accepted = TRUE THEN
+        -- Insert into Enrolls_In table with Student_ID, Course_ID, and Enrollment_Type_ID
+        INSERT INTO Enrolls_In (Student_ID, Course_ID, Semester, Year, Enrollment_Type_ID)
+        VALUES (NEW.Student_ID, NEW.Course_ID, 'V', 2023, NEW.Enrollment_Type_ID);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -160,7 +190,7 @@ INSERT INTO `departments` (`Department_ID`, `Name`, `Description`) VALUES
 
 CREATE TABLE `enrollment_types` (
   `Enrollment_Type_ID` int(11) NOT NULL,
-  `Enrollment_Type_Name` enum('Major','Minor','Professional Elective','Open Elective') NOT NULL
+  `Enrollment_Type_Name` enum('Major','Minor','Professional Elective','Open Elective','Core') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -171,7 +201,8 @@ INSERT INTO `enrollment_types` (`Enrollment_Type_ID`, `Enrollment_Type_Name`) VA
 (1, 'Major'),
 (2, 'Minor'),
 (3, 'Professional Elective'),
-(4, 'Open Elective');
+(4, 'Open Elective'),
+(5, 'Core');
 
 -- --------------------------------------------------------
 
@@ -183,45 +214,44 @@ CREATE TABLE `enrolls_in` (
   `Enrollment_ID` int(11) NOT NULL,
   `Student_ID` int(11) NOT NULL,
   `Course_ID` int(11) NOT NULL,
-  `Year` int(11) NOT NULL,
-  `Enrollment_Type_ID` int(11) NOT NULL
+  `Year` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `enrolls_in`
 --
 
-INSERT INTO `enrolls_in` (`Enrollment_ID`, `Student_ID`, `Course_ID`, `Year`, `Enrollment_Type_ID`) VALUES
-(102, 1, 1, 2023, 1),
-(103, 1, 2, 2023, 3),
-(104, 1, 3, 2023, 1),
-(105, 2, 4, 2023, 1),
-(106, 2, 5, 2023, 2),
-(107, 2, 6, 2023, 1),
-(108, 3, 7, 2023, 1),
-(109, 3, 8, 2023, 3),
-(110, 3, 9, 2023, 1),
-(111, 4, 10, 2023, 1),
-(112, 4, 11, 2023, 4),
-(113, 4, 12, 2023, 1),
-(114, 5, 13, 2023, 1),
-(115, 5, 14, 2023, 2),
-(116, 5, 15, 2023, 3),
-(117, 6, 1, 2023, 2),
-(118, 6, 2, 2023, 4),
-(119, 7, 3, 2023, 1),
-(120, 7, 4, 2023, 3),
-(121, 8, 5, 2023, 1),
-(122, 8, 6, 2023, 2),
-(123, 9, 7, 2023, 3),
-(124, 9, 8, 2023, 4),
-(125, 10, 9, 2023, 1),
-(126, 10, 10, 2023, 2),
-(127, 11, 11, 2023, 3),
-(128, 11, 12, 2023, 1),
-(129, 12, 13, 2023, 1),
-(130, 12, 14, 2023, 4),
-(131, 13, 15, 2023, 1);
+INSERT INTO `enrolls_in` (`Enrollment_ID`, `Student_ID`, `Course_ID`, `Year`) VALUES
+(102, 1, 1, 2023),
+(103, 1, 2, 2023),
+(104, 1, 3, 2023),
+(105, 2, 4, 2023),
+(106, 2, 5, 2023),
+(107, 2, 6, 2023),
+(108, 3, 7, 2023),
+(109, 3, 8, 2023),
+(110, 3, 9, 2023),
+(111, 4, 10, 2023),
+(112, 4, 11, 2023),
+(113, 4, 12, 2023),
+(114, 5, 13, 2023),
+(115, 5, 14, 2023),
+(116, 5, 15, 2023),
+(117, 6, 1, 2023),
+(118, 6, 2, 2023),
+(119, 7, 3, 2023),
+(120, 7, 4, 2023),
+(121, 8, 5, 2023),
+(122, 8, 6, 2023),
+(123, 9, 7, 2023),
+(124, 9, 8, 2023),
+(125, 10, 9, 2023),
+(126, 10, 10, 2023),
+(127, 11, 11, 2023),
+(128, 11, 12, 2023),
+(129, 12, 13, 2023),
+(130, 12, 14, 2023),
+(131, 13, 15, 2023);
 
 -- --------------------------------------------------------
 
@@ -255,30 +285,34 @@ CREATE TABLE `grades` (
   `Course_ID` int(11) NOT NULL,
   `Semester` varchar(20) NOT NULL,
   `Year` int(11) NOT NULL,
-  `Assessment_ID` int(11) NOT NULL
+  `IT1` decimal(5,2) NOT NULL,
+  `IT2` decimal(5,2) NOT NULL,
+  `IT3` decimal(5,2) NOT NULL,
+  `Internal_Assessment` decimal(4,2) NOT NULL,
+  `Sem` decimal(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `grades`
 --
 
-INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`, `Assessment_ID`) VALUES
-(1, 1, 1, 'V', 2023, 1),
-(2, 2, 2, 'V', 2023, 2),
-(3, 3, 3, 'V', 2023, 3),
-(4, 4, 4, 'V', 2023, 4),
-(5, 5, 5, 'V', 2023, 5),
-(6, 6, 6, 'V', 2023, 6),
-(7, 7, 7, 'V', 2023, 7),
-(8, 8, 8, 'V', 2023, 8),
-(9, 9, 9, 'V', 2023, 9),
-(10, 10, 10, 'V', 2023, 10),
-(11, 11, 11, 'V', 2023, 11),
-(12, 12, 12, 'V', 2023, 12),
-(13, 13, 13, 'V', 2023, 13),
-(14, 14, 14, 'V', 2023, 14),
-(15, 15, 15, 'V', 2023, 15),
-(24, 1, 2, 'V', 2023, 16);
+INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`, `IT1`, `IT2`, `IT3`, `Internal_Assessment`, `Sem`) VALUES
+(25, 1, 1, 'V', 2023, 18.50, 19.00, 20.00, 9.00, 75.50),
+(26, 2, 2, 'V', 2023, 17.00, 18.00, 19.00, 8.00, 72.00),
+(27, 3, 3, 'V', 2023, 20.00, 20.00, 19.00, 9.50, 78.50),
+(28, 4, 4, 'V', 2023, 16.50, 17.50, 18.00, 7.00, 71.00),
+(29, 5, 5, 'V', 2023, 19.00, 19.50, 20.00, 8.50, 75.00),
+(30, 6, 6, 'V', 2023, 15.50, 16.00, 17.00, 6.50, 69.00),
+(31, 7, 7, 'V', 2023, 18.00, 18.50, 19.50, 9.00, 74.00),
+(32, 8, 8, 'V', 2023, 19.50, 20.00, 20.00, 9.50, 78.00),
+(33, 9, 9, 'V', 2023, 17.50, 18.00, 18.50, 8.00, 72.50),
+(34, 10, 10, 'V', 2023, 16.00, 17.00, 17.50, 7.50, 70.00),
+(35, 11, 11, 'V', 2023, 18.00, 19.00, 19.50, 8.50, 73.50),
+(36, 12, 12, 'V', 2023, 19.00, 20.00, 20.00, 9.00, 76.00),
+(37, 13, 13, 'V', 2023, 15.50, 16.50, 17.50, 7.00, 68.50),
+(38, 14, 14, 'V', 2023, 16.00, 17.00, 18.00, 7.50, 69.50),
+(39, 15, 15, 'V', 2023, 19.50, 20.00, 20.00, 9.50, 78.50),
+(40, 1, 2, 'V', 2023, 17.00, 18.00, 19.00, 8.00, 72.00);
 
 -- --------------------------------------------------------
 
@@ -317,70 +351,6 @@ INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_N
 (13, 'Molly', 'Grace', 'King', 'F', 'mollyking@dbcegoa.ac.in', NULL, 2),
 (14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1),
 (15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `offers`
---
-
-CREATE TABLE `offers` (
-  `Department_ID` int(11) NOT NULL,
-  `Course_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `offers`
---
-
-INSERT INTO `offers` (`Department_ID`, `Course_ID`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7),
-(1, 11),
-(1, 13),
-(1, 15),
-(2, 8),
-(2, 9),
-(2, 10),
-(2, 12),
-(2, 14);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `posts`
---
-
-CREATE TABLE `posts` (
-  `Instructor_ID` int(11) NOT NULL,
-  `Announcement_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `posts`
---
-
-INSERT INTO `posts` (`Instructor_ID`, `Announcement_ID`) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10),
-(11, 11),
-(12, 12),
-(13, 13),
-(14, 14),
-(15, 15);
 
 -- --------------------------------------------------------
 
@@ -442,7 +412,6 @@ CREATE TABLE `students` (
   `Current_Semester` varchar(20) NOT NULL,
   `Profile_Picture` longblob DEFAULT NULL,
   `Bio` text DEFAULT NULL,
-  `Enrollment_Status` varchar(50) DEFAULT NULL,
   `Major` varchar(50) DEFAULT NULL,
   `Department_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -451,22 +420,22 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Enrollment_Status`, `Major`, `Department_ID`) VALUES
-(1, 'John', 'Michael', 'Doe', 'M', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', NULL, 'Computer Engineering student.', 'Enrolled', NULL, 1),
-(2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 'Enrolled', NULL, 1),
-(3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 'Enrolled', NULL, 2),
-(4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 'Enrolled', NULL, 2),
-(5, 'Dave', 'Matthew', 'Brown', 'M', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', 'Enrolled', NULL, 3),
-(6, 'Eve', 'Sophia', 'Davis', 'F', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', 'Enrolled', NULL, 3),
-(7, 'Frank', 'Richard', 'Miller', 'M', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', 'Enrolled', NULL, 4),
-(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', 'Enrolled', NULL, 4),
-(9, 'Hank', 'Anthony', 'Moore', 'M', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', 'Enrolled', NULL, 5),
-(10, 'Ivy', 'Amelia', 'Taylor', 'F', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', 'Enrolled', NULL, 5),
-(11, 'Jack', 'George', 'Anderson', 'M', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', 'Enrolled', NULL, 1),
-(12, 'Kim', 'Sarah', 'Thomas', 'F', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', 'Enrolled', NULL, 1),
-(13, 'Leo', 'Charles', 'Jackson', 'M', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', 'Enrolled', NULL, 3),
-(14, 'Mia', 'Emily', 'White', 'F', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', 'Enrolled', NULL, 2),
-(15, 'Nate', 'David', 'Harris', 'M', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', 'Enrolled', NULL, 4);
+INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Major`, `Department_ID`) VALUES
+(1, 'John', 'Michael', 'Doe', 'M', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', NULL, 'Computer Engineering student.', NULL, 1),
+(2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', NULL, 1),
+(3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', NULL, 2),
+(4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', NULL, 2),
+(5, 'Dave', 'Matthew', 'Brown', 'M', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', NULL, 3),
+(6, 'Eve', 'Sophia', 'Davis', 'F', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', NULL, 3),
+(7, 'Frank', 'Richard', 'Miller', 'M', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', NULL, 4),
+(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', NULL, 4),
+(9, 'Hank', 'Anthony', 'Moore', 'M', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', NULL, 5),
+(10, 'Ivy', 'Amelia', 'Taylor', 'F', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', NULL, 5),
+(11, 'Jack', 'George', 'Anderson', 'M', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', NULL, 1),
+(12, 'Kim', 'Sarah', 'Thomas', 'F', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', NULL, 1),
+(13, 'Leo', 'Charles', 'Jackson', 'M', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', NULL, 3),
+(14, 'Mia', 'Emily', 'White', 'F', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', NULL, 2),
+(15, 'Nate', 'David', 'Harris', 'M', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -544,7 +513,16 @@ ALTER TABLE `assessment`
 --
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`Course_ID`),
-  ADD KEY `Department_ID` (`Department_ID`);
+  ADD KEY `Department_ID` (`Department_ID`),
+  ADD KEY `FK_Courses_Enrollment_Type` (`Enrollment_Type_ID`);
+
+--
+-- Indexes for table `course_selections`
+--
+ALTER TABLE `course_selections`
+  ADD PRIMARY KEY (`Selection_ID`),
+  ADD KEY `Student_ID` (`Student_ID`),
+  ADD KEY `Course_ID` (`Course_ID`);
 
 --
 -- Indexes for table `departments`
@@ -563,9 +541,9 @@ ALTER TABLE `enrollment_types`
 --
 ALTER TABLE `enrolls_in`
   ADD PRIMARY KEY (`Enrollment_ID`),
+  ADD UNIQUE KEY `Student_ID_2` (`Student_ID`,`Course_ID`),
   ADD KEY `Student_ID` (`Student_ID`),
-  ADD KEY `Course_ID` (`Course_ID`),
-  ADD KEY `FK_Enrollment_Type` (`Enrollment_Type_ID`);
+  ADD KEY `Course_ID` (`Course_ID`);
 
 --
 -- Indexes for table `gender_definitions`
@@ -578,10 +556,10 @@ ALTER TABLE `gender_definitions`
 --
 ALTER TABLE `grades`
   ADD PRIMARY KEY (`Grade_ID`),
-  ADD UNIQUE KEY `Student_ID_2` (`Student_ID`,`Course_ID`,`Assessment_ID`),
+  ADD UNIQUE KEY `Student_ID_2` (`Student_ID`,`Course_ID`),
+  ADD UNIQUE KEY `UNIQUE_Student_Course` (`Student_ID`,`Course_ID`),
   ADD KEY `Student_ID` (`Student_ID`),
-  ADD KEY `Course_ID` (`Course_ID`),
-  ADD KEY `Assessment_ID` (`Assessment_ID`);
+  ADD KEY `Course_ID` (`Course_ID`);
 
 --
 -- Indexes for table `instructors`
@@ -590,20 +568,6 @@ ALTER TABLE `instructors`
   ADD PRIMARY KEY (`Instructor_ID`),
   ADD KEY `Department_ID` (`Department_ID`),
   ADD KEY `FK_Instructor_Gender` (`Gender`);
-
---
--- Indexes for table `offers`
---
-ALTER TABLE `offers`
-  ADD PRIMARY KEY (`Department_ID`,`Course_ID`),
-  ADD KEY `Course_ID` (`Course_ID`);
-
---
--- Indexes for table `posts`
---
-ALTER TABLE `posts`
-  ADD PRIMARY KEY (`Instructor_ID`,`Announcement_ID`),
-  ADD KEY `Announcement_ID` (`Announcement_ID`);
 
 --
 -- Indexes for table `roles`
@@ -665,6 +629,12 @@ ALTER TABLE `courses`
   MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `course_selections`
+--
+ALTER TABLE `course_selections`
+  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
@@ -674,7 +644,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `enrollment_types`
 --
 ALTER TABLE `enrollment_types`
-  MODIFY `Enrollment_Type_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Enrollment_Type_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `enrolls_in`
@@ -686,7 +656,7 @@ ALTER TABLE `enrolls_in`
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -726,13 +696,20 @@ ALTER TABLE `announcements`
 -- Constraints for table `courses`
 --
 ALTER TABLE `courses`
-  ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`);
+  ADD CONSTRAINT `FK_Courses_Department` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_Courses_Enrollment_Type` FOREIGN KEY (`Enrollment_Type_ID`) REFERENCES `enrollment_types` (`Enrollment_Type_ID`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `course_selections`
+--
+ALTER TABLE `course_selections`
+  ADD CONSTRAINT `course_selections_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `students` (`Student_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `course_selections_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `enrolls_in`
 --
 ALTER TABLE `enrolls_in`
-  ADD CONSTRAINT `FK_Enrollment_Type` FOREIGN KEY (`Enrollment_Type_ID`) REFERENCES `enrollment_types` (`Enrollment_Type_ID`),
   ADD CONSTRAINT `enrolls_in_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `students` (`Student_ID`),
   ADD CONSTRAINT `enrolls_in_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`);
 
@@ -741,8 +718,7 @@ ALTER TABLE `enrolls_in`
 --
 ALTER TABLE `grades`
   ADD CONSTRAINT `grades_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `students` (`Student_ID`),
-  ADD CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`),
-  ADD CONSTRAINT `grades_ibfk_4` FOREIGN KEY (`Assessment_ID`) REFERENCES `assessment` (`Assessment_ID`);
+  ADD CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`);
 
 --
 -- Constraints for table `instructors`
@@ -750,20 +726,6 @@ ALTER TABLE `grades`
 ALTER TABLE `instructors`
   ADD CONSTRAINT `FK_Instructor_Gender` FOREIGN KEY (`Gender`) REFERENCES `gender_definitions` (`Gender_Code`) ON UPDATE CASCADE,
   ADD CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`);
-
---
--- Constraints for table `offers`
---
-ALTER TABLE `offers`
-  ADD CONSTRAINT `offers_ibfk_1` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`),
-  ADD CONSTRAINT `offers_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`);
-
---
--- Constraints for table `posts`
---
-ALTER TABLE `posts`
-  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`Instructor_ID`) REFERENCES `instructors` (`Instructor_ID`),
-  ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`Announcement_ID`) REFERENCES `announcements` (`Announcement_ID`);
 
 --
 -- Constraints for table `role_associations`
