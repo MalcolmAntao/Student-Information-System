@@ -1,0 +1,16 @@
+//trigger to automatically add courses into the enrolls_in table after the teacher accepts the course enrollment
+DELIMITER $$
+
+CREATE TRIGGER after_course_acceptance
+AFTER UPDATE ON Course_Selections
+FOR EACH ROW
+BEGIN
+    -- Check if the course has been accepted
+    IF NEW.Accepted = TRUE THEN
+        -- Insert into Enrolls_In table with Student_ID, Course_ID, and Enrollment_Type_ID
+        INSERT INTO Enrolls_In (Student_ID, Course_ID, Semester, Year, Enrollment_Type_ID)
+        VALUES (NEW.Student_ID, NEW.Course_ID, 'V', 2023, NEW.Enrollment_Type_ID);
+    END IF;
+END$$
+
+DELIMITER ;
