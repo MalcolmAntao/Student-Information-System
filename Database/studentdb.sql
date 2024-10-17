@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2024 at 09:18 PM
+-- Generation Time: Oct 17, 2024 at 04:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,8 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
-CREATE Database `studentdb`;
-use studentdb;
+-- Database: `studentdb`
 --
 
 -- --------------------------------------------------------
@@ -225,6 +224,26 @@ INSERT INTO `enrolls_in` (`Enrollment_ID`, `Student_ID`, `Course_ID`, `Year`, `E
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gender_definitions`
+--
+
+CREATE TABLE `gender_definitions` (
+  `Gender_Code` enum('M','F','X') NOT NULL,
+  `Gender_Description` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gender_definitions`
+--
+
+INSERT INTO `gender_definitions` (`Gender_Code`, `Gender_Description`) VALUES
+('M', 'Male'),
+('F', 'Female'),
+('X', 'Other');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `grades`
 --
 
@@ -270,7 +289,9 @@ CREATE TABLE `instructors` (
   `First_Name` varchar(50) NOT NULL,
   `Middle_Name` varchar(50) DEFAULT NULL,
   `Last_Name` varchar(50) NOT NULL,
+  `Gender` enum('M','F','X') NOT NULL,
   `Contact_Info` varchar(150) DEFAULT NULL,
+  `Profile_Picture` longblob DEFAULT NULL,
   `Department_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -278,22 +299,22 @@ CREATE TABLE `instructors` (
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Contact_Info`, `Department_ID`) VALUES
-(1, 'Alan', 'John', 'Smith', 'alansmith@dbcegoa.ac.in', 1),
-(2, 'Betty', 'Marie', 'Johnson', 'bettyjohnson@dbcegoa.ac.in', 1),
-(3, 'Charles', 'Michael', 'Davis', 'charlesdavis@dbcegoa.ac.in', 1),
-(4, 'Dorothy', 'Anne', 'Martinez', 'dorothymartinez@dbcegoa.ac.in', 1),
-(5, 'Edward', 'Richard', 'Garcia', 'edwardgarcia@dbcegoa.ac.in', 2),
-(6, 'Fiona', 'Sophia', 'Clark', 'fionaclark@dbcegoa.ac.in', 2),
-(7, 'George', 'Matthew', 'Rodriguez', 'georgerodriguez@dbcegoa.ac.in', 2),
-(8, 'Hannah', 'Elizabeth', 'Lewis', 'hannahlewis@dbcegoa.ac.in', 2),
-(9, 'Isaac', 'Anthony', 'Lee', 'isaaclee@dbcegoa.ac.in', 1),
-(10, 'Jack', 'Amelia', 'Walker', 'jackwalker@dbcegoa.ac.in', 1),
-(11, 'Kathy', 'Emily', 'Robinson', 'kathyrobinson@dbcegoa.ac.in', 2),
-(12, 'Louis', 'Charles', 'Young', 'louischarles@dbcegoa.ac.in', 2),
-(13, 'Molly', 'Grace', 'King', 'mollyking@dbcegoa.ac.in', 2),
-(14, 'Nathan', 'David', 'Scott', 'nathanscott@dbcegoa.ac.in', 1),
-(15, 'Olivia', 'Helen', 'Green', 'oliviagreen@dbcegoa.ac.in', 1);
+INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Contact_Info`, `Profile_Picture`, `Department_ID`) VALUES
+(1, 'Alan', 'John', 'Smith', 'M', 'alansmith@dbcegoa.ac.in', NULL, 1),
+(2, 'Betty', 'Marie', 'Johnson', 'F', 'bettyjohnson@dbcegoa.ac.in', NULL, 1),
+(3, 'Charles', 'Michael', 'Davis', 'M', 'charlesdavis@dbcegoa.ac.in', NULL, 1),
+(4, 'Dorothy', 'Anne', 'Martinez', 'F', 'dorothymartinez@dbcegoa.ac.in', NULL, 1),
+(5, 'Edward', 'Richard', 'Garcia', 'M', 'edwardgarcia@dbcegoa.ac.in', NULL, 2),
+(6, 'Fiona', 'Sophia', 'Clark', 'F', 'fionaclark@dbcegoa.ac.in', NULL, 2),
+(7, 'George', 'Matthew', 'Rodriguez', 'M', 'georgerodriguez@dbcegoa.ac.in', NULL, 2),
+(8, 'Hannah', 'Elizabeth', 'Lewis', 'F', 'hannahlewis@dbcegoa.ac.in', NULL, 2),
+(9, 'Isaac', 'Anthony', 'Lee', 'M', 'isaaclee@dbcegoa.ac.in', NULL, 1),
+(10, 'Jack', 'Amelia', 'Walker', 'M', 'jackwalker@dbcegoa.ac.in', NULL, 1),
+(11, 'Kathy', 'Emily', 'Robinson', 'F', 'kathyrobinson@dbcegoa.ac.in', NULL, 2),
+(12, 'Louis', 'Charles', 'Young', 'M', 'louischarles@dbcegoa.ac.in', NULL, 2),
+(13, 'Molly', 'Grace', 'King', 'F', 'mollyking@dbcegoa.ac.in', NULL, 2),
+(14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1),
+(15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -410,6 +431,7 @@ CREATE TABLE `students` (
   `First_Name` varchar(50) NOT NULL,
   `Middle_Name` varchar(50) DEFAULT NULL,
   `Last_Name` varchar(50) NOT NULL,
+  `Gender` enum('M','F','X') NOT NULL,
   `Roll_No` varchar(50) NOT NULL,
   `University_No` varchar(50) NOT NULL,
   `Date_Of_Birth` date DEFAULT NULL,
@@ -427,22 +449,22 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Enrollment_Status`, `Major`, `Department_ID`) VALUES
-(1, 'John', 'Michael', 'Doe', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', NULL, 'Computer Engineering student.', 'Enrolled', NULL, 1),
-(2, 'Alice', 'Marie', 'Smith', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 'Enrolled', NULL, 1),
-(3, 'Bob', 'Robert', 'Johnson', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 'Enrolled', NULL, 2),
-(4, 'Carol', 'Anne', 'Williams', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 'Enrolled', NULL, 2),
-(5, 'Dave', 'Matthew', 'Brown', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', 'Enrolled', NULL, 3),
-(6, 'Eve', 'Sophia', 'Davis', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', 'Enrolled', NULL, 3),
-(7, 'Frank', 'Richard', 'Miller', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', 'Enrolled', NULL, 4),
-(8, 'Grace', 'Elizabeth', 'Wilson', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', 'Enrolled', NULL, 4),
-(9, 'Hank', 'Anthony', 'Moore', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', 'Enrolled', NULL, 5),
-(10, 'Ivy', 'Amelia', 'Taylor', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', 'Enrolled', NULL, 5),
-(11, 'Jack', 'George', 'Anderson', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', 'Enrolled', NULL, 1),
-(12, 'Kim', 'Sarah', 'Thomas', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', 'Enrolled', NULL, 1),
-(13, 'Leo', 'Charles', 'Jackson', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', 'Enrolled', NULL, 3),
-(14, 'Mia', 'Emily', 'White', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', 'Enrolled', NULL, 2),
-(15, 'Nate', 'David', 'Harris', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', 'Enrolled', NULL, 4);
+INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Enrollment_Status`, `Major`, `Department_ID`) VALUES
+(1, 'John', 'Michael', 'Doe', 'M', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', NULL, 'Computer Engineering student.', 'Enrolled', NULL, 1),
+(2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 'Enrolled', NULL, 1),
+(3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 'Enrolled', NULL, 2),
+(4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 'Enrolled', NULL, 2),
+(5, 'Dave', 'Matthew', 'Brown', 'M', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', 'Enrolled', NULL, 3),
+(6, 'Eve', 'Sophia', 'Davis', 'F', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', 'Enrolled', NULL, 3),
+(7, 'Frank', 'Richard', 'Miller', 'M', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', 'Enrolled', NULL, 4),
+(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', 'Enrolled', NULL, 4),
+(9, 'Hank', 'Anthony', 'Moore', 'M', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', 'Enrolled', NULL, 5),
+(10, 'Ivy', 'Amelia', 'Taylor', 'F', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', 'Enrolled', NULL, 5),
+(11, 'Jack', 'George', 'Anderson', 'M', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', 'Enrolled', NULL, 1),
+(12, 'Kim', 'Sarah', 'Thomas', 'F', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', 'Enrolled', NULL, 1),
+(13, 'Leo', 'Charles', 'Jackson', 'M', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', 'Enrolled', NULL, 3),
+(14, 'Mia', 'Emily', 'White', 'F', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', 'Enrolled', NULL, 2),
+(15, 'Nate', 'David', 'Harris', 'M', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', 'Enrolled', NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -544,6 +566,12 @@ ALTER TABLE `enrolls_in`
   ADD KEY `FK_Enrollment_Type` (`Enrollment_Type_ID`);
 
 --
+-- Indexes for table `gender_definitions`
+--
+ALTER TABLE `gender_definitions`
+  ADD PRIMARY KEY (`Gender_Code`);
+
+--
 -- Indexes for table `grades`
 --
 ALTER TABLE `grades`
@@ -558,7 +586,8 @@ ALTER TABLE `grades`
 --
 ALTER TABLE `instructors`
   ADD PRIMARY KEY (`Instructor_ID`),
-  ADD KEY `Department_ID` (`Department_ID`);
+  ADD KEY `Department_ID` (`Department_ID`),
+  ADD KEY `FK_Instructor_Gender` (`Gender`);
 
 --
 -- Indexes for table `offers`
@@ -593,7 +622,8 @@ ALTER TABLE `role_associations`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`Student_ID`),
-  ADD KEY `FK_Student_Department` (`Department_ID`);
+  ADD KEY `FK_Student_Department` (`Department_ID`),
+  ADD KEY `FK_Student_Gender` (`Gender`);
 
 --
 -- Indexes for table `teaches`
@@ -717,6 +747,7 @@ ALTER TABLE `grades`
 -- Constraints for table `instructors`
 --
 ALTER TABLE `instructors`
+  ADD CONSTRAINT `FK_Instructor_Gender` FOREIGN KEY (`Gender`) REFERENCES `gender_definitions` (`Gender_Code`) ON UPDATE CASCADE,
   ADD CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`);
 
 --
@@ -745,7 +776,8 @@ ALTER TABLE `role_associations`
 -- Constraints for table `students`
 --
 ALTER TABLE `students`
-  ADD CONSTRAINT `FK_Student_Department` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`);
+  ADD CONSTRAINT `FK_Student_Department` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`),
+  ADD CONSTRAINT `FK_Student_Gender` FOREIGN KEY (`Gender`) REFERENCES `gender_definitions` (`Gender_Code`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `teaches`
