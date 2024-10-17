@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2024 at 04:48 PM
+-- Generation Time: Oct 17, 2024 at 05:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -90,7 +90,8 @@ INSERT INTO `assessment` (`Assessment_ID`, `IT1`, `IT2`, `IT3`, `Internal_Assess
 (12, 19.00, 20.00, 20.00, 9.00, 76.00),
 (13, 15.50, 16.50, 17.50, 7.00, 68.50),
 (14, 16.00, 17.00, 18.00, 7.50, 69.50),
-(15, 19.50, 20.00, 20.00, 9.50, 78.50);
+(15, 19.50, 20.00, 20.00, 9.50, 78.50),
+(16, 17.00, 18.00, 19.00, 8.00, 72.00);
 
 -- --------------------------------------------------------
 
@@ -251,7 +252,6 @@ CREATE TABLE `grades` (
   `Grade_ID` int(11) NOT NULL,
   `Student_ID` int(11) NOT NULL,
   `Course_ID` int(11) NOT NULL,
-  `Instructor_ID` int(11) NOT NULL,
   `Semester` varchar(20) NOT NULL,
   `Year` int(11) NOT NULL,
   `Assessment_ID` int(11) NOT NULL
@@ -261,22 +261,23 @@ CREATE TABLE `grades` (
 -- Dumping data for table `grades`
 --
 
-INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Instructor_ID`, `Semester`, `Year`, `Assessment_ID`) VALUES
-(1, 1, 1, 1, 'V', 2023, 1),
-(2, 2, 2, 2, 'V', 2023, 2),
-(3, 3, 3, 3, 'V', 2023, 3),
-(4, 4, 4, 4, 'V', 2023, 4),
-(5, 5, 5, 5, 'V', 2023, 5),
-(6, 6, 6, 6, 'V', 2023, 6),
-(7, 7, 7, 7, 'V', 2023, 7),
-(8, 8, 8, 8, 'V', 2023, 8),
-(9, 9, 9, 9, 'V', 2023, 9),
-(10, 10, 10, 10, 'V', 2023, 10),
-(11, 11, 11, 11, 'V', 2023, 11),
-(12, 12, 12, 12, 'V', 2023, 12),
-(13, 13, 13, 13, 'V', 2023, 13),
-(14, 14, 14, 14, 'V', 2023, 14),
-(15, 15, 15, 15, 'V', 2023, 15);
+INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`, `Assessment_ID`) VALUES
+(1, 1, 1, 'V', 2023, 1),
+(2, 2, 2, 'V', 2023, 2),
+(3, 3, 3, 'V', 2023, 3),
+(4, 4, 4, 'V', 2023, 4),
+(5, 5, 5, 'V', 2023, 5),
+(6, 6, 6, 'V', 2023, 6),
+(7, 7, 7, 'V', 2023, 7),
+(8, 8, 8, 'V', 2023, 8),
+(9, 9, 9, 'V', 2023, 9),
+(10, 10, 10, 'V', 2023, 10),
+(11, 11, 11, 'V', 2023, 11),
+(12, 12, 12, 'V', 2023, 12),
+(13, 13, 13, 'V', 2023, 13),
+(14, 14, 14, 'V', 2023, 14),
+(15, 15, 15, 'V', 2023, 15),
+(24, 1, 2, 'V', 2023, 16);
 
 -- --------------------------------------------------------
 
@@ -576,9 +577,9 @@ ALTER TABLE `gender_definitions`
 --
 ALTER TABLE `grades`
   ADD PRIMARY KEY (`Grade_ID`),
+  ADD UNIQUE KEY `Student_ID_2` (`Student_ID`,`Course_ID`,`Assessment_ID`),
   ADD KEY `Student_ID` (`Student_ID`),
   ADD KEY `Course_ID` (`Course_ID`),
-  ADD KEY `Instructor_ID` (`Instructor_ID`),
   ADD KEY `Assessment_ID` (`Assessment_ID`);
 
 --
@@ -654,7 +655,7 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `Assessment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Assessment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -684,7 +685,7 @@ ALTER TABLE `enrolls_in`
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -740,7 +741,6 @@ ALTER TABLE `enrolls_in`
 ALTER TABLE `grades`
   ADD CONSTRAINT `grades_ibfk_1` FOREIGN KEY (`Student_ID`) REFERENCES `students` (`Student_ID`),
   ADD CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`),
-  ADD CONSTRAINT `grades_ibfk_3` FOREIGN KEY (`Instructor_ID`) REFERENCES `instructors` (`Instructor_ID`),
   ADD CONSTRAINT `grades_ibfk_4` FOREIGN KEY (`Assessment_ID`) REFERENCES `assessment` (`Assessment_ID`);
 
 --
