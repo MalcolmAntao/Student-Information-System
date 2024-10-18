@@ -16,11 +16,11 @@ $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 $student_name = $profile['First_Name'] . " " . $profile['Last_Name'];
 
 // Fetch courses the student is enrolled in, including grades (if available)
-$sql = "SELECT c.CourseName, c.Credits, c.Description, g.Semester, g.Year, a.IT1, a.IT2, a.IT3, a.Internal_Assessment, a.Sem
+// Fetch courses the student is enrolled in, including grades (now part of `Grades` table)
+$sql = "SELECT c.CourseName, c.Credits, c.Description, g.Semester, g.Year, g.IT1, g.IT2, g.IT3, g.Sem
         FROM Enrolls_In e
         JOIN Courses c ON e.Course_ID = c.Course_ID
         LEFT JOIN Grades g ON e.Course_ID = g.Course_ID AND e.Student_ID = g.Student_ID
-        LEFT JOIN Assessment a ON g.Assessment_ID = a.Assessment_ID
         WHERE e.Student_ID = :student_id";
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['student_id' => $student_id]);
@@ -53,40 +53,72 @@ function calculateGrade($totalMarks) {
     }
 }
 
-// Calculate CGPA and SGPA
+// Initialize variables
 $totalCredits = 0;
 $totalGradePoints = 0;
 $sgpa = 0;
 $currentSemesterCredits = 0;
 $currentSemesterGradePoints = 0;
 
+// Fetch SGPA and CGPA from the student_sgpa_cgpa view
+$sql = "SELECT CGPA, 
+               CASE
+                   WHEN SGPA_Sem8 IS NOT NULL THEN SGPA_Sem8
+                   WHEN SGPA_Sem7 IS NOT NULL THEN SGPA_Sem7
+                   WHEN SGPA_Sem6 IS NOT NULL THEN SGPA_Sem6
+                   WHEN SGPA_Sem5 IS NOT NULL THEN SGPA_Sem5
+                   WHEN SGPA_Sem4 IS NOT NULL THEN SGPA_Sem4
+                   WHEN SGPA_Sem3 IS NOT NULL THEN SGPA_Sem3
+                   WHEN SGPA_Sem2 IS NOT NULL THEN SGPA_Sem2
+                   WHEN SGPA_Sem1 IS NOT NULL THEN SGPA_Sem1
+                   ELSE NULL
+               END AS Current_SGPA
+        FROM student_sgpa_cgpa 
+        WHERE Student_ID = :student_id";
+
+// Prepare and execute the statement to fetch SGPA and CGPA
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['student_id' => $student_id]);
+$sgpa_cgpa = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// // Debug: Check if CGPA and SGPA values are retrieved
+// var_dump($sgpa_cgpa); // This will display the array
+// exit(); // Stop further execution to review the output
+
+
+// Format CGPA and SGPA to 2 decimal places
+$cgpa = number_format((float)$sgpa_cgpa['CGPA'], 2);
+$sgpa = number_format((float)$sgpa_cgpa['Current_SGPA'], 2);
+
+
+
+// $cgpa = $totalCredits ? round($totalGradePoints / $totalCredits, 2) : 0;
+// $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSemesterCredits, 2) : 0;
+
+
 foreach ($courses as &$course) { // Use reference to modify each course
+    // Check if IT marks and Sem marks are present
+    $it1 = isset($course['IT1']) ? $course['IT1'] : 0;
+    $it2 = isset($course['IT2']) ? $course['IT2'] : 0;
+    $it3 = isset($course['IT3']) ? $course['IT3'] : 0;
+    $semMarks = isset($course['Sem']) ? $course['Sem'] : 0;
+
     // Calculate average IT marks
-    $averageIT = ($course['IT1'] + $course['IT2'] + $course['IT3']) / 3;
+    $averageIT = ($it1 + $it2 + $it3) / 3;
+
     // Total marks = average IT + Sem marks
-    $totalMarks = $averageIT + $course['Sem'];
+    $totalMarks = $averageIT + $semMarks;
+
     // Calculate grade and grade point
     list($grade, $gradePoint) = calculateGrade($totalMarks);
+
     // Add to course array
     $course['Average_IT'] = round($averageIT, 2);
-    $course['Total_Marks'] = round($totalMarks, 2);
+    $course['Total_Marks'] = round($totalMarks, 2); // This line is the source of the error if Total_Marks is undefined.
     $course['Grade'] = $grade;
     $course['Grade_Point'] = $gradePoint;
-    
-    // Update CGPA calculations
-    $totalCredits += $course['Credits'];
-    $totalGradePoints += $course['Credits'] * $gradePoint;
-    
-    // Update SGPA calculations if current semester
-    if ($course['Semester'] === $profile['Current_Semester']) {
-        $currentSemesterCredits += $course['Credits'];
-        $currentSemesterGradePoints += $course['Credits'] * $gradePoint;
-    }
 }
 unset($course); // Break the reference
-
-$cgpa = $totalCredits ? round($totalGradePoints / $totalCredits, 2) : 0;
-$sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSemesterCredits, 2) : 0;
 
 // Prepare profile picture
 if (!empty($profile['Profile_Picture'])) {
@@ -244,7 +276,7 @@ if (!empty($profile['Profile_Picture'])) {
             gap: 20px;
         }
 
-        /* Attendance and Date blocks smaller */
+        /* gpa and Date blocks smaller */
         .small-block {
             background-color: #232B3A;
             border-radius: 10px;
@@ -285,8 +317,8 @@ if (!empty($profile['Profile_Picture'])) {
             background-color: #c3d8da;
         }
 
-        /* Flex container for date and attendance to be side by side */
-        .date-attendance {
+        /* Flex container for date and gpa to be side by side */
+        .date-gpa {
             display: flex;
             gap: 20px;
             flex-shrink: 0;
@@ -516,6 +548,28 @@ if (!empty($profile['Profile_Picture'])) {
                 max-width: 100%;
             }
         }
+    canvas {
+        margin: 10px; /* Add some margin to each chart */
+    }
+
+    .chart-container {
+        display: flex;
+        justify-content: center; /* Center the charts horizontally */
+        gap: 50px; /* Add space between the charts */
+    }
+
+    .chart-block {
+        text-align: center; /* Center the text inside each chart block */
+    }
+
+    .chart-block canvas {
+        display: block;
+        margin: 0 auto; /* Center the canvas inside the chart block */
+        max-width: 100%; /* Ensure canvas does not overflow */
+        max-height: 100%; /* Ensure canvas does not overflow */
+    }
+
+
     </style>
 </head>
 <body>
@@ -552,15 +606,24 @@ if (!empty($profile['Profile_Picture'])) {
                     </form>
                 </div>
 
-                <!-- Date and Attendance (side by side) -->
-                <div class="date-attendance">
+                <!-- Date and GPA (side by side) -->
+                <div class="date-gpa">
                     <div class="small-block" id="date-block">
                         <p id="date-time"></p>
                     </div>
                     <div class="small-block">
-                        <p>Attendance</p>
+                        <div class="chart-container">
+                            <div class="chart-block">
+                                <canvas id="cgpaChart" width="100" height="100"></canvas>
+                            </div>
+                            <div class="chart-block">
+                                <canvas id="sgpaChart" width="100" height="100"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                
 
                 <!-- Courses section with scrollable content -->
                 <div class="courses">
@@ -577,9 +640,6 @@ if (!empty($profile['Profile_Picture'])) {
                                 <strong style="color: white;">Marks Details</strong>
                                 <p>Average IT Marks: <?= htmlspecialchars($course['Average_IT']); ?></p>
                                 <p>Semester Marks: <?= htmlspecialchars($course['Sem']); ?></p>
-                                <?php if ($course['Internal_Assessment'] !== null && $course['Internal_Assessment'] > 0): ?>
-                                    <p>Project Marks: <?= htmlspecialchars($course['Internal_Assessment']); ?></p>
-                                <?php endif; ?>
                                 <p>Total Marks: <?= htmlspecialchars($course['Total_Marks']); ?></p>
                                 <p>Grade: <?= htmlspecialchars($course['Grade']); ?></p>
                             </div>
@@ -607,10 +667,9 @@ if (!empty($profile['Profile_Picture'])) {
                     </button>
                 </div>
 
-                <!-- CGPA and SGPA block -->
+                <!-- Performance block -->
                 <div class="small-block">
-                    <p><strong>CGPA:</strong> <?= htmlspecialchars($cgpa); ?></p>
-                    <p><strong>SGPA:</strong> <?= htmlspecialchars($sgpa); ?></p>
+                <p>performance<p>
                 </div>
 
                 <!-- Profile section -->
@@ -675,13 +734,119 @@ if (!empty($profile['Profile_Picture'])) {
             document.body.classList.toggle('light-mode', savedMode === 'light');
             toggleIcon.src = savedMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
         }
-
+        // Redraw charts after mode change
+        function redrawCharts() {
+            cgpaChart.update(); // Redraw CGPA chart
+            sgpaChart.update(); // Redraw SGPA chart
+        }
         toggleButton.addEventListener('click', function () {
             document.body.classList.toggle('light-mode');
             const newMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
             localStorage.setItem('mode', newMode);
             toggleIcon.src = newMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
+
+            // Redraw the charts to reflect the new mode
+            redrawCharts();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> // to use charts
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script> //to display cgpa and sgpa inside the doughnut chart
+
+    <script>
+    // Function to draw the text in the center of the doughnut chart
+    function drawCenterText(chart, text) {
+    const ctx = chart.ctx;
+    const width = chart.width;
+    const height = chart.height;
+
+    // Split the text by line breaks if provided
+    const lines = text.split('\n');
+
+    // Check if light mode is enabled
+    const isLightMode = document.body.classList.contains('light-mode');
+    const textColor = isLightMode ? '#000' : '#fff'; // Black for light mode, white for dark mode
+
+    ctx.restore();
+    const fontSize = (height / 114).toFixed(2);
+    ctx.font = fontSize + "em sans-serif";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = textColor; // Set text color based on the current mode
+
+    // Calculate the Y-position for the first line (centered)
+    const lineHeight = fontSize * 25; // Adjust this for more or less spacing between lines
+    const textYStart = height / 2 - (lines.length - 1) * lineHeight / 2;
+
+    // Draw each line with appropriate Y-coordinate
+    lines.forEach((line, index) => {
+        const textX = Math.round((width - ctx.measureText(line).width) / 2);
+        const textY = textYStart + index * lineHeight;
+        ctx.fillText(line, textX, textY);
+    });
+
+    ctx.save();
+}
+
+    // Doughnut chart for CGPA
+    const cgpaCtx = document.getElementById('cgpaChart').getContext('2d');
+    const cgpaChart = new Chart(cgpaCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['CGPA', 'Remaining'],
+            datasets: [{
+                data: [<?= $cgpa; ?>, 10 - <?= $cgpa; ?>], // Assume max GPA is 10
+                backgroundColor: ['#4CAF50', '#FFCDD2'],
+                borderWidth: 0 // Remove the border
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false // Hide the legend (labels)
+                }
+            },
+            cutout: '80%', // Thinner doughnut chart
+            responsive: true,
+            animation: {
+                animateScale: true
+            }
+        },
+        plugins: [{
+            afterDraw: function(chart) {
+                drawCenterText(chart, 'CGPA\n<?= $cgpa; ?>'); // Display CGPA in the center
+            }
+        }]
+    });
+
+    // Doughnut chart for SGPA
+    const sgpaCtx = document.getElementById('sgpaChart').getContext('2d');
+    const sgpaChart = new Chart(sgpaCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['SGPA', 'Remaining'],
+            datasets: [{
+                data: [<?= $sgpa; ?>, 10 - <?= $sgpa; ?>], // Assume max GPA is 10
+                backgroundColor: ['#2196F3', '#FFCDD2'],
+                borderWidth: 0 // Remove the border
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false // Hide the legend (labels)
+                }
+            },
+            cutout: '80%', // Thinner doughnut chart
+            responsive: true,
+            animation: {
+                animateScale: true
+            }
+        },
+        plugins: [{
+            afterDraw: function(chart) {
+                drawCenterText(chart, 'SGPA\n<?= $sgpa; ?>'); // Display SGPA in the center
+            }
+        }]
+    });
+</script>
 </body>
 </html>
