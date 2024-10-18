@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2024 at 10:42 PM
+-- Generation Time: Oct 18, 2024 at 04:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 
 --
 CREATE Database `studentdb`;
-USE studentdb;
+use studentdb;
 --
 
 -- --------------------------------------------------------
@@ -297,21 +297,21 @@ CREATE TABLE `grades` (
 --
 
 INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`, `IT1`, `IT2`, `IT3`, `Sem`) VALUES
-(25, 1, 1, 'V', 2023, 18.50, 19.00, 20.00, 75.50),
-(26, 2, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.00),
-(27, 3, 3, 'V', 2023, 20.00, 20.00, 19.00, 78.50),
-(28, 4, 4, 'V', 2023, 16.50, 17.50, 18.00, 71.00),
-(29, 5, 5, 'V', 2023, 19.00, 19.50, 20.00, 75.00),
-(30, 6, 6, 'V', 2023, 15.50, 16.00, 17.00, 69.00),
-(31, 7, 7, 'V', 2023, 18.00, 18.50, 19.50, 74.00),
-(32, 8, 8, 'V', 2023, 19.50, 20.00, 20.00, 78.00),
-(33, 9, 9, 'V', 2023, 17.50, 18.00, 18.50, 72.50),
-(34, 10, 10, 'V', 2023, 16.00, 17.00, 17.50, 70.00),
-(35, 11, 11, 'V', 2023, 18.00, 19.00, 19.50, 73.50),
-(36, 12, 12, 'V', 2023, 19.00, 20.00, 20.00, 76.00),
-(37, 13, 13, 'V', 2023, 15.50, 16.50, 17.50, 68.50),
-(38, 14, 14, 'V', 2023, 16.00, 17.00, 18.00, 69.50),
-(39, 15, 15, 'V', 2023, 19.50, 20.00, 20.00, 78.50),
+(25, 1, 1, 'V', 2023, 18.50, 19.00, 20.00, 85.00),
+(26, 2, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.50),
+(27, 3, 3, 'V', 2023, 20.00, 20.00, 19.00, 91.25),
+(28, 4, 4, 'V', 2023, 16.50, 17.50, 18.00, 65.30),
+(29, 5, 5, 'V', 2023, 19.00, 19.50, 20.00, 78.90),
+(30, 6, 6, 'V', 2023, 15.50, 16.00, 17.00, 56.00),
+(31, 7, 7, 'V', 2023, 18.00, 18.50, 19.50, 82.40),
+(32, 8, 8, 'V', 2023, 19.50, 20.00, 20.00, 88.50),
+(33, 9, 9, 'V', 2023, 17.50, 18.00, 18.50, 74.80),
+(34, 10, 10, 'V', 2023, 16.00, 17.00, 17.50, 90.60),
+(35, 11, 11, 'V', 2023, 18.00, 19.00, 19.50, 66.30),
+(36, 12, 12, 'V', 2023, 19.00, 20.00, 20.00, 80.00),
+(37, 13, 13, 'V', 2023, 15.50, 16.50, 17.50, 58.70),
+(38, 14, 14, 'V', 2023, 16.00, 17.00, 18.00, 85.50),
+(39, 15, 15, 'V', 2023, 19.50, 20.00, 20.00, 92.10),
 (40, 1, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.00);
 
 -- --------------------------------------------------------
@@ -351,6 +351,27 @@ INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_N
 (13, 'Molly', 'Grace', 'King', 'F', 'mollyking@dbcegoa.ac.in', NULL, 2),
 (14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1),
 (15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `please_work`
+-- (See below for the actual view)
+--
+CREATE TABLE `please_work` (
+`Student_ID` int(11)
+,`First_Name` varchar(50)
+,`Last_Name` varchar(50)
+,`SGPA_Sem1` decimal(5,4)
+,`SGPA_Sem2` decimal(5,4)
+,`SGPA_Sem3` decimal(5,4)
+,`SGPA_Sem4` decimal(5,4)
+,`SGPA_Sem5` decimal(5,4)
+,`SGPA_Sem6` decimal(5,4)
+,`SGPA_Sem7` decimal(5,4)
+,`SGPA_Sem8` decimal(5,4)
+,`CGPA` decimal(16,8)
+);
 
 -- --------------------------------------------------------
 
@@ -440,6 +461,27 @@ INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, 
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `student_sgpa_cgpa`
+-- (See below for the actual view)
+--
+CREATE TABLE `student_sgpa_cgpa` (
+`Student_ID` int(11)
+,`First_Name` varchar(50)
+,`Last_Name` varchar(50)
+,`SGPA_Sem1` decimal(5,4)
+,`SGPA_Sem2` decimal(5,4)
+,`SGPA_Sem3` decimal(5,4)
+,`SGPA_Sem4` decimal(5,4)
+,`SGPA_Sem5` decimal(5,4)
+,`SGPA_Sem6` decimal(5,4)
+,`SGPA_Sem7` decimal(5,4)
+,`SGPA_Sem8` decimal(5,4)
+,`CGPA` decimal(5,4)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `teaches`
 --
 
@@ -490,6 +532,24 @@ INSERT INTO `users` (`User_ID`, `Email`, `Password`, `Role_ID`) VALUES
 (1, '1@dbcegoa.ac.in', '$2a$12$iLX8IrL0gSt0i15/UevSr.Y84diJJw31zMsKgXKt84d/SIY6Ph0Fu', 1),
 (2, 'john.smith@dbcegoa.ac.in', '$2a$12$O7/iOmAO0MAKAK/6adBLXO/KQW43sLTFPlb4aVRAJIZh2LEeopZG.', 2),
 (3, 'admin@dbcegoa.ac.in', '$2a$12$6HWNitANOhSwGc45g8koOuT/kMfG68dN.O/U/Vf5wEhg/yhpnn.u.', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `please_work`
+--
+DROP TABLE IF EXISTS `please_work`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `please_work`  AS SELECT `s`.`Student_ID` AS `Student_ID`, `s`.`First_Name` AS `First_Name`, `s`.`Last_Name` AS `Last_Name`, (select avg(case when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g1` where `g1`.`Student_ID` = `s`.`Student_ID` and `g1`.`Semester` = 'I') AS `SGPA_Sem1`, (select avg(case when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g2` where `g2`.`Student_ID` = `s`.`Student_ID` and `g2`.`Semester` = 'II') AS `SGPA_Sem2`, (select avg(case when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g3` where `g3`.`Student_ID` = `s`.`Student_ID` and `g3`.`Semester` = 'III') AS `SGPA_Sem3`, (select avg(case when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g4` where `g4`.`Student_ID` = `s`.`Student_ID` and `g4`.`Semester` = 'IV') AS `SGPA_Sem4`, (select avg(case when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g5` where `g5`.`Student_ID` = `s`.`Student_ID` and `g5`.`Semester` = 'V') AS `SGPA_Sem5`, (select avg(case when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g6` where `g6`.`Student_ID` = `s`.`Student_ID` and `g6`.`Semester` = 'VI') AS `SGPA_Sem6`, (select avg(case when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g7` where `g7`.`Student_ID` = `s`.`Student_ID` and `g7`.`Semester` = 'VII') AS `SGPA_Sem7`, (select avg(case when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g8` where `g8`.`Student_ID` = `s`.`Student_ID` and `g8`.`Semester` = 'VIII') AS `SGPA_Sem8`, ((select avg(case when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g1`.`IT1` + `g1`.`IT2` + `g1`.`IT3`) / 3 + `g1`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g1` where `g1`.`Student_ID` = `s`.`Student_ID` and `g1`.`Semester` = 'I') + (select avg(case when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g2`.`IT1` + `g2`.`IT2` + `g2`.`IT3`) / 3 + `g2`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g2` where `g2`.`Student_ID` = `s`.`Student_ID` and `g2`.`Semester` = 'II') + (select avg(case when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g3`.`IT1` + `g3`.`IT2` + `g3`.`IT3`) / 3 + `g3`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g3` where `g3`.`Student_ID` = `s`.`Student_ID` and `g3`.`Semester` = 'III') + (select avg(case when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g4`.`IT1` + `g4`.`IT2` + `g4`.`IT3`) / 3 + `g4`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g4` where `g4`.`Student_ID` = `s`.`Student_ID` and `g4`.`Semester` = 'IV') + (select avg(case when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g5`.`IT1` + `g5`.`IT2` + `g5`.`IT3`) / 3 + `g5`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g5` where `g5`.`Student_ID` = `s`.`Student_ID` and `g5`.`Semester` = 'V') + (select avg(case when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g6`.`IT1` + `g6`.`IT2` + `g6`.`IT3`) / 3 + `g6`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g6` where `g6`.`Student_ID` = `s`.`Student_ID` and `g6`.`Semester` = 'VI') + (select avg(case when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g7`.`IT1` + `g7`.`IT2` + `g7`.`IT3`) / 3 + `g7`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g7` where `g7`.`Student_ID` = `s`.`Student_ID` and `g7`.`Semester` = 'VII') + (select avg(case when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g8`.`IT1` + `g8`.`IT2` + `g8`.`IT3`) / 3 + `g8`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) from `grades` `g8` where `g8`.`Student_ID` = `s`.`Student_ID` and `g8`.`Semester` = 'VIII')) / 8 AS `CGPA` FROM `students` AS `s` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `student_sgpa_cgpa`
+--
+DROP TABLE IF EXISTS `student_sgpa_cgpa`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_sgpa_cgpa`  AS SELECT `s`.`Student_ID` AS `Student_ID`, `s`.`First_Name` AS `First_Name`, `s`.`Last_Name` AS `Last_Name`, avg(case when `g`.`Semester` = 'I' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem1`, avg(case when `g`.`Semester` = 'II' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem2`, avg(case when `g`.`Semester` = 'III' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem3`, avg(case when `g`.`Semester` = 'IV' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem4`, avg(case when `g`.`Semester` = 'V' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem5`, avg(case when `g`.`Semester` = 'VI' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem6`, avg(case when `g`.`Semester` = 'VII' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem7`, avg(case when `g`.`Semester` = 'VIII' then case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end else NULL end) AS `SGPA_Sem8`, avg(case when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 85 then 10 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 75 then 9 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 65 then 8 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 55 then 7 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 50 then 6 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 45 then 5 when ((`g`.`IT1` + `g`.`IT2` + `g`.`IT3`) / 3 + `g`.`Sem`) / 125 * 100 >= 40 then 4 else 0 end) AS `CGPA` FROM (`students` `s` join `grades` `g` on(`s`.`Student_ID` = `g`.`Student_ID`)) GROUP BY `s`.`Student_ID`, `s`.`First_Name`, `s`.`Last_Name` ;
 
 --
 -- Indexes for dumped tables
