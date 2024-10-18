@@ -14,3 +14,234 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+CREATE VIEW student_sgpa_cgpa AS
+SELECT 
+    s.Student_ID,
+    s.First_Name,
+    s.Last_Name,
+    
+    -- SGPA for Semester 1
+    (SELECT AVG(
+        CASE 
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END) 
+    FROM grades g1 WHERE g1.Student_ID = s.Student_ID AND g1.Semester = 'I') AS SGPA_Sem1,
+    
+    -- SGPA for Semester 2
+    (SELECT AVG(
+        CASE 
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g2 WHERE g2.Student_ID = s.Student_ID AND g2.Semester = 'II') AS SGPA_Sem2,
+    
+    -- SGPA for Semester 3
+    (SELECT AVG(
+        CASE 
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g3 WHERE g3.Student_ID = s.Student_ID AND g3.Semester = 'III') AS SGPA_Sem3,
+    
+    -- SGPA for Semester 4
+    (SELECT AVG(
+        CASE 
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g4 WHERE g4.Student_ID = s.Student_ID AND g4.Semester = 'IV') AS SGPA_Sem4,
+    
+    -- SGPA for Semester 5
+    (SELECT AVG(
+        CASE 
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g5 WHERE g5.Student_ID = s.Student_ID AND g5.Semester = 'V') AS SGPA_Sem5,
+    
+    -- SGPA for Semester 6
+    (SELECT AVG(
+        CASE 
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g6 WHERE g6.Student_ID = s.Student_ID AND g6.Semester = 'VI') AS SGPA_Sem6,
+    
+    -- SGPA for Semester 7
+    (SELECT AVG(
+        CASE 
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g7 WHERE g7.Student_ID = s.Student_ID AND g7.Semester = 'VII') AS SGPA_Sem7,
+    
+    -- SGPA for Semester 8
+    (SELECT AVG(
+        CASE 
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END)
+    FROM grades g8 WHERE g8.Student_ID = s.Student_ID AND g8.Semester = 'VIII') AS SGPA_Sem8,
+    
+    -- CGPA as the average of all eight SGPAs
+    (
+        (
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g1.IT1 + g1.IT2 + g1.IT3) / 3 + g1.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END) 
+            FROM grades g1 WHERE g1.Student_ID = s.Student_ID AND g1.Semester = 'I')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g2.IT1 + g2.IT2 + g2.IT3) / 3 + g2.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g2 WHERE g2.Student_ID = s.Student_ID AND g2.Semester = 'II')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g3.IT1 + g3.IT2 + g3.IT3) / 3 + g3.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g3 WHERE g3.Student_ID = s.Student_ID AND g3.Semester = 'III')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g4.IT1 + g4.IT2 + g4.IT3) / 3 + g4.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g4 WHERE g4.Student_ID = s.Student_ID AND g4.Semester = 'IV')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g5.IT1 + g5.IT2 + g5.IT3) / 3 + g5.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g5 WHERE g5.Student_ID = s.Student_ID AND g5.Semester = 'V')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g6.IT1 + g6.IT2 + g6.IT3) / 3 + g6.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g6 WHERE g6.Student_ID = s.Student_ID AND g6.Semester = 'VI')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g7.IT1 + g7.IT2 + g7.IT3) / 3 + g7.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g7 WHERE g7.Student_ID = s.Student_ID AND g7.Semester = 'VII')
+            +
+            (SELECT AVG(
+                CASE 
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 85 THEN 10
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 75 THEN 9
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 65 THEN 8
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 55 THEN 7
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 50 THEN 6
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 45 THEN 5
+                    WHEN ((g8.IT1 + g8.IT2 + g8.IT3) / 3 + g8.Sem) / 125 * 100 >= 40 THEN 4
+                    ELSE 0
+                END)
+            FROM grades g8 WHERE g8.Student_ID = s.Student_ID AND g8.Semester = 'VIII')
+        ) / 8
+    ) AS CGPA
+
+FROM students s;
