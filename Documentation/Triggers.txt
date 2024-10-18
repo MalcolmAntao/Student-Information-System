@@ -245,3 +245,138 @@ SELECT
     ) AS CGPA
 
 FROM students s;
+
+//current view table code
+CREATE VIEW student_sgpa_cgpa AS
+SELECT 
+    s.Student_ID,
+    s.First_Name,
+    s.Last_Name,
+
+    -- SGPA for Semester 1
+    AVG(CASE 
+        WHEN g.Semester = 'I' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem1,
+
+    -- SGPA for Semester 2
+    AVG(CASE 
+        WHEN g.Semester = 'II' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem2,
+
+    -- SGPA for Semester 3
+    AVG(CASE 
+        WHEN g.Semester = 'III' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem3,
+
+    -- SGPA for Semester 4
+    AVG(CASE 
+        WHEN g.Semester = 'IV' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem4,
+
+    -- SGPA for Semester 5
+    AVG(CASE 
+        WHEN g.Semester = 'V' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem5,
+
+    -- SGPA for Semester 6
+    AVG(CASE 
+        WHEN g.Semester = 'VI' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem6,
+
+    -- SGPA for Semester 7
+    AVG(CASE 
+        WHEN g.Semester = 'VII' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem7,
+
+    -- SGPA for Semester 8
+    AVG(CASE 
+        WHEN g.Semester = 'VIII' THEN CASE
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+            WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+            ELSE 0
+        END
+        ELSE NULL END) AS SGPA_Sem8,
+
+    -- CGPA as the average of all SGPAs
+    AVG(CASE
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 85 THEN 10
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 75 THEN 9
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 65 THEN 8
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 55 THEN 7
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 50 THEN 6
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 45 THEN 5
+        WHEN ((g.IT1 + g.IT2 + g.IT3) / 3 + g.Sem) / 125 * 100 >= 40 THEN 4
+        ELSE 0
+    END) AS CGPA
+
+FROM students s
+JOIN grades g ON s.Student_ID = g.Student_ID
+GROUP BY s.Student_ID, s.First_Name, s.Last_Name;
