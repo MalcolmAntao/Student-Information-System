@@ -246,6 +246,13 @@ SELECT
 
 FROM students s;
 
+
+
+
+
+
+
+
 //current view table code
 CREATE VIEW student_sgpa_cgpa AS
 SELECT 
