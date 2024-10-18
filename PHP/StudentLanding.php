@@ -615,9 +615,9 @@ if (!empty($profile['Profile_Picture'])) {
                 <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
                     <a href="Announcements.php">Announcements</a>
-                    <a href="profile.html">Profile</a>
-                    <a href="settings.html">Settings</a>
-                    <a href="../HTML/Landing.html">Logout</a>
+                    <a href="../HTML/Student/Profile.html">Profile</a>
+                    <!-- <a href="settings.html">Settings</a> -->
+                    <a href="../PHP/Logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -796,10 +796,11 @@ if (!empty($profile['Profile_Picture'])) {
         });
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> // to use charts
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script> //to display cgpa and sgpa inside the doughnut chart
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- // to use charts -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script>  <!-- //to display cgpa and sgpa inside the doughnut chart -->
     
-    //script for cgpa/sgpa chart
+    <!-- //script for cgpa/sgpa chart -->
     <script>
     // Function to draw the text in the center of the doughnut chart
     function drawCenterText(chart, text) {
@@ -917,7 +918,7 @@ const sgpaChart = new Chart(sgpaCtx, {
     }]
 });
 </script>
-//script for performance chart
+<!-- //script for performance chart -->
 <script>
     // Fetch the course names and marks from PHP
     const courseNames = <?= json_encode($courseNames); ?>;
@@ -964,7 +965,6 @@ const performanceChart = new Chart(ctx, {
     data: {
         labels: courseNames,  // Dynamic course names from PHP
         datasets: [{
-            label: 'Performance',
             data: courseMarks,  // Dynamic marks from PHP
             backgroundColor: radarColors.backgroundColor,  // Light color for radar area
             borderColor: radarColors.borderColor,  // Border color of the radar
@@ -994,8 +994,8 @@ const performanceChart = new Chart(ctx, {
         },
         layout: {
             padding: {
-                top: 20,  // Add padding at the top to ensure no overlap
-                bottom: 20  // Padding at the bottom for better spacing
+                top: 5,  // Add padding at the top to ensure no overlap
+                bottom: 5  // Padding at the bottom for better spacing
             }
         },
         plugins: {
