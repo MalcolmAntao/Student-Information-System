@@ -95,6 +95,8 @@ $sgpa = number_format((float)$sgpa_cgpa['Current_SGPA'], 2);
 // $cgpa = $totalCredits ? round($totalGradePoints / $totalCredits, 2) : 0;
 // $sgpa = $currentSemesterCredits ? round($currentSemesterGradePoints / $currentSemesterCredits, 2) : 0;
 
+$courseNames = [];
+$courseMarks = [];
 
 foreach ($courses as &$course) { // Use reference to modify each course
     // Check if IT marks and Sem marks are present
@@ -108,6 +110,10 @@ foreach ($courses as &$course) { // Use reference to modify each course
 
     // Total marks = average IT + Sem marks
     $totalMarks = $averageIT + $semMarks;
+
+     // Add course name and total marks to the arrays
+     $courseNames[] = $course['CourseName'];
+     $courseMarks[] = $totalMarks;
 
     // Calculate grade and grade point
     list($grade, $gradePoint) = calculateGrade($totalMarks);
@@ -272,7 +278,7 @@ if (!empty($profile['Profile_Picture'])) {
         .column-3 {
             display: flex;
             flex-direction: column;
-            flex: 1;
+            flex: 0.8;
             gap: 20px;
         }
 
@@ -296,6 +302,7 @@ if (!empty($profile['Profile_Picture'])) {
             margin: 0px;
             padding: 5px 0px;
         }
+        
         .notice-block{
             display: flex;
             flex-direction: column;
@@ -344,17 +351,16 @@ if (!empty($profile['Profile_Picture'])) {
             color: #000000;
         }
 
-        /* Courses section with scrolling */
+        
+        /* Courses section */
         .courses {
             background-color: #232B3A;
             border-radius: 10px;
             padding: 20px;
-           /* flex-grow: 1;*/
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             overflow-y: auto;
-            overflow: hidden;
             justify-content: space-around;
         }
 
@@ -362,19 +368,21 @@ if (!empty($profile['Profile_Picture'])) {
             background-color: #c3d8da;
         }
 
-        /* Course card style */
+        /* Course card container */
         .course-card {
             background-color: #1B222E;
             border-radius: 10px;
             padding: 10px;
             margin: 10px 0;
             text-align: center;
-            max-width: 250px; /* Set a max width */
+            max-width: 300px;
             word-wrap: break-word;
-            position: relative; /* For absolute positioning of marks */
-            overflow: hidden; /* Hide overflow when transitioning */
-            cursor: pointer; /* Indicate interactivity */
+            position: relative;
+            cursor: pointer;
             transition: transform 0.3s ease;
+            flex: 1; /* Ensure card grows and shrinks properly within the flex container */
+            min-width: 200px; /* Prevent cards from getting too small */
+            box-sizing: border-box;
         }
 
         .course-card:hover {
@@ -388,41 +396,60 @@ if (!empty($profile['Profile_Picture'])) {
 
         /* Course basic info */
         .course-basic {
-            transition: opacity 0.3s ease;
+            padding: 10px;
+            z-index: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        /* Course marks info */
+        /* Course marks card (initially hidden under basic info) */
         .course-marks {
+            background-color: rgba(54, 62, 78, 0.95) ;
+            color: #c1e1e2;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(35, 43, 58, 0.95); /* Semi-transparent overlay */
-            color: #c1e1e2;
-            padding: 10px;
-            box-sizing: border-box;
-            opacity: 0;
-            visibility: hidden; /* Initially hidden */
-            transition: opacity 0.3s ease, visibility 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            opacity: 0; /* Hidden by default */
+            z-index: 0; /* Under the basic info */
+            transition: opacity 0.3s ease, z-index 0.3s ease;
         }
 
+        body.light-mode .course-marks {
+            background-color: rgba(180, 200, 202, 0.95); /* Light mode background color */
+            color: #000000;
+        }
+
+        /* On hover, show the marks card and hide the basic info */
         .course-card:hover .course-basic {
-            opacity: 0;
+            opacity: 0; /* Fade out basic info */
+            z-index: 0; /* Move it behind marks card */
         }
 
         .course-card:hover .course-marks {
-            opacity: 1;
-            visibility: visible; /* Make visible on hover */
-            background-color: rgba(35, 43, 58, 0.95); /* Background remains consistent */
+            opacity: 1; /* Fade in marks card */
+            z-index: 1; /* Bring it to the top */
         }
 
-        .course-marks p {
-            line-height: 1.2; /* Adjust this value to control the spacing */
-            margin: 0; /* Remove default margins to further reduce space */
+        .course-marks p, .course-marks strong {
+            line-height: 1.2;
+            margin: 0;
+            transition: color 0.3s ease; /* Smooth transition for text color */
+        }
+
+        /* Ensure "Marks Details" changes color along with other texts */
+        .course-marks strong {
+            color: white;
+        }
+
+        body.light-mode .course-marks strong {
+            color: black; /* Change to black for light mode */
         }
         /* Icons styling */
         .icons {
@@ -569,7 +596,7 @@ if (!empty($profile['Profile_Picture'])) {
         max-height: 100%; /* Ensure canvas does not overflow */
     }
 
-
+    
     </style>
 </head>
 <body>
@@ -621,23 +648,25 @@ if (!empty($profile['Profile_Picture'])) {
                             </div>
                         </div>
                     </div>
+                    <div class="small-block">
+                        <p>What to put here?</p>
+                    </div>
                 </div>
-
                 
-
                 <!-- Courses section with scrollable content -->
+                <!-- Courses section with separate cards for basic info and marks -->
                 <div class="courses">
                     <?php foreach ($courses as $course): ?>
                         <div class="course-card">
-                            <!-- Basic Info -->
+                            <!-- Basic Info Card -->
                             <div class="course-basic">
                                 <strong><?php echo htmlspecialchars($course['CourseName']); ?></strong> <br>
                                 <em>Description:</em> <?php echo htmlspecialchars($course['Description']); ?> <br>
                                 <em>Credits:</em> <?php echo htmlspecialchars($course['Credits']); ?>
                             </div>
-                            <!-- Marks Info -->
+                            <!-- Marks Info Card (Initially hidden) -->
                             <div class="course-marks">
-                                <strong style="color: white;">Marks Details</strong>
+                                <strong>Marks Details</strong>
                                 <p>Average IT Marks: <?= htmlspecialchars($course['Average_IT']); ?></p>
                                 <p>Semester Marks: <?= htmlspecialchars($course['Sem']); ?></p>
                                 <p>Total Marks: <?= htmlspecialchars($course['Total_Marks']); ?></p>
@@ -646,6 +675,7 @@ if (!empty($profile['Profile_Picture'])) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+
             </div>
 
             <!-- Column 3 -->
@@ -669,7 +699,8 @@ if (!empty($profile['Profile_Picture'])) {
 
                 <!-- Performance block -->
                 <div class="small-block">
-                <p>performance<p>
+                    <p>performance<p>
+                    <canvas id="performanceChart"></canvas> <!-- Radar chart canvas -->
                 </div>
 
                 <!-- Profile section -->
@@ -739,19 +770,36 @@ if (!empty($profile['Profile_Picture'])) {
             cgpaChart.update(); // Redraw CGPA chart
             sgpaChart.update(); // Redraw SGPA chart
         }
+
         toggleButton.addEventListener('click', function () {
             document.body.classList.toggle('light-mode');
             const newMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
             localStorage.setItem('mode', newMode);
             toggleIcon.src = newMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
 
-            // Redraw the charts to reflect the new mode
-            redrawCharts();
+            // Redraw the doughnut charts with new colors
+            const chartColors = getChartColors();
+            cgpaChart.data.datasets[0].backgroundColor = chartColors.cgpa;
+            sgpaChart.data.datasets[0].backgroundColor = chartColors.sgpa;
+            cgpaChart.update();
+            sgpaChart.update();
+
+            // Redraw the radar chart with new colors
+            const radarColors = getRadarChartColors();
+            performanceChart.data.datasets[0].backgroundColor = radarColors.backgroundColor;
+            performanceChart.data.datasets[0].borderColor = radarColors.borderColor;
+            performanceChart.options.scales.r.ticks.color = radarColors.ticksColor;
+            performanceChart.options.scales.r.grid.color = radarColors.gridColor;
+            performanceChart.update();  // Update the radar chart
+
+            updateRadarChartColors(); // Call to update other radar chart colors, if necessary
         });
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> // to use charts
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script> //to display cgpa and sgpa inside the doughnut chart
-
+    
+    //script for cgpa/sgpa chart
     <script>
     // Function to draw the text in the center of the doughnut chart
     function drawCenterText(chart, text) {
@@ -785,68 +833,200 @@ if (!empty($profile['Profile_Picture'])) {
 
     ctx.save();
 }
+    
+    // Function to get current mode and return the colors for the doughnut chart
+    function getChartColors() {
+    const isLightMode = document.body.classList.contains('light-mode');
+    
+    return {
+        // CGPA Chart Colors
+        cgpa: isLightMode 
+            ? ['#F39C12', '#8E44AD']   // Light Mode
+            : ['#1E90FF', '#FF5A5F'],  // Dark Mode
+        
+        // SGPA Chart Colors
+        sgpa: isLightMode 
+            ? ['#9B1B30', '#2C3E50']   // Light Mode
+            : ['#00CED1', '#D5006D']   // Dark Mode
+    };
+}
 
-    // Doughnut chart for CGPA
-    const cgpaCtx = document.getElementById('cgpaChart').getContext('2d');
-    const cgpaChart = new Chart(cgpaCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['CGPA', 'Remaining'],
-            datasets: [{
-                data: [<?= $cgpa; ?>, 10 - <?= $cgpa; ?>], // Assume max GPA is 10
-                backgroundColor: ['#4CAF50', '#FFCDD2'],
-                borderWidth: 0 // Remove the border
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false // Hide the legend (labels)
-                }
-            },
-            cutout: '80%', // Thinner doughnut chart
-            responsive: true,
-            animation: {
-                animateScale: true
-            }
-        },
-        plugins: [{
-            afterDraw: function(chart) {
-                drawCenterText(chart, 'CGPA\n<?= $cgpa; ?>'); // Display CGPA in the center
-            }
-        }]
-    });
 
-    // Doughnut chart for SGPA
-    const sgpaCtx = document.getElementById('sgpaChart').getContext('2d');
-    const sgpaChart = new Chart(sgpaCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['SGPA', 'Remaining'],
-            datasets: [{
-                data: [<?= $sgpa; ?>, 10 - <?= $sgpa; ?>], // Assume max GPA is 10
-                backgroundColor: ['#2196F3', '#FFCDD2'],
-                borderWidth: 0 // Remove the border
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false // Hide the legend (labels)
-                }
-            },
-            cutout: '80%', // Thinner doughnut chart
-            responsive: true,
-            animation: {
-                animateScale: true
-            }
-        },
-        plugins: [{
-            afterDraw: function(chart) {
-                drawCenterText(chart, 'SGPA\n<?= $sgpa; ?>'); // Display SGPA in the center
-            }
+
+// Doughnut chart for CGPA
+const cgpaCtx = document.getElementById('cgpaChart').getContext('2d');
+const cgpaColors = getChartColors();
+const cgpaChart = new Chart(cgpaCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['CGPA', 'Remaining'],
+        datasets: [{
+            data: [<?= $cgpa; ?>, 10 - <?= $cgpa; ?>], // Assume max GPA is 10
+            backgroundColor: cgpaColors.cgpa,
+            borderWidth: 0 // Remove the border
         }]
-    });
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false // Hide the legend (labels)
+            }
+        },
+        cutout: '80%', // Thinner doughnut chart
+        responsive: true,
+        animation: {
+            animateScale: true
+        }
+    },
+    plugins: [{
+        afterDraw: function(chart) {
+            drawCenterText(chart, 'CGPA\n<?= $cgpa; ?>'); // Display CGPA in the center
+        }
+    }]
+});
+
+// Doughnut chart for SGPA
+const sgpaCtx = document.getElementById('sgpaChart').getContext('2d');
+const sgpaColors = getChartColors();
+const sgpaChart = new Chart(sgpaCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['SGPA', 'Remaining'],
+        datasets: [{
+            data: [<?= $sgpa; ?>, 10 - <?= $sgpa; ?>], // Assume max GPA is 10
+            backgroundColor: sgpaColors.sgpa,
+            borderWidth: 0 // Remove the border
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false // Hide the legend (labels)
+            }
+        },
+        cutout: '80%', // Thinner doughnut chart
+        responsive: true,
+        animation: {
+            animateScale: true
+        }
+    },
+    plugins: [{
+        afterDraw: function(chart) {
+            drawCenterText(chart, 'SGPA\n<?= $sgpa; ?>'); // Display SGPA in the center
+        }
+    }]
+});
 </script>
+//script for performance chart
+<script>
+    // Fetch the course names and marks from PHP
+    const courseNames = <?= json_encode($courseNames); ?>;
+    const courseMarks = <?= json_encode($courseMarks); ?>;
+
+    // Function to fetch updated courses and marks periodically
+    function fetchUpdatedData() {
+        fetch('fetch_courses_and_marks.php')  // PHP file to return updated data in JSON
+            .then(response => response.json())
+            .then(data => {
+                updatePerformanceChart(data.courses, data.marks);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // // Poll the server every 30 seconds for updated data
+    // setInterval(fetchUpdatedData, 30000);
+
+    // Function to update the radar chart dynamically
+    function updatePerformanceChart(courses, marks) {
+        // Update radar chart data
+        performanceChart.data.labels = courses;
+        performanceChart.data.datasets[0].data = marks;
+
+        // Re-render the chart to reflect updated data
+        performanceChart.update();
+    }
+// Function to get colors for the radar chart based on the mode
+function getRadarChartColors() {
+    const isLightMode = document.body.classList.contains('light-mode');
+    return {
+        backgroundColor: isLightMode ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 193, 7, 0.2)',
+        borderColor: isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 193, 7, 1)',
+        ticksColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)',
+        gridColor: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'
+    };
+}
+
+// Initialize the radar chart for performance
+const radarColors = getRadarChartColors();
+const ctx = document.getElementById('performanceChart').getContext('2d');
+const performanceChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+        labels: courseNames,  // Dynamic course names from PHP
+        datasets: [{
+            label: 'Performance',
+            data: courseMarks,  // Dynamic marks from PHP
+            backgroundColor: radarColors.backgroundColor,  // Light color for radar area
+            borderColor: radarColors.borderColor,  // Border color of the radar
+            borderWidth: 2  // Border width of the lines
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,  // Allows the chart to scale with the container size
+        scales: {
+            r: {
+                suggestedMin: 0,  // Minimum value for the radar chart
+                suggestedMax: 125,  // Max marks is 125
+                ticks: {
+                    backdropColor: 'transparent', // Remove background color
+                    color: radarColors.ticksColor,
+                    stepSize: 25,  // Set the interval between ticks (25, 50, 75, 100, 125) // Color based on mode
+                },
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'  // Grid line color
+                },
+                angleLines: {
+                    display: true,
+                    color: 'rgba(0, 0, 0, 0.1)'  // Adjust angle line color
+                }
+            }
+        },
+        layout: {
+            padding: {
+                top: 20,  // Add padding at the top to ensure no overlap
+                bottom: 20  // Padding at the bottom for better spacing
+            }
+        },
+        plugins: {
+            legend: {
+                display: false  // Hide the legend entirely
+            }
+        }
+    }
+});
+updateRadarChartColors();// to update the color based on the mode the user is in
+    
+    // Function to update radar chart colors based on light/dark mode
+function updateRadarChartColors() {
+    const isLightMode = document.body.classList.contains('light-mode');
+    
+    // Update tick color
+    performanceChart.options.scales.r.ticks.color = isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)';
+    
+    // Update grid color
+    performanceChart.options.scales.r.grid.color = isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
+    
+    // Update chart colors
+    performanceChart.data.datasets[0].backgroundColor = isLightMode ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 193, 7, 0.2)';
+    performanceChart.data.datasets[0].borderColor = isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 193, 7, 1)';
+    
+    performanceChart.update();
+}
+    fetchUpdatedData(); // <-- Important for initial chart rendering
+    setInterval(fetchUpdatedData, 30000); // Poll every 30 seconds
+
+</script>
+
 </body>
 </html>
