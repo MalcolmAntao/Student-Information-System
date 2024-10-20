@@ -234,7 +234,7 @@
             gap: 20px;
         }
 
-        .soft-skills, .marks-obtained, .time-learning, .courses {
+        .performance, .marks-obtained, .time-learning, .courses {
             flex: 1;
             min-width: 250px;
             height: 300px;
@@ -418,9 +418,20 @@
         }
 
         /* Teacher History Styles */
+        .Center-cards{
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .teacher-history{
+            display: inline-block;
+            
+        }
         .teacher-history .teachers {
             display: flex;
             flex-wrap: wrap;
+            
             gap: 15px;
             margin-top: 15px;
         }
@@ -640,13 +651,33 @@
         <div class="main-content" id="main-content">
             <!-- Top Row: Soft Skills, Marks Obtained -->
             <div class="top-row">
-                <div class="card soft-skills">
+                <div class="card performance">
                     <h3>Performance</h3>
                     <canvas id="radarChart"></canvas>
                 </div>
-                <div class="card marks-obtained">
-                    <h3>Marks Obtained</h3>
-                    <canvas id="barChart"></canvas>
+                <div class="card teacher-history">
+                    <h3>Teachers</h3>
+                    <div class="Center-cards">
+                        <div class="teachers">
+                            <div class="teacher">
+                                <img src="../images/teacher1.jpg" alt="Prof. A">
+                                <p>Prof. A</p>
+                            </div>
+                            <div class="teacher">
+                                <img src="../images/teacher2.jpg" alt="Prof. B">
+                                <p>Prof. B</p>
+                            </div>
+                            <div class="teacher">
+                                <img src="../images/teacher3.jpg" alt="Prof. C">
+                                <p>Prof. C</p>
+                            </div>
+                            <div class="teacher">
+                                <img src="../images/teacher4.jpg" alt="Prof. D">
+                                <p>Prof. D</p>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
 
@@ -680,26 +711,8 @@
 
             <!-- Bottom Row: Teachers teached will be displayed based on the courses taken by the student -->
             <div class="bottom-row">
-                <div class="card teacher-history">
-                    <h3>Teachers</h3>
-                    <div class="teachers">
-                        <div class="teacher">
-                            <img src="../images/teacher1.jpg" alt="Prof. A">
-                            <p>Prof. A</p>
-                        </div>
-                        <div class="teacher">
-                            <img src="../images/teacher2.jpg" alt="Prof. B">
-                            <p>Prof. B</p>
-                        </div>
-                        <div class="teacher">
-                            <img src="../images/teacher3.jpg" alt="Prof. C">
-                            <p>Prof. C</p>
-                        </div>
-                        <div class="teacher">
-                            <img src="../images/teacher4.jpg" alt="Prof. D">
-                            <p>Prof. D</p>
-                        </div>
-                    </div>
+                <div class="card gemini">
+                    
                 </div>
             </div>
         </div>
@@ -733,30 +746,6 @@
                     <input type="file" id="profile-photo-input" accept="image/*">
                 </label>
                 <label>
-                    Student Name:
-                    <input type="text" id="student-name-input" value="Malcolm Antão" required>
-                </label>
-                <label>
-                    Roll No:
-                    <input type="text" id="roll-no-input" value="123456" required>
-                </label>
-                <label>
-                    University No:
-                    <input type="text" id="university-no-input" value="U12345678" required>
-                </label>
-                <label>
-                    Current Semester:
-                    <input type="text" id="semester-input" value="5" required>
-                </label>
-                <label>
-                    Email:
-                    <input type="email" id="email-input" value="student@domain.com" required>
-                </label>
-                <label>
-                    Phone:
-                    <input type="tel" id="phone-input" value="+1234567890" required>
-                </label>
-                <label>
                     Bio:
                     <textarea id="bio-input" rows="4" required>This is a short bio about Malcolm Antão.</textarea>
                 </label>
@@ -764,6 +753,31 @@
                     <button type="button" class="cancel-profile-btn" id="cancel-profile-btn">Cancel</button>
                     <button type="submit" class="save-profile-btn" id="save-profile-btn">Save</button>
                 </div>
+                <label>
+                    Student Name:
+                    <input type="text" id="student-name-input" value="Malcolm Antão" readonly>
+                </label>
+                <label>
+                    Roll No:
+                    <input type="text" id="roll-no-input" value="123456" readonly>
+                </label>
+                <label>
+                    University No:
+                    <input type="text" id="university-no-input" value="U12345678" readonly>
+                </label>
+                <label>
+                    Current Semester:
+                    <input type="text" id="semester-input" value="5" readonly>
+                </label>
+                <label>
+                    Email:
+                    <input type="email" id="email-input" value="student@domain.com" readonly>
+                </label>
+                <label>
+                    Phone:
+                    <input type="tel" id="phone-input" value="+1234567890" readonly>
+                </label>
+                
             </form>
         </div>
 
@@ -897,48 +911,7 @@
             }
         });
 
-        // Horizontal Bar chart for Marks Obtained
-        const barCtx = document.getElementById('barChart').getContext('2d');
-        const barChart = new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Math', 'Japanese', 'English', 'Science', 'History'],
-                datasets: [{
-                    label: 'Marks Obtained',
-                    data: [85, 90, 78, 88, 92],
-                    backgroundColor: 'rgba(39, 60, 117, 0.8)',
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255,255,255,0.1)'
-                        },
-                        ticks: {
-                            color: 'var(--text-color)'
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: 'rgba(255,255,255,0.1)'
-                        },
-                        ticks: {
-                            color: 'var(--text-color)'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: 'var(--text-color)'
-                        }
-                    }
-                }
-            }
-        });
+       
 
         // Doughnut chart for CGPA
         const cgpaLineCtx = document.getElementById('cgpaLineChart').getContext('2d');

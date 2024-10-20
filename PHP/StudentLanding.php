@@ -15,7 +15,6 @@ $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 // Full name concatenation
 $student_name = $profile['First_Name'] . " " . $profile['Last_Name'];
 
-// Fetch courses the student is enrolled in, including grades (if available)
 // Fetch courses the student is enrolled in, including grades (now part of `Grades` table)
 $sql = "SELECT c.CourseName, c.Credits, c.Description, g.Semester, g.Year, g.IT1, g.IT2, g.IT3, g.Sem
         FROM Enrolls_In e
@@ -126,12 +125,19 @@ foreach ($courses as &$course) { // Use reference to modify each course
 }
 unset($course); // Break the reference
 
+
 // Prepare profile picture
+$defaultImage = '../Assets/Profile.svg';
+$ProfilePath = '../Assets/ProfileImages/' . htmlspecialchars($profile['Profile_Picture']); // Assuming the images are stored in the 'ProfileImages' folder
 if (!empty($profile['Profile_Picture'])) {
-    $profilePicture = 'data:image/jpeg;base64,' . base64_encode($profile['Profile_Picture']);
+    // If the profile picture exists, display it from the stored path
+    $profilePicture = $ProfilePath;
+    if (!file_exists($profilePicture)) {
+        $profilePicture = $defaultImage; // Fallback to default if image file not found
+    }
 } else {
-    // Default image if no profile picture is set
-    $profilePicture = '../Assets/Profile.svg'; // Ensure this path is correct
+    // If no profile picture is set, use a default image (with relative path)
+    $profilePicture = $defaultImage; // Ensure this path is correct and points to your default image
 }
 ?>
 <!DOCTYPE html>
@@ -575,26 +581,26 @@ if (!empty($profile['Profile_Picture'])) {
                 max-width: 100%;
             }
         }
-    canvas {
-        margin: 10px; /* Add some margin to each chart */
-    }
+        canvas {
+            margin: 10px; /* Add some margin to each chart */
+        }
 
-    .chart-container {
-        display: flex;
-        justify-content: center; /* Center the charts horizontally */
-        gap: 50px; /* Add space between the charts */
-    }
+        .chart-container {
+            display: flex;
+            justify-content: center; /* Center the charts horizontally */
+            gap: 50px; /* Add space between the charts */
+        }
 
-    .chart-block {
-        text-align: center; /* Center the text inside each chart block */
-    }
+        .chart-block {
+            text-align: center; /* Center the text inside each chart block */
+        }
 
-    .chart-block canvas {
-        display: block;
-        margin: 0 auto; /* Center the canvas inside the chart block */
-        max-width: 100%; /* Ensure canvas does not overflow */
-        max-height: 100%; /* Ensure canvas does not overflow */
-    }
+        .chart-block canvas {
+            display: block;
+            margin: 0 auto; /* Center the canvas inside the chart block */
+            max-width: 100%; /* Ensure canvas does not overflow */
+            max-height: 100%; /* Ensure canvas does not overflow */
+        }
 
     
     </style>
@@ -615,7 +621,8 @@ if (!empty($profile['Profile_Picture'])) {
                 <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
                     <a href="Announcements.php">Announcements</a>
-                    <a href="../HTML/Student/Profile.html">Profile</a>
+                    
+                    <a href="../PHP/StudentProfile.php">Profile</a>
                     <!-- <a href="settings.html">Settings</a> -->
                     <a href="../PHP/Logout.php">Logout</a>
                 </div>
@@ -707,6 +714,7 @@ if (!empty($profile['Profile_Picture'])) {
                 <div class="small-block">
                     <div class="profile-card">
                         <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
+                        
                         <div class="profile-details">
                             <p><strong>Name:</strong> <?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name']. " " . $profile['Last_Name']); ?></p>
                             <p><strong>Date of Birth:</strong> <?= htmlspecialchars($profile['Date_Of_Birth']); ?></p>
@@ -714,7 +722,6 @@ if (!empty($profile['Profile_Picture'])) {
                             <p><strong>Phone:</strong> <?= htmlspecialchars($profile['PhoneNo']); ?></p>
                             <p><strong>Roll No.:</strong> <?= htmlspecialchars($profile['Roll_No']); ?></p>
                             <p><strong>University No.:</strong> <?= htmlspecialchars($profile['University_No']); ?></p>
-                            <!-- Bio removed as per the requirement -->
                         </div>
                     </div>
                 </div>
