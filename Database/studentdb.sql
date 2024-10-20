@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2024 at 07:21 PM
+-- Generation Time: Oct 20, 2024 at 07:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,8 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
-CREATE Database `studentdb`;
-USE `studentdb`;
+-- Database: `studentdb`
 --
 
 -- --------------------------------------------------------
@@ -152,9 +151,9 @@ DELIMITER $$
 CREATE TRIGGER `after_course_acceptance` AFTER UPDATE ON `course_selections` FOR EACH ROW BEGIN
     -- Check if the course has been accepted
     IF NEW.Accepted = TRUE THEN
-        -- Insert into Enrolls_In table with Student_ID, Course_ID, and Enrollment_Type_ID
-        INSERT INTO Enrolls_In (Student_ID, Course_ID, Semester, Year, Enrollment_Type_ID)
-        VALUES (NEW.Student_ID, NEW.Course_ID, 'V', 2023, NEW.Enrollment_Type_ID);
+        -- Insert into Enrolls_In table with Student_ID, Course_ID and current year
+        INSERT INTO Enrolls_In (Student_ID,Course_ID,Year)
+        VALUES (NEW.Student_ID, NEW.Course_ID, YEAR(CURDATE()));
     END IF;
 END
 $$
