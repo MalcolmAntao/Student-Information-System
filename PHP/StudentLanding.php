@@ -797,7 +797,6 @@ if (!empty($profile['Profile_Picture'])) {
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- // to use charts -->
-
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script>  <!-- //to display cgpa and sgpa inside the doughnut chart -->
     
     <!-- //script for cgpa/sgpa chart -->
