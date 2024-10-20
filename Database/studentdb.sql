@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2024 at 10:08 PM
+-- Generation Time: Oct 20, 2024 at 10:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -55,43 +55,6 @@ INSERT INTO `announcements` (`Announcement_ID`, `Title`, `Content`, `Posting_Dat
 (13, 'Placement Drive', 'Placement drive starts in Jan.', '2023-12-20', 13),
 (14, 'Research Paper Submission', 'Submit research paper by 10th Jan.', '2023-12-15', 14),
 (15, 'Sports Meet', 'Annual sports meet on 22nd Dec.', '2023-12-22', 15);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `assessment`
---
-
-CREATE TABLE `assessment` (
-  `Assessment_ID` int(11) NOT NULL,
-  `IT1` decimal(5,2) NOT NULL,
-  `IT2` decimal(5,2) NOT NULL,
-  `IT3` decimal(5,2) NOT NULL,
-  `Internal_Assessment` decimal(4,2) NOT NULL,
-  `Sem` decimal(5,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `assessment`
---
-
-INSERT INTO `assessment` (`Assessment_ID`, `IT1`, `IT2`, `IT3`, `Internal_Assessment`, `Sem`) VALUES
-(1, 18.50, 19.00, 20.00, 9.00, 75.50),
-(2, 17.00, 18.00, 19.00, 8.00, 72.00),
-(3, 20.00, 20.00, 19.00, 9.50, 78.50),
-(4, 16.50, 17.50, 18.00, 7.00, 71.00),
-(5, 19.00, 19.50, 20.00, 8.50, 75.00),
-(6, 15.50, 16.00, 17.00, 6.50, 69.00),
-(7, 18.00, 18.50, 19.50, 9.00, 74.00),
-(8, 19.50, 20.00, 20.00, 9.50, 78.00),
-(9, 17.50, 18.00, 18.50, 8.00, 72.50),
-(10, 16.00, 17.00, 17.50, 7.50, 70.00),
-(11, 18.00, 19.00, 19.50, 8.50, 73.50),
-(12, 19.00, 20.00, 20.00, 9.00, 76.00),
-(13, 15.50, 16.50, 17.50, 7.00, 68.50),
-(14, 16.00, 17.00, 18.00, 7.50, 69.50),
-(15, 19.50, 20.00, 20.00, 9.50, 78.50),
-(16, 17.00, 18.00, 19.00, 8.00, 72.00);
 
 -- --------------------------------------------------------
 
@@ -532,12 +495,6 @@ ALTER TABLE `announcements`
   ADD KEY `Author_ID` (`Author_ID`);
 
 --
--- Indexes for table `assessment`
---
-ALTER TABLE `assessment`
-  ADD PRIMARY KEY (`Assessment_ID`);
-
---
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
@@ -644,12 +601,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `announcements`
   MODIFY `Announcement_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `assessment`
---
-ALTER TABLE `assessment`
-  MODIFY `Assessment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `courses`
