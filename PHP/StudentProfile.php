@@ -21,6 +21,7 @@ $sql = "SELECT c.CourseName, c.Credits, c.Description, g.Semester, g.Year, g.IT1
         JOIN Courses c ON e.Course_ID = c.Course_ID
         LEFT JOIN Grades g ON e.Course_ID = g.Course_ID AND e.Student_ID = g.Student_ID
         WHERE e.Student_ID = :student_id";
+
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['student_id' => $student_id]);
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -125,8 +126,32 @@ foreach ($courses as &$course) { // Use reference to modify each course
 }
 unset($course); // Break the reference
 
+// Prepare the teachers profile image SQL query
+$query = "
+    SELECT DISTINCT
+        Instructors.Instructor_ID,
+        Instructors.First_Name,
+        Instructors.Middle_Name,
+        Instructors.Last_Name,
+        Instructors.Profile_Picture,
+        Courses.CourseName
+    FROM Enrolls_In
+    INNER JOIN Courses ON Enrolls_In.Course_ID = Courses.Course_ID
+    INNER JOIN Teaches ON Courses.Course_ID = Teaches.Course_ID
+    INNER JOIN Instructors ON Teaches.Instructor_ID = Instructors.Instructor_ID
+    WHERE Enrolls_In.Student_ID = :student_id;";
 
-// Prepare profile picture
+// Execute the query
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+$stmt->execute();
+$teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Default profile picture path
+$TdefaultImage = '../Assets/Profile.svg';
+
+
+// Prepare students profile picture
 $defaultImage = '../Assets/Profile.svg';
 $ProfilePath = '../Assets/ProfileImages/' . htmlspecialchars($profile['Profile_Picture']); // Assuming the images are stored in the 'ProfileImages' folder
 if (!empty($profile['Profile_Picture'])) {
@@ -159,7 +184,7 @@ if (!empty($profile['Profile_Picture'])) {
             --button-bg: #273c75;
             --button-text: white;
             --link-hover-color: #95c0c4;
-            --profile-bg: #f5f5f5;
+            --profile-bg: #9dc3e2;
             --profile-border: #273c75;
             --courses-list-border: #273c75;
             --bio-border: #273c75;
@@ -169,6 +194,9 @@ if (!empty($profile['Profile_Picture'])) {
             --enroll-button-text: white;
             --overlay-bg: rgba(0, 0, 0, 0.5);
             --expanded-card-bg: rgba(255, 255, 255, 0.95);
+            --hover_box: ;
+            --course_hover:#f0f0f0;
+            --course_details: #5a7fa2  ;
         }
 
         body.dark-mode {
@@ -191,6 +219,9 @@ if (!empty($profile['Profile_Picture'])) {
             --enroll-button-text: #ffffff;
             --overlay-bg: rgba(0, 0, 0, 0.7);
             --expanded-card-bg: rgba(50, 50, 50, 0.95);
+            --hover_box: ;
+            --course_hover:#333333;
+            --course_details: #555555;
         }
 
         * {
@@ -357,11 +388,39 @@ if (!empty($profile['Profile_Picture'])) {
             background-color: #aaa;
         }
 
+
+        /* Scrollbar Styling for #edit-form */
+        #edit-form::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #edit-form::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #edit-form::-webkit-scrollbar-thumb {
+            background-color: #555555;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        #edit-form::-webkit-scrollbar-thumb:hover {
+            background-color: #3c5a99;
+        }
+
+        body.dark-mode #edit-form::-webkit-scrollbar-thumb {
+            background-color: #888888;
+        }
+
+        body.dark-mode #edit-form::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
+
         /* Card Styles */
         .card {
             background: var(--card-bg);
             padding: 15px;
-            
             border-radius: 15px;
             box-shadow: 0 2px 10px var(--card-shadow);
             margin-bottom: 20px;
@@ -369,17 +428,31 @@ if (!empty($profile['Profile_Picture'])) {
             transition: background-color 0.3s, box-shadow 0.3s;
         }
 
-        .top-row, .middle-row, .bottom-row {
+        .top-row{
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            height: 100vh;
+            gap: 20px;
+        } 
+        
+        .middle-row, .bottom-row {
             display: flex;
             justify-content: space-evenly;
             flex-wrap: wrap;
+            flex: 0.5 0.5;
             gap: 20px;
         }
-
-        .performance, .marks-obtained, .time-learning, .courses {
+        .time-learning
+        {
+            display: flex;;
+            justify-content: center;
+            align-items: center;
+        }
+        .performance, .marks-obtained,.time-learning,.courses {
             flex: 1;
             min-width: 250px;
             height: 300px;
+            
         }
 
         /* Courses List with Vertical Colored Lines */
@@ -573,7 +646,8 @@ if (!empty($profile['Profile_Picture'])) {
         .teacher-history .teachers {
             display: flex;
             flex-wrap: wrap;
-            
+            justify-content: space-around;
+            align-items: center;
             gap: 15px;
             margin-top: 15px;
         }
@@ -593,6 +667,46 @@ if (!empty($profile['Profile_Picture'])) {
             margin-bottom: 10px;
             border: 2px solid var(--profile-border);
         }
+
+        .teacher-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hover-box {
+            display: none; /* Hidden by default */
+            position: absolute;
+            bottom: 100%; /* Position above the image */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--hover_box); /* Background color with transparency */
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+            white-space: nowrap; /* Prevent text wrapping */
+            z-index: 1;
+        }
+
+        .teacher-image-container:hover .hover-box {
+            display: block; /* Show on hover */
+        }
+
+        .teacher img {
+            width: 100px; /* Adjust size as needed */
+            height: 100px; /* Adjust size as needed */
+            border-radius: 50%; /* Make the image circular */
+            object-fit: cover;
+        }
+
+        .teacher p {
+            text-align: center;
+            margin-top: 10px; /* Space between image and name */
+            font-size: 16px;
+            color: var(--text-color); /* Adjust color as needed */
+        }
+
+        
 
         /* Student Profile Card */
         .student-profile {
@@ -733,6 +847,61 @@ if (!empty($profile['Profile_Picture'])) {
             padding: 5px;
         }
 
+        .popup {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--course_details);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 300px;
+        }
+
+        .popup-content {
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            cursor: pointer;
+            width: 24px;  /* Adjust as needed */
+            height: 24px; /* Adjust as needed */
+            
+            /* Reset any default styles */
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: none;
+            display: block; /* To remove any inline or extra space */
+        }
+
+
+        .close-btn:hover {
+            opacity: 0.7; /* Optional: add hover effect for close button */
+        }
+
+
+
+        #marks-popup {
+            display: none;
+        }
+
+        .courses-list li {
+            cursor: pointer; /* Changes the cursor to a hand symbol */
+            padding: 10px;
+            margin: 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .courses-list li:hover {
+            background-color: var(--course_hover); /* Optional: Add a hover effect */
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 1200px) {
             .student-profile {
@@ -765,10 +934,7 @@ if (!empty($profile['Profile_Picture'])) {
 </head>
 <body>
     <div class="dashboard">
-        <!-- Dark Mode Toggle Button -->
-        <button class="toggle-button" id="mode-toggle">
-            <img src="../Assets/Light_mode.svg" alt="Toggle Dark Mode" id="toggle-icon">
-        </button>
+        
 
         <!-- Sidebar -->
         <div class="sidebar">
@@ -781,8 +947,8 @@ if (!empty($profile['Profile_Picture'])) {
             <div class="sidebar-content">
                 <h2>Welcome back, Malcolm Antão</h2>
                 <div class="sidebar-links">
-                    <a href="StudentLanding.php">Home</a>
-                    <a href="Announcements.php">Announcements</a>
+                    <a href="../PHP/StudentLanding.php">Home</a>
+                    <a href="../PHP/Announcements.php">Announcements</a>
                     <!-- <a href="settings.html">Settings</a> -->
                     <a href="../PHP/Logout.php">Logout</a>
                 </div>
@@ -799,26 +965,26 @@ if (!empty($profile['Profile_Picture'])) {
                 </div>
                 <div class="card teacher-history">
                     <h3>Teachers</h3>
-                    <div class="Center-cards">
-                        <div class="teachers">
-                            <div class="teacher">
-                                <img src="../images/teacher1.jpg" alt="Prof. A">
-                                <p>Prof. A</p>
-                            </div>
-                            <div class="teacher">
-                                <img src="../images/teacher2.jpg" alt="Prof. B">
-                                <p>Prof. B</p>
-                            </div>
-                            <div class="teacher">
-                                <img src="../images/teacher3.jpg" alt="Prof. C">
-                                <p>Prof. C</p>
-                            </div>
-                            <div class="teacher">
-                                <img src="../images/teacher4.jpg" alt="Prof. D">
-                                <p>Prof. D</p>
+                
+                        <div class="Center-cards">
+                            <div class="teachers">
+                                <?php foreach ($teachers as $teacher): 
+                                    $fullName = htmlspecialchars(trim($teacher['First_Name'] . ' ' . $teacher['Middle_Name'] . ' ' . $teacher['Last_Name']));
+                                    $TProfilePath = '../Assets/ProfileImages/' . htmlspecialchars($teacher['Profile_Picture']);
+                                    $TprofilePicture = (!empty($teacher['Profile_Picture']) && file_exists($TProfilePath)) ? $TProfilePath : $TdefaultImage;
+                                ?>
+                                <div class="teacher">
+                                    <div class="teacher-image-container">
+                                        <img src="<?php echo $TprofilePicture; ?>" alt="Prof. <?php echo $fullName; ?>">
+                                        <div class="hover-box">
+                                            <p>Course: <?php echo htmlspecialchars($teacher['CourseName']); ?></p>
+                                        </div>
+                                    </div>
+                                    <p><?php echo $fullName; ?></p> <!-- Teacher's name always visible -->
+                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
-                    </div>
                     
                 </div>
             </div>
@@ -831,21 +997,43 @@ if (!empty($profile['Profile_Picture'])) {
                 <div class="card time-learning">
                     <canvas id="sgpaChart" width="100" height="100"></canvas>
                 </div>
+
                 <div class="card courses">
                     <h3>Courses</h3>
                     <button class="expand-button" id="expand-courses">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <!-- Plus icon for expanding -->
-                            <path d="M12 5v14m7-7H5"></path>
-                        </svg>
+                        <img src="../Assets/Expand.svg"/>
                     </button>
                     <ul class="courses-list">
-                        <li>Math Course (Completed)</li>
-                        <li>Japanese Course (Ongoing)</li>
-                        <li>English Course (Completed)</li>
-                        <li>Science Course (Completed)</li>
-                        <li>History Course (Ongoing)</li>
+                        <?php foreach ($courses as $course): ?>
+                            <li data-course-id="<?= htmlspecialchars($course['CourseName']); ?>" 
+                                data-marks='{
+                                    "IT1": <?= json_encode($course['IT1']); ?>,
+                                    "IT2": <?= json_encode($course['IT2']); ?>,
+                                    "IT3": <?= json_encode($course['IT3']); ?>,
+                                    "Sem": <?= json_encode($course['Sem']); ?>
+                                }'
+                                data-description="<?= htmlspecialchars($course['Description']); ?>"
+                                data-credits="<?= htmlspecialchars($course['Credits']); ?>"
+                            >
+                                <?= htmlspecialchars($course['CourseName']); ?> (<?= htmlspecialchars($course['Semester']); ?> <?= htmlspecialchars($course['Year']); ?>)
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
+                </div>
+            </div>
+            <!-- Popup structure -->
+            <div id="marks-popup" class="popup">
+                <div class="popup-content">
+                    <button class="close-btn">
+                    <img class="close-btn" src="../Assets/CLose.svg" alt="Close">
+                    </button>
+                    <h3 id="course-name"></h3>
+                    <p id="description"></p>
+                    <p>Credits: <span id="credits"></span></p>
+                    <p>IT1 Marks: <span id="IT1"></span></p>
+                    <p>IT2 Marks: <span id="IT2"></span></p>
+                    <p>IT3 Marks: <span id="IT3"></span></p>
+                    <p>Semester Marks: <span id="Sem"></span></p>
                 </div>
             </div>
 
@@ -858,12 +1046,13 @@ if (!empty($profile['Profile_Picture'])) {
         </div>
 
         <!-- Student Profile -->
-        <div class="student-profile">
+        <div class="student-profile" >
             <div class="profile-top">
                 <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
-                <!-- <button class="toggle-button" id="profile-mode-toggle">
-                    <img src="../Assets/Light_mode.svg" alt="Toggle Dark Mode" id="profile-toggle-icon">
-                </button> -->
+                <!-- Dark Mode Toggle Button -->
+                <button class="toggle-button" id="mode-toggle" style="height: 5vh; width: 5vh;">
+                    <img src="../Assets/Light_mode.svg" alt="Toggle Dark Mode" id="toggle-icon">
+                </button>
             </div>
             <div class="profile-middle">
                 <p><strong>Name:</strong> <?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name']. " " . $profile['Last_Name']); ?></p>
@@ -876,117 +1065,174 @@ if (!empty($profile['Profile_Picture'])) {
             <div class="profile-bio">
                 <p><strong>Bio:</strong></p>
                 <div class="bio-box" id="bio-text"><?= htmlspecialchars($profile['Bio']); ?></div>
-                <button class="edit-profile-btn" id="edit-profile-btn">Edit Profile</button>
             </div>
 
+            <button class="edit-profile-btn" id="edit-profile-btn">Edit Profile</button>
+
             <!-- Edit Profile Form -->
-            <form class="edit-form" id="edit-form">
+            <form class="edit-form" id="edit-form" method="POST" action="update_profile.php" enctype="multipart/form-data" style="display: none; overflow:auto">
                 <label>
                     Profile Photo:
-                    <input type="file" id="profile-photo-input" accept="image/*">
+                    <input type="file" name="profile-photo-input" id="profile-photo-input" accept="image/*">
                 </label>
                 <label>
                     Bio:
-                    <textarea id="bio-input" rows="4" required><?= htmlspecialchars($profile['Bio']); ?></textarea>
+                    <textarea name="bio-input" id="bio-input" rows="4" required><?= htmlspecialchars($profile['Bio']); ?></textarea>
                 </label>
-                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; padding-top:10px;">
                     <button type="button" class="cancel-profile-btn" id="cancel-profile-btn">Cancel</button>
                     <button type="submit" class="save-profile-btn" id="save-profile-btn">Save</button>
                 </div>
-                <label>
+                <label style="display: flex; gap: 5px; padding-top:10px;">
                     Student Name:
                     <input type="text" id="student-name-input" value="<?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name']. " " . $profile['Last_Name']); ?>" readonly>
                 </label>
-                <label>
+                <label style="display: flex; gap: 5px; padding-top:10px;">
                     Roll No:
-                    <input type="text" id="roll-no-input" value="123456" readonly>
+                    <input type="text" id="roll-no-input" value=" <?= htmlspecialchars($profile['Roll_No']); ?>" readonly>
                 </label>
-                <label>
+                <label style="display: flex; gap: 5px; padding-top:10px;">
                     University No:
-                    <input type="text" id="university-no-input" value="U12345678" readonly>
+                    <input type="text" id="university-no-input" value=" <?= htmlspecialchars($profile['University_No']); ?>" readonly>
                 </label>
-                <label>
+                <label style="display: flex; gap: 5px; padding-top:10px;">
                     Current Semester:
-                    <input type="text" id="semester-input" value="5" readonly>
+                    <input type="text" id="semester-input" value=" <?= htmlspecialchars($profile['Current_Semester']); ?>" readonly>
                 </label>
-                <label>
+                <label style="display: flex; gap: 5px; padding-top:10px;">
                     Email:
-                    <input type="email" id="email-input" value="student@domain.com" readonly>
+                    <input type="email" id="email-input" value=" <?= htmlspecialchars($profile['Email']); ?>" readonly>
                 </label>
-                <label>
+                <label style="display: flex; gap: 5px; padding-top:10px;">
                     Phone:
-                    <input type="tel" id="phone-input" value="+1234567890" readonly>
+                    <input type="tel" id="phone-input" value=" <?= htmlspecialchars($profile['PhoneNo']); ?>" readonly>
                 </label>
-                
             </form>
+
         </div>
 
         <!-- Expanded Courses Overlay -->
         <div id="expanded-courses" class="expanded-courses">
-            <div class="expanded-card">
-                <div class="expanded-header">
-                    <h3>Expanded Courses</h3>
-                    <svg id="close-expanded-courses" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <!-- Close icon (X) -->
-                        <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </div>
-                <div class="expanded-content">
-                    <div class="course-nav">
-                        <button id="current-courses-btn">Current Courses</button>
-                        <button id="prof-electives-btn">Professional Electives</button>
-                        <button id="open-electives-btn">Open Electives</button>
-                    </div>
-                    <div id="current-courses" class="course-section active">
-                        <h4>Current Courses</h4>
-                        <div class="sub-course">
-                            <h5>Math Course</h5>
-                            <p>Description for Math Course.</p>
-                            <!-- No enroll button for Current Courses -->
-                        </div>
-                        <div class="sub-course">
-                            <h5>Japanese Course</h5>
-                            <p>Description for Japanese Course.</p>
-                            <!-- No enroll button for Current Courses -->
-                        </div>
-                        <div class="sub-course">
-                            <h5>English Course</h5>
-                            <p>Description for English Course.</p>
-                            <!-- No enroll button for Current Courses -->
-                        </div>
-                    </div>
-                    <div id="prof-electives" class="course-section">
-                        <h4>Professional Electives</h4>
-                        <div class="sub-course">
-                            <h5>Elective 1</h5>
-                            <p>Description for Elective 1.</p>
-                            <button class="enroll-btn">Enroll in this course</button>
-                        </div>
-                        <div class="sub-course">
-                            <h5>Elective 2</h5>
-                            <p>Description for Elective 2.</p>
-                            <button class="enroll-btn">Enroll in this course</button>
-                        </div>
-                    </div>
-                    <div id="open-electives" class="course-section">
-                        <h4>Open Electives</h4>
-                        <div class="sub-course">
-                            <h5>Elective A</h5>
-                            <p>Description for Elective A.</p>
-                            <button class="enroll-btn">Enroll in this course</button>
-                        </div>
-                        <div class="sub-course">
-                            <h5>Elective B</h5>
-                            <p>Description for Elective B.</p>
-                            <button class="enroll-btn">Enroll in this course</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="expanded-card">
+        <div class="expanded-header">
+            <h3>Expanded Courses</h3>
+            <svg id="close-expanded-courses" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </div>
+        <div class="expanded-content">
+            <div class="course-nav">
+                <button id="core-courses-btn">Core Courses</button>
+                <button id="prof-electives-btn">Professional Electives</button>
+                <button id="open-electives-btn">Open Electives</button>
+                <button id="major-minor-btn">Major/Minor Courses</button>
+            </div>
+            <div id="core-courses" class="course-section active">
+                <h4>Core Courses</h4>
+                <?php displayCourses($core_courses, false); // No enroll button for Core Courses ?>
+            </div>
+            <div id="prof-electives" class="course-section">
+                <h4>Professional Electives</h4>
+                <?php displayCourses($prof_courses); // Enroll button present ?>
+            </div>
+            <div id="open-electives" class="course-section">
+                <h4>Open Electives</h4>
+                <?php displayCourses($open_courses); // Enroll button present ?>
+            </div>
+            <div id="major-minor" class="course-section">
+                <h4>Major/Minor Courses</h4>
+                <?php displayCourses($major_minor_courses); // Enroll button present ?>
             </div>
         </div>
-
     </div>
+</div>
 
+
+    </script>          
+    
+    <script>
+        // Profile Edit Functionality 
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const editForm = document.getElementById('edit-form');
+        const bioText = document.getElementById('bio-text');
+        const cancelProfileBtn = document.getElementById('cancel-profile-btn');
+        const saveProfileBtn = document.getElementById('save-profile-btn');
+
+        editProfileBtn.addEventListener('click', () => {
+            editForm.style.display = 'block'; // Show the edit form
+            editForm.classList.add('active');
+            
+            // Hide the edit button
+            editProfileBtn.style.display = 'none'; // Hide the edit button
+
+            // Hide static content
+            document.querySelector('.profile-top').style.display = 'none';
+            document.querySelector('.profile-middle').style.display = 'none';
+            document.querySelector('.profile-bio').style.display = 'none';
+        });
+
+        cancelProfileBtn.addEventListener('click', () => {
+            editForm.style.display = 'none'; // Hide the edit form
+            editForm.classList.remove('active');
+            
+            // Show the edit button
+            editProfileBtn.style.display = 'block'; // Show the edit button again
+
+            // Show static content
+            document.querySelector('.profile-top').style.display = 'flex';
+            document.querySelector('.profile-middle').style.display = 'block';
+            document.querySelector('.profile-bio').style.display = 'flex';
+            // Reset form
+            editForm.reset();
+        });
+
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            // Get form values
+            const profilePhotoInput = document.getElementById('profile-photo-input');
+            const bioInput = document.getElementById('bio-input').value;
+
+            // Check if a profile photo is already uploaded in the database
+            const isProfilePhotoUploaded = <?= json_encode(!empty($profile['Profile_Photo'])); ?>; // Assume 'Profile_Photo' is the column name in the database
+
+            // Update static content
+            const profileMiddle = document.querySelector('.profile-middle');
+            const profileMiddlePs = profileMiddle.querySelectorAll('p');
+            // Update content based on inputs (Student name, Roll No, etc.)
+            
+            // Update the profile photo if a new one is selected and if not already uploaded
+            if (isProfilePhotoUploaded) {
+                if (profilePhotoInput.files && profilePhotoInput.files[0]) {
+                    alert("You can only upload the profile photo once."); // Alert if they try to upload again
+                }
+            } else {
+                if (profilePhotoInput.files && profilePhotoInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('.profile-top img').src = e.target.result;
+                    }
+                    reader.readAsDataURL(profilePhotoInput.files[0]);
+                }
+            }
+
+            // Update bio text content
+            bioText.textContent = bioInput;
+
+            // Hide edit form and show static content
+            editForm.style.display = 'none';
+            editForm.classList.remove('active');
+
+            // Show the edit button again
+            editProfileBtn.style.display = 'block'; // Show the edit button
+
+            document.querySelector('.profile-top').style.display = 'flex';
+            document.querySelector('.profile-middle').style.display = 'block';
+            document.querySelector('.profile-bio').style.display = 'flex';
+        });
+
+    </script>
     <script>
         // Function to generate random color in HEX format
         function getRandomColor() {
@@ -999,12 +1245,13 @@ if (!empty($profile['Profile_Picture'])) {
         }
 
         // Assign random colors to each course's vertical line
-        const courses = document.querySelectorAll('.courses-list li');
-        courses.forEach(li => {
+        function courseColor() { 
+            const courses = document.querySelectorAll('.courses-list li');
+            courses.forEach(li => {
             const randomColor = getRandomColor();
             li.style.setProperty('--course-color', randomColor);
-        });
-
+        })};
+        courseColor();
 
         // Expand and Close functionality for Courses
         const expandCoursesBtn = document.getElementById('expand-courses');
@@ -1080,16 +1327,21 @@ if (!empty($profile['Profile_Picture'])) {
                 document.body.classList.add('dark-mode');
                 modeToggleIcon.src = '../Assets/Dark_mode.svg'; // Path to Dark Mode icon
                 modeToggleIcon.alt = 'Switch to Light Mode';
+                courseColor()
             } else {
                 document.body.classList.remove('dark-mode');
                 modeToggleIcon.src = '../Assets/Light_mode.svg'; // Path to Light Mode icon
                 modeToggleIcon.alt = 'Switch to Dark Mode';
+                courseColor()
             }
         }
-
+        
         // Apply the saved mode on page load
         applyMode(currentMode);
-
+        function redrawCharts() {
+            cgpaChart.update(); // Redraw CGPA chart
+            sgpaChart.update(); // Redraw SGPA chart
+        }
         // Toggle mode on button click
         modeToggleButton.addEventListener('click', () => {
             const mode = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
@@ -1105,72 +1357,73 @@ if (!empty($profile['Profile_Picture'])) {
             const mode = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
             applyMode(mode);
             localStorage.setItem('mode', mode);
+            
         });
 
-        // Profile Edit Functionality
-        const editProfileBtn = document.getElementById('edit-profile-btn');
-        const editForm = document.getElementById('edit-form');
-        const bioText = document.getElementById('bio-text');
-        const cancelProfileBtn = document.getElementById('cancel-profile-btn');
-        const saveProfileBtn = document.getElementById('save-profile-btn');
+        // // Profile Edit Functionality
+        // const editProfileBtn = document.getElementById('edit-profile-btn');
+        // const editForm = document.getElementById('edit-form');
+        // const bioText = document.getElementById('bio-text');
+        // const cancelProfileBtn = document.getElementById('cancel-profile-btn');
+        // const saveProfileBtn = document.getElementById('save-profile-btn');
 
-        editProfileBtn.addEventListener('click', () => {
-            editForm.classList.add('active');
-            // Hide static content
-            document.querySelector('.profile-top').style.display = 'none';
-            document.querySelector('.profile-middle').style.display = 'none';
-            document.querySelector('.profile-bio').style.display = 'none';
-        });
+        // editProfileBtn.addEventListener('click', () => {
+        //     editForm.classList.add('active');
+        //     // Hide static content
+        //     document.querySelector('.profile-top').style.display = 'none';
+        //     document.querySelector('.profile-middle').style.display = 'none';
+        //     document.querySelector('.profile-bio').style.display = 'none';
+        // });
 
-        cancelProfileBtn.addEventListener('click', () => {
-            editForm.classList.remove('active');
-            // Show static content
-            document.querySelector('.profile-top').style.display = 'flex';
-            document.querySelector('.profile-middle').style.display = 'block';
-            document.querySelector('.profile-bio').style.display = 'flex';
-            // Reset form
-            editForm.reset();
-        });
+        // cancelProfileBtn.addEventListener('click', () => {
+        //     editForm.classList.remove('active');
+        //     // Show static content
+        //     document.querySelector('.profile-top').style.display = 'flex';
+        //     document.querySelector('.profile-middle').style.display = 'block';
+        //     document.querySelector('.profile-bio').style.display = 'flex';
+        //     // Reset form
+        //     editForm.reset();
+        // });
 
-        editForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Get form values
-            const profilePhotoInput = document.getElementById('profile-photo-input');
-            const studentNameInput = document.getElementById('student-name-input').value;
-            const rollNoInput = document.getElementById('roll-no-input').value;
-            const universityNoInput = document.getElementById('university-no-input').value;
-            const semesterInput = document.getElementById('semester-input').value;
-            const emailInput = document.getElementById('email-input').value;
-            const phoneInput = document.getElementById('phone-input').value;
-            const bioInput = document.getElementById('bio-input').value;
+        // editForm.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     // Get form values
+        //     const profilePhotoInput = document.getElementById('profile-photo-input');
+        //     const studentNameInput = document.getElementById('student-name-input').value;
+        //     const rollNoInput = document.getElementById('roll-no-input').value;
+        //     const universityNoInput = document.getElementById('university-no-input').value;
+        //     const semesterInput = document.getElementById('semester-input').value;
+        //     const emailInput = document.getElementById('email-input').value;
+        //     const phoneInput = document.getElementById('phone-input').value;
+        //     const bioInput = document.getElementById('bio-input').value;
 
-            // Update static content
-            const profileMiddle = document.querySelector('.profile-middle');
-            const profileMiddlePs = profileMiddle.querySelectorAll('p');
+        //     // Update static content
+        //     const profileMiddle = document.querySelector('.profile-middle');
+        //     const profileMiddlePs = profileMiddle.querySelectorAll('p');
 
-            profileMiddlePs[0].innerHTML = `<strong>Student Name:</strong> ${studentNameInput}`;
-            profileMiddlePs[1].innerHTML = `<strong>Roll No:</strong> ${rollNoInput}`;
-            profileMiddlePs[2].innerHTML = `<strong>University No:</strong> ${universityNoInput}`;
-            profileMiddlePs[3].innerHTML = `<strong>Current Semester:</strong> ${semesterInput}`;
-            profileMiddlePs[4].innerHTML = `<strong>Email:</strong> ${emailInput}`;
-            profileMiddlePs[5].innerHTML = `<strong>Phone:</strong> ${phoneInput}`;
-            bioText.textContent = bioInput;
+        //     profileMiddlePs[0].innerHTML = `<strong>Student Name:</strong> ${studentNameInput}`;
+        //     profileMiddlePs[1].innerHTML = `<strong>Roll No:</strong> ${rollNoInput}`;
+        //     profileMiddlePs[2].innerHTML = `<strong>University No:</strong> ${universityNoInput}`;
+        //     profileMiddlePs[3].innerHTML = `<strong>Current Semester:</strong> ${semesterInput}`;
+        //     profileMiddlePs[4].innerHTML = `<strong>Email:</strong> ${emailInput}`;
+        //     profileMiddlePs[5].innerHTML = `<strong>Phone:</strong> ${phoneInput}`;
+        //     bioText.textContent = bioInput;
 
-            // Update profile photo if a new one is selected
-            if (profilePhotoInput.files && profilePhotoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.querySelector('.profile-top img').src = e.target.result;
-                }
-                reader.readAsDataURL(profilePhotoInput.files[0]);
-            }
+        //     // Update profile photo if a new one is selected
+        //     if (profilePhotoInput.files && profilePhotoInput.files[0]) {
+        //         const reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             document.querySelector('.profile-top img').src = e.target.result;
+        //         }
+        //         reader.readAsDataURL(profilePhotoInput.files[0]);
+        //     }
 
-            // Hide edit form and show static content
-            editForm.classList.remove('active');
-            document.querySelector('.profile-top').style.display = 'flex';
-            document.querySelector('.profile-middle').style.display = 'block';
-            document.querySelector('.profile-bio').style.display = 'flex';
-        });
+        //     // Hide edit form and show static content
+        //     editForm.classList.remove('active');
+        //     document.querySelector('.profile-top').style.display = 'flex';
+        //     document.querySelector('.profile-middle').style.display = 'block';
+        //     document.querySelector('.profile-bio').style.display = 'flex';
+        // });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- // to use charts -->

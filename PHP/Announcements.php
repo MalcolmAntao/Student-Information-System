@@ -254,9 +254,8 @@ if ($noticeID) {
         <!-- Sidebar content (only visible on hover) -->
         <div class="sidebar-content">
             <div class="sidebar-links">
-                <a href="StudentLanding.php">Home</a>
-                <a href="profile.html">Profile</a>
-                <a href="settings.html">Settings</a>
+                <a href="../PHP/StudentLanding.php">Home</a>
+                <a href="../PHP/StudentProfile.php">Profile</a>
                 <a href="../HTML/Landing.html">Logout</a>
             </div>
         </div>

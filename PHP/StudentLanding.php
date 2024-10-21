@@ -620,7 +620,7 @@ if (!empty($profile['Profile_Picture'])) {
             <div class="sidebar-content">
                 <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
-                    <a href="Announcements.php">Announcements</a>
+                    <a href="../PHP/Announcements.php">Announcements</a>
                     
                     <a href="../PHP/StudentProfile.php">Profile</a>
                     <!-- <a href="settings.html">Settings</a> -->
