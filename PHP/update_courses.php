@@ -1,59 +1,31 @@
 <?php
-// Assuming you have already established a database connection
-require_once 'Connection.php';
-require_once 'Session.php';
+session_start();
+require 'connection.php'; // Assuming connection.php is the file where PDO is set up
 
-$student_id = $_SESSION['student_id'];
+// Get student's email from session
+$student_email = $_SESSION['student_email'];
 
-// Fetch the student's current semester and courses in one go
-$query = "
-    SELECT s.Current_Semester, c.*
-    FROM students s
-    JOIN courses c ON s.Current_Semester = c.Semester
-    WHERE s.Student_ID = :student_id
-";
-$stmt = $pdo->prepare($query);
-$stmt->bindParam(':student_id', $student_id);
-$stmt->execute();
+// Get the student's semester
+$sql_student = "SELECT Semester FROM students WHERE Email = :email";
+$stmt = $pdo->prepare($sql_student);
+$stmt->execute(['email' => $student_email]);
+$student = $stmt->fetch();
+$student_semester = $student['Semester'];
+
+// Fetch course details (excluding core courses)
+$sql_courses = "
+SELECT c.Course_ID, c.course_code, c.CourseName, c.Description, c.Credits, c.Semester, et.Type_Name, i.Name as Instructor
+FROM courses c
+LEFT JOIN teaches t ON c.Course_ID = t.Course_ID
+LEFT JOIN instructors i ON t.Instructor_ID = i.Instructor_ID
+LEFT JOIN enrollment_types et ON c.Enrollment_Type_ID = et.Enrollment_Type_ID
+WHERE c.Semester = :semester
+AND et.Type_Name != 'Core'";
+
+$stmt = $pdo->prepare($sql_courses);
+$stmt->execute(['semester' => $student_semester]);
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Organize courses by type
-$core_courses = [];
-$prof_courses = [];
-$open_courses = [];
-$major_minor_courses = [];
-
-// Iterate over courses and organize them
-foreach ($courses as $course) {
-    switch ($course['Course_Type']) {
-        case 'Core':
-            $core_courses[] = $course;
-            break;
-        case 'Professional Elective':
-            $prof_courses[] = $course;
-            break;
-        case 'Open Elective':
-            $open_courses[] = $course;
-            break;
-        case 'Major/Minor':
-            $major_minor_courses[] = $course;
-            break;
-    }
-}
-
-// Function to display courses
-function displayCourses($courses, $enrollment = true) {
-    foreach ($courses as $course) {
-        echo "<div class='sub-course'>";
-        echo "<h5>" . htmlspecialchars($course['Course_Name']) . "</h5>";
-        echo "<p>" . htmlspecialchars($course['Description']) . "</p>";
-        
-        // Only show enroll button for courses that allow enrollment
-        if ($enrollment) {
-            echo "<button class='enroll-btn' data-course-id='" . $course['Course_ID'] . "'>Enroll in this course</button>";
-        }
-        
-        echo "</div>";
-    }
-}
+// Return courses as JSON (optional, if using AJAX)
+echo json_encode($courses);
 ?>
