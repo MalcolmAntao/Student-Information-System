@@ -164,6 +164,43 @@ if (!empty($profile['Profile_Picture'])) {
     // If no profile picture is set, use a default image (with relative path)
     $profilePicture = $defaultImage; // Ensure this path is correct and points to your default image
 }
+
+ // Query to fetch courses, enrollment types, credits, and teacher information
+    $query = "
+    SELECT c.Course_ID, c.CourseName, c.Description, c.Credits, et.Enrollment_Type_Name,
+        CONCAT(i.First_Name, ' ', i.Last_Name) AS Instructor_Name
+    FROM courses c
+    JOIN enrollment_types et ON c.Enrollment_Type_ID = et.Enrollment_Type_ID
+    JOIN students s ON c.Department_ID = s.Department_ID
+    LEFT JOIN teaches t ON c.Course_ID = t.Course_ID
+    LEFT JOIN instructors i ON t.Instructor_ID = i.Instructor_ID
+    WHERE s.Student_ID = :student_id
+    AND c.Semester = :semester";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+    $stmt->bindParam(':semester', $current_semester, PDO::PARAM_INT);
+    $stmt->execute();
+    $filtered_courses = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Changed to 'filtered_courses'
+
+    // Initialize the courses array for each type
+    $course_sections = [
+    'Professional Elective' => [],
+    'Open Elective' => [],
+    'Major' => [],
+    'Minor' => [],
+    'Core' => [],
+    ];
+
+    // Distribute courses into their respective sections
+    foreach ($filtered_courses as $course) {  // Changed to 'filtered_courses'
+    $course_sections[$course['Enrollment_Type_Name']][] = $course;
+    }
+
+    // Limits for each course type
+    $max_professional_electives = 2;
+    $max_open_electives = 1;
+    $max_major_minor = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -388,7 +425,33 @@ if (!empty($profile['Profile_Picture'])) {
             background-color: #aaa;
         }
 
+        /* Scrollbar Styling */
+        .courses::-webkit-scrollbar {
+                    width: 10px;
+                }
 
+        .courses::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .courses::-webkit-scrollbar-thumb {
+            background-color: #555555;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .courses::-webkit-scrollbar-thumb:hover {
+            background-color: #3c5a99;
+        }
+
+        body.dark-mode .courses::-webkit-scrollbar-thumb {
+            background-color: #888888;
+        }
+
+        body.dark-mode .courses::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
         /* Scrollbar Styling for #edit-form */
         #edit-form::-webkit-scrollbar {
             width: 10px;
@@ -431,15 +494,22 @@ if (!empty($profile['Profile_Picture'])) {
         .top-row{
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            height: 100vh;
+            height: 320px;
             gap: 20px;
         } 
         
-        .middle-row, .bottom-row {
+        .middle-row {
             display: flex;
             justify-content: space-evenly;
             flex-wrap: wrap;
             flex: 0.5 0.5;
+            gap: 20px;
+        }
+
+        .bottom-row{
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
             gap: 20px;
         }
         .time-learning
@@ -448,11 +518,17 @@ if (!empty($profile['Profile_Picture'])) {
             justify-content: center;
             align-items: center;
         }
-        .performance, .marks-obtained,.time-learning,.courses {
+        .marks-obtained,.time-learning,.courses {
+            flex: 1;
+            min-width: 250px;
+            height: 150px;
+            
+        }
+
+        .performance{
             flex: 1;
             min-width: 250px;
             height: 300px;
-            
         }
 
         /* Courses List with Vertical Colored Lines */
@@ -460,6 +536,9 @@ if (!empty($profile['Profile_Picture'])) {
             list-style: none;
             padding: 20px 0 0 0;
             margin: 0;
+        }
+        .courses{
+            overflow: auto;
         }
 
         .courses-list li {
@@ -641,7 +720,7 @@ if (!empty($profile['Profile_Picture'])) {
         }
         .teacher-history{
             display: inline-block;
-            
+            height: 300px;
         }
         .teacher-history .teachers {
             display: flex;
@@ -902,6 +981,8 @@ if (!empty($profile['Profile_Picture'])) {
             background-color: var(--course_hover); /* Optional: Add a hover effect */
         }
 
+        
+
         /* Responsive Adjustments */
         @media (max-width: 1200px) {
             .student-profile {
@@ -1001,25 +1082,28 @@ if (!empty($profile['Profile_Picture'])) {
                 <div class="card courses">
                     <h3>Courses</h3>
                     <button class="expand-button" id="expand-courses">
-                        <img src="../Assets/Expand.svg"/>
+                        <img src="../Assets/Expand.svg" />
                     </button>
-                    <ul class="courses-list">
-                        <?php foreach ($courses as $course): ?>
-                            <li data-course-id="<?= htmlspecialchars($course['CourseName']); ?>" 
-                                data-marks='{
-                                    "IT1": <?= json_encode($course['IT1']); ?>,
-                                    "IT2": <?= json_encode($course['IT2']); ?>,
-                                    "IT3": <?= json_encode($course['IT3']); ?>,
-                                    "Sem": <?= json_encode($course['Sem']); ?>
-                                }'
-                                data-description="<?= htmlspecialchars($course['Description']); ?>"
-                                data-credits="<?= htmlspecialchars($course['Credits']); ?>"
-                            >
-                                <?= htmlspecialchars($course['CourseName']); ?> (<?= htmlspecialchars($course['Semester']); ?> <?= htmlspecialchars($course['Year']); ?>)
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <div class="courses-container">
+                        <ul class="courses-list">
+                            <?php foreach ($courses as $course): ?>
+                                <li data-course-id="<?= htmlspecialchars($course['CourseName']); ?>" 
+                                    data-marks='{
+                                        "IT1": <?= json_encode($course['IT1']); ?>,
+                                        "IT2": <?= json_encode($course['IT2']); ?>,
+                                        "IT3": <?= json_encode($course['IT3']); ?>,
+                                        "Sem": <?= json_encode($course['Sem']); ?>
+                                    }'
+                                    data-description="<?= htmlspecialchars($course['Description']); ?>"
+                                    data-credits="<?= htmlspecialchars($course['Credits']); ?>"
+                                >
+                                    <?= htmlspecialchars($course['CourseName']); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
                 </div>
+
             </div>
             <!-- Popup structure -->
             <div id="marks-popup" class="popup">
@@ -1070,28 +1154,20 @@ if (!empty($profile['Profile_Picture'])) {
             <button class="edit-profile-btn" id="edit-profile-btn">Edit Profile</button>
 
             <!-- Edit Profile Form -->
-            <form class="edit-form" id="edit-form" method="POST" action="update_profile.php" enctype="multipart/form-data" style="display: none; overflow:auto">
-                <label>
-                    Profile Photo:
-                    <input type="file" name="profile-photo-input" id="profile-photo-input" accept="image/*">
-                </label>
-                <label>
-                    Bio:
-                    <textarea name="bio-input" id="bio-input" rows="4" required><?= htmlspecialchars($profile['Bio']); ?></textarea>
-                </label>
+            <form class="edit-form" id="edit-form" method="POST" action="update_profile.php" enctype="multipart/form-data">
+            <label>
+                Profile Photo:
+                <input type="file" name="profile-photo-input" id="profile-photo-input" accept="image/*">
+            </label>
+            <label>
+                Bio:
+                <textarea name="bio-input" id="bio-input" rows="4" required><?= htmlspecialchars($profile['Bio']); ?></textarea>
+            </label>
 
-                <div style="display: flex; gap: 10px; justify-content: flex-end; padding-top:10px;">
-                    <button type="button" class="cancel-profile-btn" id="cancel-profile-btn">Cancel</button>
-                    <button type="submit" class="save-profile-btn" id="save-profile-btn">Save</button>
-                </div>
-                <label style="display: flex; gap: 5px; padding-top:10px;">
-                    Student Name:
-                    <input type="text" id="student-name-input" value="<?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name']. " " . $profile['Last_Name']); ?>" readonly>
-                </label>
-                <label style="display: flex; gap: 5px; padding-top:10px;">
-                    Roll No:
-                    <input type="text" id="roll-no-input" value=" <?= htmlspecialchars($profile['Roll_No']); ?>" readonly>
-                </label>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; padding-top:10px;">
+                <button type="button" class="cancel-profile-btn" id="cancel-profile-btn">Cancel</button>
+                <button type="submit" class="save-profile-btn" id="save-profile-btn">Save</button>
+            </div>
                 <label style="display: flex; gap: 5px; padding-top:10px;">
                     University No:
                     <input type="text" id="university-no-input" value=" <?= htmlspecialchars($profile['University_No']); ?>" readonly>
@@ -1114,73 +1190,90 @@ if (!empty($profile['Profile_Picture'])) {
 
         <!-- Expanded Courses Overlay -->
         <div id="expanded-courses" class="expanded-courses">
-    <div class="expanded-card">
-        <div class="expanded-header">
-            <h3>Expanded Courses</h3>
-            <svg id="close-expanded-courses" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <!-- Close icon (X) -->
-                <path d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
+            <div class="expanded-card">
+                <div class="expanded-header">
+                    <h3>Expanded Courses</h3>
+                    <svg id="close-expanded-courses" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <div class="expanded-content">
+                    <div class="course-nav">
+                        <button id="current-courses-btn">Current Courses</button>
+                        <button id="prof-electives-btn">Professional Electives</button>
+                        <button id="open-electives-btn">Open Electives</button>
+                        <button id="majors-minors-btn">Majors and Minors</button>
+                    </div>
+                    
+                    <!-- Professional Electives Section -->
+                    <div id="prof-electives" class="course-section">
+                        <h4>Professional Electives</h4>
+                        <?php if (empty($course_sections['Professional Elective'])): ?>
+                            <p>No professional electives available.</p>
+                        <?php else: ?>
+                            <?php foreach ($course_sections['Professional Elective'] as $Ecourse): ?>
+                                <div class="sub-course">
+                                    <h5><?php echo htmlspecialchars($Ecourse['CourseName']); ?></h5>
+                                    <p><?php echo htmlspecialchars($Ecourse['Description']); ?></p>
+                                    <button class="enroll-btn" data-course-id="<?php echo $Ecourse['Course_ID']; ?>" data-type="professional-elective">Enroll in this course</button>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <!-- Open Electives Section -->
+                    <div id="open-electives" class="course-section">
+                        <h4>Open Electives</h4>
+                        <?php if (empty($course_sections['Open Elective'])): ?>
+                            <p>No open electives available.</p>
+                        <?php else: ?>
+                            <?php foreach ($course_sections['Open Elective'] as $course): ?>
+                                <div class="sub-course">
+                                    <h5><?php echo htmlspecialchars($Ecourse['CourseName']); ?></h5>
+                                    <p><?php echo htmlspecialchars($Ecourse['Description']); ?></p>
+                                    <button class="enroll-btn" data-course-id="<?php echo $Ecourse['Course_ID']; ?>" data-type="open-elective">Enroll in this course</button>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <!-- Majors and Minors Section -->
+                <div id="majors-minors" class="course-section">
+                    <h4>Majors and Minors</h4>
+                    <?php if (empty($course_sections['Major']) && empty($course_sections['Minor'])): ?>
+                        <p>No majors or minors available.</p>
+                    <?php else: ?>
+                        <?php foreach (['Major', 'Minor'] as $type): ?>
+                            <?php foreach ($course_sections[$type] as $course): ?>
+                                <div class="sub-course">
+                                    <h5><?php echo htmlspecialchars($course['CourseName']); ?> (<?php echo $course['Credits']; ?> credits)</h5>
+                                    <p><?php echo htmlspecialchars($course['Description']); ?></p>
+                                    <p><strong>Instructor:</strong> <?php echo htmlspecialchars($course['Instructor_Name'] ?? 'TBA'); ?></p>
+                                    <button class="enroll-btn" data-course-id="<?php echo $course['Course_ID']; ?>" data-type="major-minor">Enroll in this course</button>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                    
+                    <!-- Core Courses Section (No Enrollment Button) -->
+                    <div id="current-courses" class="course-section">
+                        <h4>Core Courses</h4>
+                        <?php if (empty($course_sections['Core'])): ?>
+                            <p>No core courses available.</p>
+                        <?php else: ?>
+                            <?php foreach ($course_sections['Core'] as $Ecourse): ?>
+                                <div class="sub-course">
+                                    <h5><?php echo htmlspecialchars($Ecourse['CourseName']); ?></h5>
+                                    <p><?php echo htmlspecialchars($Ecourse['Description']); ?></p>
+                                    <!-- No enroll button for core courses -->
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="expanded-content">
-            <div class="course-nav">
-                <button id="current-courses-btn">Current Courses</button>
-                <button id="prof-electives-btn">Professional Electives</button>
-                <button id="open-electives-btn">Open Electives</button>
-                <button id="majors-minors-btn">Majors and Minors</button>
-            </div>
-            <div id="current-courses" class="course-section active">
-                <h4>Current Courses</h4>
-                <div class="sub-course">
-                    <h5>Math Course</h5>
-                    <p>Description for Math Course.</p>
-                    <!-- No enroll button for Current Courses -->
-                </div>
-                <div class="sub-course">
-                    <h5>Japanese Course</h5>
-                    <p>Description for Japanese Course.</p>
-                    <!-- No enroll button for Current Courses -->
-                </div>
-                <div class="sub-course">
-                    <h5>English Course</h5>
-                    <p>Description for English Course.</p>
-                    <!-- No enroll button for Current Courses -->
-                </div>
-            </div>
-            <div id="prof-electives" class="course-section">
-                <h4>Professional Electives</h4>
-                <div class="sub-course">
-                    <h5>Elective 1</h5>
-                    <p>Description for Elective 1.</p>
-                    <button class="enroll-btn" data-course-id="1">Enroll in this course</button>
-                </div>
-                <div class="sub-course">
-                    <h5>Elective 2</h5>
-                    <p>Description for Elective 2.</p>
-                    <button class="enroll-btn" data-course-id="2">Enroll in this course</button>
-                </div>
-            </div>
-            <div id="open-electives" class="course-section">
-                <h4>Open Electives</h4>
-                <div class="sub-course">
-                    <h5>Elective A</h5>
-                    <p>Description for Elective A.</p>
-                    <button class="enroll-btn" data-course-id="3">Enroll in this course</button>
-                </div>
-                <div class="sub-course">
-                    <h5>Elective B</h5>
-                    <p>Description for Elective B.</p>
-                    <button class="enroll-btn" data-course-id="4">Enroll in this course</button>
-                </div>
-            </div>
-            <div id="majors-minors" class="course-section">
-                <h4>Majors and Minors</h4>
-                <div class="sub-course" id="major-course-list"></div>
-                <div class="sub-course" id="minor-course-list"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
     </div>
@@ -1234,8 +1327,146 @@ if (!empty($profile['Profile_Picture'])) {
         });
     });
 
-    </script>          
+    </script>  
     
+    <script>
+    document.getElementById('edit-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Create a FormData object to capture form data, including file uploads
+        const formData = new FormData(this);
+
+        // Send the form data via Fetch API
+        fetch('update_profile.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            if (data.status === 'success') {
+                // Display success message
+                showAlert('Profile updated successfully!', 'success');
+            } else {
+                // Display error message
+                showAlert(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showAlert('An error occurred: ' + error.message, 'error');
+        });
+    });
+
+    // Function to display success/error alerts
+    function showAlert(message, type) {
+        const alertBox = document.createElement('div');
+        alertBox.className = `alert alert-${type}`;
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        // Remove the alert after 3 seconds
+        setTimeout(() => {
+            alertBox.remove();
+        }, 3000);
+    }
+
+    // Styles for alert (optional)
+    const style = document.createElement('style');
+    style.textContent = `
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 9999;
+            font-size: 14px;
+        }
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .alert-error {
+            background-color: #dc3545;
+            color: white;
+        }
+    `;
+    document.head.appendChild(style);
+    </script>
+
+
+    <script>
+        document.querySelectorAll('.enroll-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const courseId = this.dataset.courseId;
+
+        fetch('enroll.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ courseId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Enrolled successfully!");
+            } else {
+                alert("Error enrolling in course.");
+            }
+        });
+    });
+});
+
+    </script>
+
+    <!-- <script>
+    // Initialize counters for selected courses
+    let professionalElectiveCount = 0;
+    let openElectiveCount = 0;
+    let majorMinorCount = 0;
+
+    document.querySelectorAll('.enroll-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const courseId = this.getAttribute('data-course-id');
+            const courseType = this.getAttribute('data-type');
+            
+            // Check the limits for each type of course
+            if (courseType === 'professional-elective' && professionalElectiveCount >= 2) {
+                alert('You can only select 2 Professional Elective courses.');
+                return;
+            }
+            if (courseType === 'open-elective' && openElectiveCount >= 1) {
+                alert('You can only select 1 Open Elective course.');
+                return;
+            }
+            if (courseType === 'major-minor' && majorMinorCount >= 1) {
+                alert('You can only select 1 Major/Minor course.');
+                return;
+            }
+            
+            // Increment the counters
+            if (courseType === 'professional-elective') professionalElectiveCount++;
+            if (courseType === 'open-elective') openElectiveCount++;
+            if (courseType === 'major-minor') majorMinorCount++;
+            
+            // Disable the button and update text
+            this.textContent = 'Enrolled';
+            this.disabled = true;
+            this.classList.add('enrolled');
+
+            // AJAX request to enroll in the course
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'enroll_course.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('Enrollment successful');
+                }
+            };
+            xhr.send(`course_id=${courseId}`);
+        });
+    });
+    </script> -->
     <script>
         // Profile Edit Functionality 
         const editProfileBtn = document.getElementById('edit-profile-btn');
