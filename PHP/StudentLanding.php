@@ -126,18 +126,20 @@ foreach ($courses as &$course) { // Use reference to modify each course
 unset($course); // Break the reference
 
 
-// Prepare profile picture
+// Prepare students profile picture
+// Prepare a query to fetch the profile picture path
+$query = "SELECT Profile_Picture FROM students WHERE Student_ID = :student_id";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':student_id', $student_id);
+$stmt->execute();
+
+// Fetch the profile picture path
+$profilePicture = $stmt->fetchColumn();
+
+// Set a default image if no profile picture is found
 $defaultImage = '../Assets/Profile.svg';
-$ProfilePath = '../Assets/ProfileImages/' . htmlspecialchars($profile['Profile_Picture']); // Assuming the images are stored in the 'ProfileImages' folder
-if (!empty($profile['Profile_Picture'])) {
-    // If the profile picture exists, display it from the stored path
-    $profilePicture = $ProfilePath;
-    if (!file_exists($profilePicture)) {
-        $profilePicture = $defaultImage; // Fallback to default if image file not found
-    }
-} else {
-    // If no profile picture is set, use a default image (with relative path)
-    $profilePicture = $defaultImage; // Ensure this path is correct and points to your default image
+if (empty($profilePicture) || !file_exists($profilePicture)) {
+    $profilePicture = $defaultImage;
 }
 ?>
 <!DOCTYPE html>
@@ -690,13 +692,14 @@ if (!empty($profile['Profile_Picture'])) {
                 <!-- Icons (Reminders, Game, Profile) aligned to the right -->
                 <div class="icons">
                     <div class="icon">
-                        <img src="../Assets/Notification.svg" alt="Notification" width="25" height="25">
+                        
+                        <a href="../PHP/Announcements.php"><img src="../Assets/Notification.svg" alt="Notification" width="25" height="25"></a>
                     </div>
                     <div class="icon">
                         <img src="../Assets/Game.svg" alt="Game" width="25" height="25">
                     </div>
                     <div class="icon">
-                        <img src="../Assets/Profile.svg" alt="Profile" width="25" height="25">
+                        <a href="../PHP/StudentProfile.php"><img src="../Assets/Profile.svg" alt="Profile" width="25" height="25"></a>
                     </div>
                     <!-- Dark Mode Toggle Button -->
                     <button class="toggle-button" id="toggle-mode">
