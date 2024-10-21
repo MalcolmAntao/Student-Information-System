@@ -1118,36 +1118,121 @@ if (!empty($profile['Profile_Picture'])) {
         <div class="expanded-header">
             <h3>Expanded Courses</h3>
             <svg id="close-expanded-courses" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <!-- Close icon (X) -->
                 <path d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </div>
         <div class="expanded-content">
             <div class="course-nav">
-                <button id="core-courses-btn">Core Courses</button>
+                <button id="current-courses-btn">Current Courses</button>
                 <button id="prof-electives-btn">Professional Electives</button>
                 <button id="open-electives-btn">Open Electives</button>
-                <button id="major-minor-btn">Major/Minor Courses</button>
+                <button id="majors-minors-btn">Majors and Minors</button>
             </div>
-            <div id="core-courses" class="course-section active">
-                <h4>Core Courses</h4>
-                <?php displayCourses($core_courses, false); // No enroll button for Core Courses ?>
+            <div id="current-courses" class="course-section active">
+                <h4>Current Courses</h4>
+                <div class="sub-course">
+                    <h5>Math Course</h5>
+                    <p>Description for Math Course.</p>
+                    <!-- No enroll button for Current Courses -->
+                </div>
+                <div class="sub-course">
+                    <h5>Japanese Course</h5>
+                    <p>Description for Japanese Course.</p>
+                    <!-- No enroll button for Current Courses -->
+                </div>
+                <div class="sub-course">
+                    <h5>English Course</h5>
+                    <p>Description for English Course.</p>
+                    <!-- No enroll button for Current Courses -->
+                </div>
             </div>
             <div id="prof-electives" class="course-section">
                 <h4>Professional Electives</h4>
-                <?php displayCourses($prof_courses); // Enroll button present ?>
+                <div class="sub-course">
+                    <h5>Elective 1</h5>
+                    <p>Description for Elective 1.</p>
+                    <button class="enroll-btn" data-course-id="1">Enroll in this course</button>
+                </div>
+                <div class="sub-course">
+                    <h5>Elective 2</h5>
+                    <p>Description for Elective 2.</p>
+                    <button class="enroll-btn" data-course-id="2">Enroll in this course</button>
+                </div>
             </div>
             <div id="open-electives" class="course-section">
                 <h4>Open Electives</h4>
-                <?php displayCourses($open_courses); // Enroll button present ?>
+                <div class="sub-course">
+                    <h5>Elective A</h5>
+                    <p>Description for Elective A.</p>
+                    <button class="enroll-btn" data-course-id="3">Enroll in this course</button>
+                </div>
+                <div class="sub-course">
+                    <h5>Elective B</h5>
+                    <p>Description for Elective B.</p>
+                    <button class="enroll-btn" data-course-id="4">Enroll in this course</button>
+                </div>
             </div>
-            <div id="major-minor" class="course-section">
-                <h4>Major/Minor Courses</h4>
-                <?php displayCourses($major_minor_courses); // Enroll button present ?>
+            <div id="majors-minors" class="course-section">
+                <h4>Majors and Minors</h4>
+                <div class="sub-course" id="major-course-list"></div>
+                <div class="sub-course" id="minor-course-list"></div>
             </div>
         </div>
     </div>
 </div>
 
+
+    </div>
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+        const coursesList = document.querySelectorAll('.courses-list li');
+        const popup = document.getElementById('marks-popup');
+        const closeButton = document.querySelector('.close-btn');
+
+        const courseNameElem = document.getElementById('course-name');
+        const descriptionElem = document.getElementById('description');
+        const creditsElem = document.getElementById('credits');
+        const IT1Elem = document.getElementById('IT1');
+        const IT2Elem = document.getElementById('IT2');
+        const IT3Elem = document.getElementById('IT3');
+        const SemElem = document.getElementById('Sem');
+
+        // Show popup on course click
+        coursesList.forEach(course => {
+            course.addEventListener('click', function() {
+                // Get course details and marks from data attributes
+                const courseName = course.getAttribute('data-course-id');
+                const description = course.getAttribute('data-description');
+                const credits = course.getAttribute('data-credits');
+                const marks = JSON.parse(course.getAttribute('data-marks'));
+
+                // Fill in the popup with course details and marks
+                courseNameElem.textContent = courseName;
+                descriptionElem.textContent = description;
+                creditsElem.textContent = credits;
+                IT1Elem.textContent = marks.IT1 !== null ? marks.IT1 : 'N/A';
+                IT2Elem.textContent = marks.IT2 !== null ? marks.IT2 : 'N/A';
+                IT3Elem.textContent = marks.IT3 !== null ? marks.IT3 : 'N/A';
+                SemElem.textContent = marks.Sem !== null ? marks.Sem : 'N/A';
+
+                // Show the popup
+                popup.style.display = 'block';
+            });
+        });
+
+        // Close the popup when the close button is clicked
+        closeButton.addEventListener('click', function() {
+            popup.style.display = 'none';
+        });
+
+        // Close the popup when clicking outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+    });
 
     </script>          
     
