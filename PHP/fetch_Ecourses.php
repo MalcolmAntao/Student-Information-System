@@ -6,7 +6,7 @@ $student_id = $_SESSION['student_id'];
 $department_id = $_SESSION['department_id'];
 
 // Fetch courses along with enrollment status
-$query = "SELECT c.Course_ID, c.CourseName, c.Description, c.Credits, et.Enrollment_Type_Name, et.Enrollment_Type_ID, 
+$query = "SELECT c.Course_ID, c.CourseName, c.Course_Code, c.Description, c.Credits, et.Enrollment_Type_Name, et.Enrollment_Type_ID, 
                  i.First_Name, i.Last_Name, 
                  (SELECT COUNT(*) FROM course_selections cs WHERE cs.Course_ID = c.Course_ID AND cs.Student_ID = :student_id) AS is_enrolled
           FROM courses c
@@ -38,9 +38,11 @@ if (empty($courses)) {
         // Course HTML with dynamic buttons
         $course_html = "
             <div class='sub-course'>
-                <h5>{$course['CourseName']} ({$course['Credits']} credits)</h5>
-                <p>{$course['Description']}</p>
-                <p>Instructor: {$course['First_Name']} {$course['Last_Name']}</p>
+                <h4>{$course['CourseName']}</h4>
+                <p><b>Description:</b> {$course['Description']}</p>
+                <p><b>Course Code:</b> {$course['Course_Code']}</p>
+                <p><b>Credits:</b> {$course['Credits']}</p>
+                <p><b>Instructor:</b> {$course['First_Name']} {$course['Last_Name']}</p>
         ";
 
         // Display buttons only for non-core courses
