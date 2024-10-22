@@ -1034,6 +1034,7 @@ function updateRadarChartColors() {
 }
     fetchUpdatedData(); // <-- Important for initial chart rendering
     setInterval(fetchUpdatedData, 30000); // Poll every 30 seconds
+    setInterval(redrawCharts, 30000); // Poll every 30 seconds
 
 </script>
 
