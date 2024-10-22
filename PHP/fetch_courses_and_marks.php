@@ -1,6 +1,7 @@
 <?php 
 // Database connection
-include('db_connection.php');
+include('Connection.php');
+include('Session.php');
 
 // Fetch the student's enrolled courses and corresponding marks
 $student_id = $_SESSION['student_id']; // Assuming the student is logged in
