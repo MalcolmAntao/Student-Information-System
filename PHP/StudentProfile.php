@@ -304,7 +304,7 @@ if ($student) {
         body.dark-mode {
             --background-color: #121212;
             --dashboard-bg: #1e1e1e;
-            --sidebar-bg: #1f1f1f;
+            --sidebar-bg: #2c2c2c;
             --sidebar-hover-bg: #333333;
             --text-color: #ffffff;
             --card-bg: #2c2c2c;
