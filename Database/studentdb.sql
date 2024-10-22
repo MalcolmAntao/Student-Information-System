@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2024 at 10:37 PM
+-- Generation Time: Oct 22, 2024 at 08:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,8 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
-CREATE Database `studentdb`;
-Use studentdb;
+-- Database: `studentdb`
+--
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,28 @@ INSERT INTO `courses` (`Course_ID`, `course_code`, `CourseName`, `Description`, 
 (12, 'CE102', 'Construction Materials', 'Properties and uses of materials in construction.', 3, 4, 'V', 5),
 (13, 'CE103', 'Geotechnical Engineering', 'Soil mechanics and foundation design principles.', 3, 4, 'V', 5),
 (14, 'EC101', 'Embedded Systems', 'Study of embedded systems, microcontrollers, and real-time operating systems.', 4, 5, 'V', 5),
-(15, 'EC102', 'Digital Signal Processing', 'Introduction to signal processing and applications in communication.', 3, 5, 'V', 5);
+(15, 'EC102', 'Digital Signal Processing', 'Introduction to signal processing and applications in communication.', 3, 5, 'V', 5),
+(16, 'CS601', 'Advanced Algorithms', 'Study of advanced algorithms such as dynamic programming and graph theory.', 4, 1, 'V', 1),
+(17, 'CS602', 'Parallel Computing', 'Introduction to parallel algorithms and multi-threading techniques.', 4, 1, 'V', 1),
+(18, 'CS603', 'Machine Learning', 'Fundamentals of machine learning and statistical learning models.', 4, 1, 'V', 1),
+(19, 'CS604', 'Data Science', 'Introduction to data science, big data, and data analysis techniques.', 3, 1, 'V', 2),
+(20, 'CS605', 'IoT Systems', 'Study of Internet of Things architecture, devices, and communication.', 3, 1, 'V', 2),
+(21, 'CS606', 'Cybersecurity Fundamentals', 'Basic principles of network and information security.', 3, 1, 'V', 2),
+(22, 'CS607', 'Blockchain Technology', 'Introduction to blockchain systems, cryptocurrency, and decentralized applications.', 3, 1, 'V', 3),
+(23, 'CS608', 'Software Project Management', 'Principles of software project planning, execution, and risk management.', 3, 1, 'V', 3),
+(24, 'CS609', 'Advanced Databases', 'Study of advanced database management systems and distributed databases.', 3, 1, 'V', 3),
+(25, 'CS601', 'Advanced Algorithms', 'Study of advanced algorithms such as dynamic programming and graph theory.', 4, 1, 'V', 1),
+(26, 'CS602', 'Parallel Computing', 'Introduction to parallel algorithms and multi-threading techniques.', 4, 1, 'V', 1),
+(27, 'CS603', 'Machine Learning', 'Fundamentals of machine learning and statistical learning models.', 4, 1, 'V', 1),
+(28, 'CS604', 'Data Science', 'Introduction to data science, big data, and data analysis techniques.', 3, 1, 'V', 2),
+(29, 'CS605', 'IoT Systems', 'Study of Internet of Things architecture, devices, and communication.', 3, 1, 'V', 2),
+(30, 'CS606', 'Cybersecurity Fundamentals', 'Basic principles of network and information security.', 3, 1, 'V', 2),
+(31, 'CS607', 'Blockchain Technology', 'Introduction to blockchain systems, cryptocurrency, and decentralized applications.', 3, 1, 'V', 3),
+(32, 'CS608', 'Software Project Management', 'Principles of software project planning, execution, and risk management.', 3, 1, 'V', 3),
+(33, 'CS609', 'Advanced Databases', 'Study of advanced database management systems and distributed databases.', 3, 1, 'V', 3),
+(34, 'CS610', 'Artificial Intelligence', 'Introduction to AI techniques including machine learning and neural networks.', 3, 1, 'V', 4),
+(35, 'CS611', 'Mobile App Development', 'Development of mobile apps using Android and iOS frameworks.', 3, 1, 'V', 4),
+(36, 'CS612', 'Human-Computer Interaction', 'Study of user interface design, UX principles, and usability.', 3, 1, 'V', 4);
 
 -- --------------------------------------------------------
 
@@ -106,6 +127,14 @@ CREATE TABLE `course_selections` (
   `Course_ID` int(11) NOT NULL,
   `Accepted` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `course_selections`
+--
+
+INSERT INTO `course_selections` (`Selection_ID`, `Student_ID`, `Course_ID`, `Accepted`) VALUES
+(19, 1, 22, 0),
+(20, 1, 22, 0);
 
 --
 -- Triggers `course_selections`
@@ -383,7 +412,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Major`, `Department_ID`) VALUES
-(1, 'John', 'Michael', 'Doe', 'M', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', NULL, 'Computer Engineering student.', NULL, 1),
+(1, 'John', 'Michael', 'Doe', 'M', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', '../Assets/ProfileImages/profile_6716bee3e529a8.25892942.png', 'Computer Engineering student who needs . ', NULL, 1),
 (2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', NULL, 1),
 (3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', NULL, 2),
 (4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', NULL, 2),
@@ -606,13 +635,13 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `course_selections`
 --
 ALTER TABLE `course_selections`
-  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -726,6 +755,7 @@ ALTER TABLE `students`
 -- Constraints for table `teaches`
 --
 ALTER TABLE `teaches`
+  ADD CONSTRAINT `fk_teaches_instructor` FOREIGN KEY (`Instructor_ID`) REFERENCES `instructors` (`Instructor_ID`) ON DELETE CASCADE,
   ADD CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`Instructor_ID`) REFERENCES `instructors` (`Instructor_ID`),
   ADD CONSTRAINT `teaches_ibfk_2` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`);
 
