@@ -272,7 +272,7 @@ if ($student) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Dashboard UI</title>
+    <title>Profile</title>
     <style>
         /* CSS Variables for Light and Dark Modes */
         :root {

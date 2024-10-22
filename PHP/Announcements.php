@@ -23,10 +23,15 @@ if ($noticeID) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notices</title>
+    <link rel="icon" href="../Assets/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../Assets/icon.png" type="image/png">
+
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -68,7 +73,8 @@ if ($noticeID) {
         }
 
         .sidebar:hover {
-            width: 200px; /* Expands on hover */
+            width: 200px;
+            /* Expands on hover */
         }
 
         /* Sidebar hamburger icon */
@@ -84,7 +90,8 @@ if ($noticeID) {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 24px; /* Adjusted height to fit 3 lines */
+            height: 24px;
+            /* Adjusted height to fit 3 lines */
         }
 
         .sidebar-icon {
@@ -112,19 +119,23 @@ if ($noticeID) {
         .sidebar-links a {
             display: block;
             padding: 10px 0;
-            color: #FFFFFF; /* Default dark mode text color */
+            color: #FFFFFF;
+            /* Default dark mode text color */
             text-decoration: none;
             transition: color 0.3s ease;
         }
+
         /* Content area */
         .content {
-            margin-left: 45px; /* Adjust to sidebar's closed width */
+            margin-left: 45px;
+            /* Adjust to sidebar's closed width */
             padding: 20px;
             transition: margin-left 0.3s;
         }
 
-        .sidebar:hover + .content {
-            margin-left: 200px; /* Adjust to sidebar's open width */
+        .sidebar:hover+.content {
+            margin-left: 200px;
+            /* Adjust to sidebar's open width */
         }
 
         /* Header and main content styling */
@@ -157,14 +168,16 @@ if ($noticeID) {
             color: var(--bg-color-light);
         }
 
-        .notice-detail, table {
+        .notice-detail,
+        table {
             background-color: var(--accent-color-dark);
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             border-bottom: 1px solid #444;
         }
@@ -194,7 +207,6 @@ if ($noticeID) {
             padding: 20px;
             border-radius: 8px;
         }
-
     </style>
 
     <script>
@@ -228,8 +240,8 @@ if ($noticeID) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.success) {
                         detailsContainer.innerHTML = '<h2>' + response.title + '</h2>' +
-                                                     '<p><strong>Posted on:</strong> ' + response.posting_date + '</p>' +
-                                                     '<p>' + response.content + '</p>';
+                            '<p><strong>Posted on:</strong> ' + response.posting_date + '</p>' +
+                            '<p>' + response.content + '</p>';
                         detailsContainer.style.display = 'block';
                     } else {
                         detailsContainer.innerHTML = '<p>Error loading notice details.</p>';
@@ -240,6 +252,7 @@ if ($noticeID) {
         }
     </script>
 </head>
+
 <body>
 
     <!-- Sidebar -->
@@ -304,4 +317,5 @@ if ($noticeID) {
     </div>
 
 </body>
+
 </html>

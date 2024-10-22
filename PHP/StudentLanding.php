@@ -147,7 +147,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Homepage</title>
+    <title>Homepage</title>
     <style>
         :root {
             --bg-color-dark:#1D2433;
@@ -342,7 +342,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         /* Search bar styling */
         .search-bar {
             width: 98%;
-            margin-bottom: 10px;
+            position: relative;
+            top: 0;
         }
 
         .search-bar input {
@@ -485,7 +486,10 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         body.light-mode .icon:hover{
             background-color: #c1e1e2;
         }
-
+        .column-3
+        {
+            padding-top: 15px;
+        }
         /* Flexbox adjustments for third column */
         .column-3 > .small-block {
             flex-shrink: 0;
@@ -620,7 +624,6 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             <!-- Sidebar content (only visible on hover) -->
             <div class="sidebar-content">
-                <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 <div class="sidebar-links">
                     <a href="../PHP/Announcements.php">Announcements</a>
                     
@@ -637,9 +640,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             <div class="column-2">
                 <!-- Search Bar -->
                 <div class="search-bar">
-                    <form action="search.php" method="GET">
-                        <input type="text" name="query" placeholder="Search Pages">
-                    </form>
+                    <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 </div>
 
                 <!-- Date and GPA (side by side) -->
@@ -696,7 +697,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                         <a href="../PHP/Announcements.php"><img src="../Assets/Notification.svg" alt="Notification" width="25" height="25"></a>
                     </div>
                     <div class="icon">
-                        <img src="../Assets/Game.svg" alt="Game" width="25" height="25">
+                    <a href="../HTML/Game.html"><img src="../Assets/Game.svg" alt="Game" width="25" height="25"></a>
                     </div>
                     <div class="icon">
                         <a href="../PHP/StudentProfile.php"><img src="../Assets/Profile.svg" alt="Profile" width="25" height="25"></a>
