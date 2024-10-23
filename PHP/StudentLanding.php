@@ -5,7 +5,7 @@ include 'Session.php'; // Include session management
 $student_id = $_SESSION['student_id']; // Get logged-in student's ID
 
 // Fetch student details
-$sql = "SELECT First_Name, Middle_Name, Last_Name, Roll_No, University_No, Date_Of_Birth, Email, PhoneNo, Current_Semester, Bio, Major, Profile_Picture
+$sql = "SELECT First_Name, Middle_Name, Last_Name, Roll_No, University_No, Date_Of_Birth, Email, PhoneNo, Current_Semester, Bio, Profile_Picture
         FROM Students
         WHERE Student_ID = :student_id";
 $stmt = $pdo->prepare($sql);
@@ -149,17 +149,27 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../Assets/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../Assets/icon.png" type="image/png">
+    <link rel="stylesheet" href="../CSS/Preloader.css">
+
     <title>Homepage</title>
     <style>
         :root {
-            --bg-color-dark: #000000;
-            --text-color-dark: #ffffff;
+            --bg-color-dark: #1f1821;
             --bg-color-light: #d9e8e8;
+
+            --text-color-dark: #ffffff;
             --text-color-light: #000000;
+
             --sidebar-bg-color-dark: #232B3A;
             --sidebar-bg-color-light: #253b42;
+
             --icons-color-dark: #ffffff;
+            --icons-color-light: #ffffff;
+
             --icons-color-active-dark: #000000;
+            --icons-color-active-light: #000000;
         }
 
         * {
@@ -179,7 +189,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             justify-content: start;
             align-items: start;
             min-height: 100vh;
-            transition: background-color 0.5s, color 0.5s;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body.light-mode {
@@ -198,7 +208,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             height: 100%;
             background-color: var(--sidebar-bg-color-dark);
             position: relative;
-            transition: width 0.5s ease, background-color 0.5s ease;
+            transition: width 0.3s ease, background-color 0.3s ease;
             overflow: hidden;
         }
 
@@ -241,7 +251,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             padding: 20px;
             opacity: 0;
             transform: translateX(-20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
             transition-delay: 0s;
         }
 
@@ -252,11 +262,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .sidebar:hover .sidebar-content {
             opacity: 1;
             transform: translateX(0);
-            transition-delay: 0.5s;
+            transition-delay: 0.3s;
         }
 
         .sidebar:hover .sidebar-content h2 {
-            transition-delay: 0.5s;
+            transition-delay: 0.3s;
         }
 
         .sidebar:hover .sidebar-content p {
@@ -270,7 +280,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             color: #FFFFFF;
             /* Default dark mode text color */
             text-decoration: none;
-            transition: color 0.5s ease;
+            transition: color 0.3s ease;
         }
 
         body.light-mode .sidebar-links a {
@@ -411,7 +421,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             word-wrap: break-word;
             position: relative;
             cursor: pointer;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
             flex: 1;
             /* Ensure card grows and shrinks properly within the flex container */
             min-width: 200px;
@@ -433,7 +443,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .course-basic {
             padding: 10px;
             z-index: 1;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         /* Course marks card (initially hidden under basic info) */
@@ -455,7 +465,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             /* Hidden by default */
             z-index: 0;
             /* Under the basic info */
-            transition: opacity 0.5s ease, z-index 0.5s ease;
+            transition: opacity 0.3s ease, z-index 0.3s ease;
         }
 
         body.light-mode .course-marks {
@@ -483,7 +493,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .course-marks strong {
             line-height: 1.2;
             margin: 0;
-            transition: color 0.5s ease;
+            transition: color 0.3s ease;
             /* Smooth transition for text color */
         }
 
@@ -510,7 +520,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             background-color: #364562;
             border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.3s ease;
         }
 
         .icon:hover {
@@ -542,7 +552,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             color: #ffffff;
             padding: 10px;
             cursor: pointer;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.3s ease;
         }
 
         .toggle-button:hover {
@@ -589,6 +599,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             display: grid;
             grid-template-columns: auto;
             row-gap: 0.1px;
+            height: 100%;
+            padding: 5px;
             /* Removed column gap since labels and values are on the same line */
         }
 
@@ -598,6 +610,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             display: flex;
             /* Use flex to align label and value */
             align-items: center;
+
         }
 
         .profile-details p strong {
@@ -606,6 +619,10 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             /* Ensure labels are left-aligned */
             padding-right: 10px;
             font-weight: bold;
+        }
+
+        .profile-details strong {
+            width: 110px !important;
         }
 
         .navigation {
@@ -654,7 +671,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             line-height: 65px;
             font-size: 1.7em;
             text-align: center;
-            transition: 0.5s;
+            transition: 0.3s;
             color: var(--icons-color-dark);
         }
 
@@ -670,7 +687,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             right: 10px;
             font-size: 1em;
             letter-spacing: 0.05em;
-            transition: 0.5s;
+            transition: 0.3s;
             opacity: 0;
             transform: translateX(-20px);
         }
@@ -688,7 +705,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             background: #29fd53;
             border-radius: 50%;
             border: 6px solid var(--bg-color-dark);
-            transition: 0.5s ease;
+            transition: 0.3s ease;
         }
 
         /* bottom shadow */
@@ -704,7 +721,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             background: transparent;
             border-top-right-radius: 20px;
             box-shadow: 10px -1px 0 0 var(--bg-color-dark);
-            transition: 0.5s ease;
+            transition: 0.3s ease;
         }
 
         /* top shadow */
@@ -719,7 +736,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             border-bottom-right-radius: 20px;
             box-shadow: 10px 1px 0 0 var(--bg-color-dark);
 
-            transition: 0.5s ease;
+            transition: 0.3s ease;
         }
 
         .navigation ul li:hover a .text {
@@ -761,7 +778,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .navigation ul li a .text {
-            color: var(--text-color-light);
+            color: var(--text-color-dark);
         }
 
         body.light-mode .indicator {
@@ -836,12 +853,16 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 </head>
 
 <body>
+    <div id="preloader">
+        <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
+        <!-- <div class="spinner"></div> -->
+    </div>
     <div class="container">
         <!-- Sidebar -->
         <div class="navigation">
             <ul>
                 <li class="list active">
-                    <a href="../PHP/StudentProfile.php">
+                    <a href="../PHP/StudentLanding.php">
                         <span class="icons"><ion-icon name="home-outline"></ion-icon></span>
                         <span class="text">Home</span>
                     </a>
@@ -979,7 +1000,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             </div>
         </div>
     </div>
-
+    <script src="../JS/Preloader.js" ></script>
+    <!-- navbar script -->
     <script>
         const list = document.querySelectorAll('.list');
         let currentActiveItem = document.querySelector('.list.active');
@@ -1014,6 +1036,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
     <script
         nomodule
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
     <script>
         // Date and time display
         function updateDateTime() {
@@ -1119,14 +1142,12 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             return {
                 // CGPA Chart Colors
-                cgpa: isLightMode ?
-                    ['#F39C12', '#8E44AD'] // Light Mode
+                cgpa: isLightMode ? ['#F39C12', '#8E44AD'] // Light Mode
                     :
                     ['#1E90FF', '#FF5A5F'], // Dark Mode
 
                 // SGPA Chart Colors
-                sgpa: isLightMode ?
-                    ['#9B1B30', '#2C3E50'] // Light Mode
+                sgpa: isLightMode ? ['#9B1B30', '#2C3E50'] // Light Mode
                     :
                     ['#00CED1', '#D5006D'] // Dark Mode
             };

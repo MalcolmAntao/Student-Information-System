@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 08:26 AM
+-- Generation Time: Oct 23, 2024 at 07:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -18,8 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
-Create Database `studentdb`;
-USe studentdb;
+-- Database: `studentdb`
 --
 
 -- --------------------------------------------------------
@@ -134,8 +133,10 @@ CREATE TABLE `course_selections` (
 --
 
 INSERT INTO `course_selections` (`Selection_ID`, `Student_ID`, `Course_ID`, `Accepted`) VALUES
-(19, 1, 22, 0),
-(20, 1, 22, 0);
+(35, 1, 22, 0),
+(36, 1, 23, 0),
+(37, 1, 34, 0),
+(40, 1, 16, 0);
 
 --
 -- Triggers `course_selections`
@@ -344,6 +345,24 @@ INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_N
 (14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1),
 (15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1);
 
+--
+-- Triggers `instructors`
+--
+DELIMITER $$
+CREATE TRIGGER `update_instructor_email` AFTER UPDATE ON `instructors` FOR EACH ROW BEGIN
+    IF OLD.Contact_Info != NEW.Contact_Info THEN
+        UPDATE users
+        SET Email = NEW.Contact_Info
+        WHERE User_ID IN (
+            SELECT User_ID 
+            FROM role_associations 
+            WHERE Instructor_ID = NEW.Instructor_ID
+        );
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -404,7 +423,6 @@ CREATE TABLE `students` (
   `Current_Semester` varchar(20) NOT NULL,
   `Profile_Picture` varchar(255) DEFAULT NULL,
   `Bio` text DEFAULT NULL,
-  `Major` varchar(50) DEFAULT NULL,
   `Department_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -412,22 +430,40 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Major`, `Department_ID`) VALUES
-(1, 'John', 'Michael', 'Doe', 'M', 'CSE1001', 'U12345601', '2000-01-15', '1@dbcegoa.ac.in', '9876543210', 'V', '../Assets/ProfileImages/profile_6716bee3e529a8.25892942.png', 'Computer Engineering student who needs . ', NULL, 1),
-(2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', NULL, 1),
-(3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', NULL, 2),
-(4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', NULL, 2),
-(5, 'Dave', 'Matthew', 'Brown', 'M', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', NULL, 3),
-(6, 'Eve', 'Sophia', 'Davis', 'F', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', NULL, 3),
-(7, 'Frank', 'Richard', 'Miller', 'M', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', NULL, 4),
-(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', NULL, 4),
-(9, 'Hank', 'Anthony', 'Moore', 'M', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', NULL, 5),
-(10, 'Ivy', 'Amelia', 'Taylor', 'F', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', NULL, 5),
-(11, 'Jack', 'George', 'Anderson', 'M', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', NULL, 1),
-(12, 'Kim', 'Sarah', 'Thomas', 'F', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', NULL, 1),
-(13, 'Leo', 'Charles', 'Jackson', 'M', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', NULL, 3),
-(14, 'Mia', 'Emily', 'White', 'F', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', NULL, 2),
-(15, 'Nate', 'David', 'Harris', 'M', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', NULL, 4);
+INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Department_ID`) VALUES
+(1, 'Malcolm', 'Dos Reis', 'Antao', 'M', '2214025', 'U12345601', '2004-01-06', '2214025@dbcegoa.ac.in', '7499084979', 'V', '../Assets/ProfileImages/profile_67181d4d087d12.89484785.jpg', 'Computer Engineering student who needs help . ', 1),
+(2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 1),
+(3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 2),
+(4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 2),
+(5, 'Dave', 'Matthew', 'Brown', 'M', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', 3),
+(6, 'Eve', 'Sophia', 'Davis', 'F', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', 3),
+(7, 'Frank', 'Richard', 'Miller', 'M', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', 4),
+(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', 4),
+(9, 'Hank', 'Anthony', 'Moore', 'M', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', 5),
+(10, 'Ivy', 'Amelia', 'Taylor', 'F', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', 5),
+(11, 'Jack', 'George', 'Anderson', 'M', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', 1),
+(12, 'Kim', 'Sarah', 'Thomas', 'F', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', 1),
+(13, 'Leo', 'Charles', 'Jackson', 'M', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', 3),
+(14, 'Mia', 'Emily', 'White', 'F', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', 2),
+(15, 'Nate', 'David', 'Harris', 'M', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', 4);
+
+--
+-- Triggers `students`
+--
+DELIMITER $$
+CREATE TRIGGER `update_student_email` AFTER UPDATE ON `students` FOR EACH ROW BEGIN
+    IF OLD.Email != NEW.Email THEN
+        UPDATE users
+        SET Email = NEW.Email
+        WHERE User_ID IN (
+            SELECT User_ID 
+            FROM role_associations 
+            WHERE Student_ID = NEW.Student_ID
+        );
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -642,7 +678,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `course_selections`
 --
 ALTER TABLE `course_selections`
-  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `departments`

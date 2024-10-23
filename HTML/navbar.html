@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins',sans-serif;
+        }
+        :root
+        {
+            --bg-color-dark: #222327;
+            --bg-color-light: #d9e8e8;
+
+            --text-color-dark: #ffffff;
+            --text-color-light: #000000;
+
+            --sidebar-bg-color-dark: #232B3A;
+            --sidebar-bg-color-light: #253b42;
+
+            --icons-color-dark: #ffffff;
+            --icons-color-light: #ffffff;
+
+            --icons-color-active-dark: #000000;
+            --icons-color-active-light: #000000;
+        }
+
+        body{
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            min-height: 100vh;
+            background: var(--bg-color-dark);
+        }
+        .navigation {
+            position: relative;
+
+            width: 100px;
+            height: 100vh;
+            background: var(--sidebar-bg-color-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
+
+        }
+
+        .navigation ul {
+            display: flex;
+            flex-direction: column;
+            width: 68px;
+
+        }
+
+        .navigation ul li {
+            position: relative;
+            list-style: none;
+            width: 70px;
+            height: 70px;
+            z-index: 1;
+        }
+
+        .navigation ul li a {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .navigation ul li a .icons {
+            position: relative;
+            display: block;
+            line-height: 65px;
+            font-size: 1.7em;
+            text-align: center;
+            transition: 0.3s;
+            color: var(--icons-color-dark);
+        }
+
+        .navigation ul li.active a .icons {
+            color: var(--icons-color-active-dark);
+            transform: translateX(47px);
+        }
+
+        .navigation ul li a .text {
+            position: absolute;
+            color: var(--text-color-dark);
+            font-weight: 75em;
+            right: 10px;
+            font-size: 1em;
+            letter-spacing: 0.05em;
+            transition: 0.3s;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .navigation ul li.active a .text {
+            opacity: 1;
+            transform: translateX(-10px);
+        }
+
+        .indicator {
+            position: absolute;
+            left: 68%;
+            width: 60px;
+            height: 58px;
+            background: #29fd53;
+            border-radius: 50%;
+            border: 6px solid var(--bg-color-dark);
+            transition: 0.3s ease;
+        }
+
+        /* bottom shadow */
+        .indicator::before {
+            content: '';
+            position: absolute;
+            left: 13%;
+            /*left right allignment */
+            bottom: -48%;
+            /*top bottom allignment */
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-top-right-radius: 20px;
+            box-shadow: 10px -1px 0 0 var(--bg-color-dark);
+            transition: 0.3s ease;
+        }
+
+        /* top shadow */
+        .indicator::after {
+            content: '';
+            position: absolute;
+            left: 13%;
+            top: -22px;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-bottom-right-radius: 20px;
+            box-shadow: 10px 1px 0 0 var(--bg-color-dark);
+
+            transition: 0.3s ease;
+        }
+
+        .navigation ul li:hover a .text {
+            opacity: 1;
+            transform: translateX(-10px);
+        }
+
+        .navigation ul li:hover a .icons {
+            transform: translateX(47px);
+        }
+
+        .navigation ul li:nth-child(1).active~.indicator {
+            transform: translateY(calc(70px * 0));
+        }
+
+        .navigation ul li:nth-child(2).active~.indicator {
+            transform: translateY(calc(70px * 1));
+        }
+
+        .navigation ul li:nth-child(3).active~.indicator {
+            transform: translateY(calc(70px * 2));
+        }
+
+        .navigation ul li:nth-child(4).active~.indicator {
+            transform: translateY(calc(70px * 3));
+        }
+
+        body.light-mode .navigation {
+            background: var(--sidebar-bg-color-light);
+        }
+
+        body.light-mode .navigation ul li a .icons {
+            color: var(--icons-color-light);
+        }
+
+        body.light-mode .navigation ul li.active a .icons {
+            color: var(--icons-color-active-light);
+            ;
+        }
+
+        body.light-mode .navigation ul li a .text {
+            color: var(--text-color-dark);
+        }
+
+        body.light-mode .indicator {
+            border: 6px solid var(--bg-color-light);
+        }
+
+        /* bottom shadow */
+        body.light-mode .indicator::before {
+
+            box-shadow: 10px -1px 0 0 var(--bg-color-light);
+        }
+
+        /* top shadow */
+        body.light-mode .indicator::after {
+
+            box-shadow: 10px 1px 0 0 var(--bg-color-light);
+        }
+    </style>
+  </head>
+  <body>
+    <div class="navigation">
+      <ul>
+        <li class="list active">
+          <a href="#">
+            <span class="icons"><ion-icon name="person-outline"></ion-icon></span>
+            <span class="text">Profile</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="#">
+            <span class="icons"><ion-icon name="notifications-outline"></ion-icon></span>
+            <span class="text">Notice</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="#">
+            <span class="icons"><ion-icon name="log-out-outline"></ion-icon></span>
+            <span class="text">Logout</span>
+          </a>
+        </li>
+        <div class="indicator"></div>
+      </ul>
+    </div>
+
+    <script>
+        const list = document.querySelectorAll('.list');
+        let currentActiveItem = document.querySelector('.list.active');
+
+        function activeLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            this.classList.add('active');
+            currentActiveItem = this;
+        }
+
+        function hoverLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            this.classList.add('active');
+        }
+
+        function leaveLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            if (currentActiveItem) {
+                currentActiveItem.classList.add('active');
+            }
+        }
+
+        list.forEach((item) => {
+            item.addEventListener('click', activeLink);
+            item.addEventListener('mouseenter', hoverLink);
+            item.addEventListener('mouseleave', leaveLink);
+        });
+    </script>
+    <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  </body>
+</html>

@@ -5,12 +5,12 @@ function setThemeMode(mode) {
         document.body.classList.add('dark-mode');
         document.body.classList.remove('light-mode');
         middleImage.src = '../Assets/Darkmode.png'; // Dark mode image
-        document.getElementById('theme-toggle').textContent = '🌙'; // Sun icon for light mode
+        document.getElementById('theme-toggle').innerHTML = '<img src="../Assets/Light_Mode.svg" alt="Light Mode Icon" />' // Sun icon for light mode
     } else {
         document.body.classList.add('light-mode');
         document.body.classList.remove('dark-mode');
         middleImage.src = '../Assets/Lightmode.png'; // Light mode image
-        document.getElementById('theme-toggle').textContent = '🌞'; // Moon icon for dark mode
+        document.getElementById('theme-toggle').innerHTML = '<img src="../Assets/Dark_Mode.svg" alt="Light Mode Icon" />' // Moon icon for dark mode
     }
 }
 

@@ -5,7 +5,7 @@ include 'Session.php'; // Include session management
 $student_id = $_SESSION['student_id']; // Get logged-in student's ID
 
 // Fetch student details
-$sql = "SELECT First_Name, Middle_Name, Last_Name, Roll_No, University_No, Date_Of_Birth, Email, PhoneNo, Current_Semester, Bio, Major, Profile_Picture, Department_ID
+$sql = "SELECT First_Name, Middle_Name, Last_Name, Roll_No, University_No, Date_Of_Birth, Email, PhoneNo, Current_Semester, Bio, Profile_Picture, Department_ID
         FROM Students
         WHERE Student_ID = :student_id";
 $stmt = $pdo->prepare($sql);
@@ -272,6 +272,9 @@ if ($student) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../Assets/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../Assets/icon.png" type="image/png">
+    <link rel="stylesheet" href="../CSS/Preloader.css">
     <title>Profile</title>
     <style>
         /* CSS Variables for Light and Dark Modes */
@@ -280,7 +283,7 @@ if ($student) {
             --dashboard-bg: white;
             --sidebar-bg: #273c75;
             --sidebar-hover-bg: #3c5a99;
-            --text-color: #000;
+            --text-color: #000000;
             --card-bg: white;
             --card-shadow: rgba(0, 0, 0, 0.1);
             --button-bg: #273c75;
@@ -296,9 +299,13 @@ if ($student) {
             --enroll-button-text: white;
             --overlay-bg: rgba(0, 0, 0, 0.5);
             --expanded-card-bg: rgba(255, 255, 255, 0.95);
-            --hover_box: ;
+            --hover_box: #121212;
             --course_hover: #f0f0f0;
             --course_details: #5a7fa2;
+
+            --icons-color: #ffffff;
+            --icons-color-active: #000000;
+            --icons-text-color: #ffffff;
         }
 
         body.dark-mode {
@@ -321,9 +328,13 @@ if ($student) {
             --enroll-button-text: #ffffff;
             --overlay-bg: rgba(0, 0, 0, 0.7);
             --expanded-card-bg: rgba(50, 50, 50, 0.95);
-            --hover_box: ;
+            --hover_box: #212121;
             --course_hover: #333333;
             --course_details: #555555;
+
+            --icons-color: #ffffff;
+            --icons-color-active: #000000;
+            --icons-text-color: #ffffff;
         }
 
         * {
@@ -424,7 +435,7 @@ if ($student) {
             padding: 20px;
             opacity: 0;
             transform: translateX(-20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
             transition-delay: 0s;
         }
 
@@ -646,6 +657,7 @@ if ($student) {
         .performance {
             flex: 1;
             min-width: 250px;
+            z-index: 1;
             height: 300px;
         }
 
@@ -939,6 +951,7 @@ if ($student) {
             transition: background-color 0.3s, border-color 0.3s;
             height: 100%;
             position: relative;
+            border-radius: 18px 0 0 18px;
         }
 
         .profile-top {
@@ -949,6 +962,14 @@ if ($student) {
             flex-direction: column;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--bio-border);
+        }
+
+        .profile-top img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #fff;
         }
 
         .profile-top .toggle-button {
@@ -1210,6 +1231,160 @@ if ($student) {
             margin-left: 20px;
         }
 
+        .navigation {
+            position: relative;
+
+            width: 100px;
+            height: 100vh;
+            background: var(--sidebar-bg) !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
+            z-index: 2;
+        }
+
+        .navigation ul {
+            display: flex;
+            flex-direction: column;
+            width: 68px;
+
+        }
+
+        .navigation ul li {
+            position: relative;
+            list-style: none;
+            width: 70px;
+            height: 70px;
+            z-index: 1;
+        }
+
+        .navigation ul li a {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .navigation ul li a .icons {
+            position: relative;
+            display: block;
+            line-height: 65px;
+            font-size: 1.7em;
+            text-align: center;
+            transition: 0.3s;
+            color: var(--icons-color) !important;
+        }
+
+        ion-icon::part(icon) {
+            color: var(--icons-color) !important;
+        }
+
+
+        .navigation ul li.active a .icons {
+            color: var(--icons-color-active) !important;
+            transform: translateX(47px);
+        }
+
+        /* Force the color for Ionicons */
+        ion-icon {
+            color: var(--icons-color) !important;
+        }
+
+        .navigation ul li.active ion-icon {
+            color: var(--icons-color-active) !important;
+        }
+
+        .navigation ul li a .text {
+            position: absolute;
+            color: var(--icons-text-color);
+            font-weight: 75em;
+            right: 10px;
+            font-size: 1em;
+            letter-spacing: 0.05em;
+            transition: 0.3s;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .navigation ul li.active a .text {
+            opacity: 1;
+            transform: translateX(-10px);
+        }
+
+        .indicator {
+            position: absolute;
+            left: 68%;
+            width: 60px;
+            height: 58px;
+            background: #29fd53;
+            border-radius: 50%;
+            border: 6px solid var(--dashboard-bg) !important;
+
+            transition: 0.3s ease;
+        }
+
+        /* bottom shadow */
+        .indicator::before {
+            content: '';
+            position: absolute;
+            left: 13%;
+            /*left right allignment */
+            bottom: -48%;
+            /*top bottom allignment */
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-top-right-radius: 20px;
+            box-shadow: 10px -1px 0 0 var(--dashboard-bg) !important;
+            transition: 0.3s ease;
+        }
+
+        /* top shadow */
+        .indicator::after {
+            content: '';
+            position: absolute;
+            left: 13%;
+            top: -22px;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-bottom-right-radius: 20px;
+            box-shadow: 10px 1px 0 0 var(--dashboard-bg) !important;
+
+            transition: 0.3s ease;
+        }
+
+        .navigation ul li:hover a .text {
+            opacity: 1;
+            transform: translateX(-10px);
+        }
+
+        .navigation ul li:hover a .icons {
+            color: var(--icons-color) !important;
+            transform: translateX(47px);
+        }
+
+        .navigation ul li:nth-child(1).active~.indicator {
+            transform: translateY(calc(70px * 0));
+        }
+
+        .navigation ul li:nth-child(2).active~.indicator {
+            transform: translateY(calc(70px * 1));
+        }
+
+        .navigation ul li:nth-child(3).active~.indicator {
+            transform: translateY(calc(70px * 2));
+        }
+
+        .navigation ul li:nth-child(4).active~.indicator {
+            transform: translateY(calc(70px * 3));
+        }
 
         /* Responsive Adjustments */
         @media (max-width: 1200px) {
@@ -1240,33 +1415,191 @@ if ($student) {
                 width: 4px;
             }
         }
+
+        .CourseNavigation {
+            position: relative;
+            width: 400px;
+            height: 64px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .CourseNavigation ul {
+            display: flex;
+            width: 350px;
+
+        }
+
+        .CourseNavigation ul li {
+            position: relative;
+            list-style: none;
+            width: 70px;
+            height: 64px;
+            z-index: 1;
+        }
+
+        .CourseNavigation ul li a {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .CourseNavigation ul li a .icons {
+            position: relative;
+            display: block;
+            line-height: 70px;
+            font-size: 1.5em;
+            text-align: center;
+            transition: 0.5s;
+            color: var(--icons-color) !important;
+        }
+
+        ion-icon::part(icon) {
+            color: var(--icons-color) !important;
+        }
+
+
+        .CourseNavigation ul li.active a .icons {
+            color: var(--icons-color-active) !important;
+            transform: translateY(-32px);
+        }
+
+        /* Force the color for Ionicons */
+        ion-icon {
+            color: var(--icons-color) !important;
+        }
+
+        .CourseNavigation ul li.active ion-icon {
+            color: var(--icons-color-active) !important;
+        }
+
+        .CourseNavigation ul li a .text {
+            position: absolute;
+            color: var(--icons-text-color);
+            font-weight: 0.75em;
+            letter-spacing: 0.05em;
+            transition: 0.5s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .CourseNavigation ul li.active a .text {
+            opacity: 1;
+            transform: translateY(10px);
+        }
+
+        .CourseIndicator {
+            position: absolute;
+            top: -50%;
+            width: 70px;
+            height: 64px;
+            background: #29fd53;
+            border-radius: 50%;
+            border: 6px solid var(--dashboard-bg) !important;
+
+            transition: 0.3s ease;
+        }
+
+        /* bottom shadow */
+        .CourseIndicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -22px;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-top-right-radius: 20px;
+            box-shadow: 1px -10px 0 0 var(--dashboard-bg) !important;
+            transition: 0.3s ease;
+        }
+
+        /* top shadow */
+        .CourseIndicator::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -22px;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-top-left-radius: 20px;
+            box-shadow: -1px -10px 0 0 var(--dashboard-bg) !important;
+
+            transition: 0.3s ease;
+        }
+
+        .CourseNavigation ul li:hover a .text {
+            opacity: 1;
+            transform: translateY(10px);
+        }
+
+        .CourseNavigation ul li:hover a .icons {
+            color: var(--icons-color) !important;
+            transform: translateY(-30px);
+        }
+
+        .CourseNavigation ul li:nth-child(1).active~.CourseIndicator {
+            transform: translateX(calc(70px * 0));
+        }
+
+        .CourseNavigation ul li:nth-child(2).active~.CourseIndicator {
+            transform: translateX(calc(70px * 1));
+        }
+
+        .CourseNavigation ul li:nth-child(3).active~.CourseIndicator {
+            transform: translateX(calc(70px * 2));
+        }
+
+        .CourseNavigation ul li:nth-child(4).active~.CourseIndicator {
+            transform: translateX(calc(70px * 3));
+        }
     </style>
 </head>
 
 <body>
+    <div id="preloader">
+        <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
+        <!-- <div class="spinner"></div> -->
+    </div>
     <div class="dashboard">
-
-
         <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Sidebar hamburger icon -->
-            <div class="sidebar-icon-container">
-                <div class="hamburger-icon">
-                    <img src="../Assets/Hamburger.svg" alt="Menu" width="40" height="40">
-                </div>
-            </div>
-
-            <!-- Sidebar content (only visible on hover) -->
-            <div class="sidebar-content">
-                <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
-                <div class="sidebar-links">
-                    <a href="../PHP/Announcements.php">Announcements</a>
-
-                    <a href="../PHP/StudentLanding.php">Home</a>
-                    <!-- <a href="settings.html">Settings</a> -->
-                    <a href="../PHP/Logout.php">Logout</a>
-                </div>
-            </div>
+        <div class="navigation">
+            <ul>
+                <li class="list ">
+                    <a href="../PHP/StudentLanding.php">
+                        <span class="icons"><ion-icon name="home-outline" part="icon"></ion-icon></span>
+                        <span class="text">Home</span>
+                    </a>
+                </li>
+                <li class="list active">
+                    <a href="../PHP/StudentProfile.php">
+                        <span class="icons"><ion-icon name="person-outline" part="icon"></ion-icon></span>
+                        <span class="text">Profile</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="../PHP/Announcements.php">
+                        <span class="icons"><ion-icon name="notifications-outline" part="icon"></ion-icon></span>
+                        <span class="text">Notice</span>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="../PHP/Logout.php">
+                        <span class="icons"><ion-icon name="log-out-outline" part="icon"></ion-icon></span>
+                        <span class="text">Logout</span>
+                    </a>
+                </li>
+                <div class="indicator"></div>
+            </ul>
         </div>
 
         <!-- Main Content -->
@@ -1476,6 +1809,42 @@ if ($student) {
 
     </div>
 
+    <script src="../JS/Preloader.js" ></script>
+    <!-- navbar script -->
+    <script>
+        const list = document.querySelectorAll('.list');
+        let currentActiveItem = document.querySelector('.list.active');
+
+        function activeLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            this.classList.add('active');
+            currentActiveItem = this;
+        }
+
+        function hoverLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            this.classList.add('active');
+        }
+
+        function leaveLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            if (currentActiveItem) {
+                currentActiveItem.classList.add('active');
+            }
+        }
+
+        list.forEach((item) => {
+            item.addEventListener('click', activeLink);
+            item.addEventListener('mouseenter', hoverLink);
+            item.addEventListener('mouseleave', leaveLink);
+        });
+    </script>
+    <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- // to use charts -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script> <!-- //to display cgpa and sgpa inside the doughnut chart -->
@@ -1692,22 +2061,6 @@ if ($student) {
             const profileMiddle = document.querySelector('.profile-middle');
             const profileMiddlePs = profileMiddle.querySelectorAll('p');
             // Update content based on inputs (Student name, Roll No, etc.)
-
-            // // Update the profile photo if a new one is selected and if not already uploaded
-            // if (isProfilePhotoUploaded) {
-            //     if (profilePhotoInput.files && profilePhotoInput.files[0]) {
-            //         alert("You can only upload the profile photo once."); // Alert if they try to upload again
-            //     }
-            // } else {
-            //     if (profilePhotoInput.files && profilePhotoInput.files[0]) {
-            //         const reader = new FileReader();
-            //         reader.onload = function(e) {
-            //             document.querySelector('.profile-top img').src = e.target.result;
-            //         }
-            //         reader.readAsDataURL(profilePhotoInput.files[0]);
-            //     }
-            // }
-
             // Update bio text content
             bioText.textContent = bioInput;
 
@@ -1912,6 +2265,11 @@ if ($student) {
                 toggleIcon.alt = 'Switch to Dark Mode';
                 courseColor(); // Assuming this function changes course-related colors
             }
+            document.querySelectorAll('ion-icon').forEach(function(icon) {
+                icon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--icons-color');
+            });
+            console.log('Current mode:', mode, 'Dark mode class applied:', document.body.classList.contains('dark-mode'));
+
         }
 
         // Apply the saved mode on page load
@@ -1925,6 +2283,10 @@ if ($student) {
             localStorage.setItem('mode', newMode);
             toggleIcon.src = newMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
 
+            console.log('Mode changed to:', newMode);
+
+            // Check if dark mode class is applied
+            console.log('Dark mode applied:', document.body.classList.contains('dark-mode'));
             // Redraw the doughnut charts with new colors
             const chartColors = getChartColors();
             cgpaChart.data.datasets[0].backgroundColor = chartColors.cgpa;

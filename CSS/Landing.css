@@ -164,7 +164,7 @@ section .signin .content p {
 }
 
 body.light-mode .signin .content p {
-    color: #ffffff; /* Text color for light mode */
+    color: #070707; /* Text color for light mode */
 }
 /* Submit button for dark mode */
 section .signin .content input[type="submit"] {
@@ -213,7 +213,8 @@ input[type="submit"]:active {
     position: fixed;
     top: 20px;
     right: 20px;
-    padding: 10px 20px;
+    background: #484747;
+    padding: 5px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
