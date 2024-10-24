@@ -279,8 +279,8 @@ if ($student) {
     <style>
         /* CSS Variables for Light and Dark Modes */
         :root {
-            --background-color: #f0f1f6;
-            --dashboard-bg: white;
+            --background-color: #d9e8e8;
+            --dashboard-bg: #d9e8e8;
             --sidebar-bg: #273c75;
             --sidebar-hover-bg: #3c5a99;
             --text-color: #000000;
@@ -299,7 +299,7 @@ if ($student) {
             --enroll-button-text: white;
             --overlay-bg: rgba(0, 0, 0, 0.5);
             --expanded-card-bg: rgba(255, 255, 255, 0.95);
-            --hover_box: #121212;
+            --hover_box: #9dc3e2;
             --course_hover: #f0f0f0;
             --course_details: #5a7fa2;
 
@@ -309,7 +309,7 @@ if ($student) {
 
             --mode-btn: #273c75;
 
-            --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.5);
+            --shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
             --scrollbar: #273c75;
             --scrollbar-hover: #45454505;
@@ -409,7 +409,8 @@ if ($student) {
         }
 
         .profile-middle::-webkit-scrollbar-thumb:hover {
-            background-color: var(--scrollbar-hover);        }
+            background-color: var(--scrollbar-hover);
+        }
 
         /* Scrollbar Styling */
         .main-content::-webkit-scrollbar {
@@ -787,12 +788,14 @@ if ($student) {
             display: none;
             /* Hidden by default */
             position: absolute;
-            bottom: 100%;
+            bottom: 110%;
             /* Position above the image */
             left: 50%;
+            height: 50%;
             transform: translateX(-50%);
             background-color: var(--hover_box);
             /* Background color with transparency */
+            /* box-shadow: var(--shadow); */
             color: #fff;
             text-align: center;
             padding: 8px;
@@ -832,15 +835,20 @@ if ($student) {
         .student-profile {
             width: 350px;
             background-color: var(--profile-bg);
-            border-left: 2px solid var(--profile-border);
+            /* border-left: 2px solid var(--profile-border); */
+            box-shadow: var(--shadow);
             padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: background-color 0.3s, border-color 0.3s;
-            height: 100%;
+
+            height: 95vh;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
             position: relative;
-            border-radius: 18px 0 0 18px;
+            border-radius: 18px 18px 18px 18px;
         }
 
         .profile-top {
@@ -854,6 +862,8 @@ if ($student) {
         }
 
         .profile-top img {
+            position: relative;
+            top: 30px;
             width: 100px;
             height: 100px;
             object-fit: cover;
@@ -863,7 +873,7 @@ if ($student) {
 
         .profile-top .toggle-button {
             position: absolute;
-            top: 10px;
+            top: 20px;
             right: 10px;
             width: 20px;
             height: 20px;
@@ -892,12 +902,12 @@ if ($student) {
             padding: 8px;
             background: var(--mode-btn);
             border: none;
-            border-radius: 50%;
+            border-radius: 25%;
             width: 45px;
             color: var(--text-color);
             cursor: pointer;
             box-shadow: var(--shadow);
-
+            z-index: 2000;
             transition: background-color 0.3s;
         }
 
@@ -1617,11 +1627,11 @@ if ($student) {
         <div class="student-profile">
             <div class="profile-top">
                 <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
-                <!-- Dark Mode Toggle Button -->
-                <button class="toggle-switch" id="toggle-mode">
-                    <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
-                </button>
             </div>
+            <!-- Dark Mode Toggle Button -->
+            <button class="toggle-switch" id="toggle-mode">
+                <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
+            </button>
             <div class="profile-middle">
                 <p><strong>Name:</strong> <?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name'] . " " . $profile['Last_Name']); ?></p>
                 <p><strong>Date of Birth:</strong> <?= htmlspecialchars($profile['Date_Of_Birth']); ?></p>

@@ -126,12 +126,12 @@ if ($noticeID) {
         /* Toggle Switch */
         .toggle-switch {
             position: absolute;
-            top: 10px;
-            right: 20px;
+            top: 30px;
+            right: 40px;
             padding: 8px;
             background: var(--sidebar-bg-color-dark);
             border: none;
-            border-radius: 50%;
+            border-radius: 25%;
             width: 45px;
             color: var(--text-color-dark);
             cursor: pointer;

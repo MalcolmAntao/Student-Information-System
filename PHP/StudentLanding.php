@@ -156,13 +156,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
     <title>Homepage</title>
     <style>
         :root {
-            --bg-color-dark: #0D0D0F;
+            --bg-color-dark: #15141A;
             --bg-color-light: #d9e8e8;
 
             --text-color-dark: #ffffff;
             --text-color-light: #000000;
 
-            --sidebar-bg-color-dark: #16191E;
+            --sidebar-bg-color-dark: #212026;
             --sidebar-bg-color-light: #253b42;
 
             --icons-color-dark: #ffffff;
@@ -174,11 +174,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --icon-color-dark: #ffffff;
             --icon-color-light: #000000;
 
-            --sidebar-circe-dark: #F22E2E;
+            --sidebar-circe-dark: #FF5112;
             --sidebar-circe-light: #0f0;
 
-            --card-color-dark: #16191E;
-            --card-color-light: #364562;
+            --card-color-dark: #212026;
+            --card-color-light: #ffffff;
 
             --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
             --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -191,6 +191,12 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             --gradient-bg-dark: linear-gradient(200deg, #070709, #1B1B1D, #18181A);
             --gradient-bg-light: linear-gradient(200deg, #ff7e5f, #feb47b, #86a8e7);
+
+            --icon-bg-dark: #FF5112;
+            --icon-bg-light: var(--card-color-light);
+
+            --icon-bg-dark-hover: #E88010;
+            --icon-bg-light-hover: #cccccc;
         }
 
 
@@ -267,101 +273,6 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             background: var(--bg-color-light);
         }
 
-        /* Sidebar styling */
-        .sidebar {
-            width: 45px;
-            height: 100%;
-            background-color: var(--sidebar-bg-color-dark);
-            position: relative;
-            transition: width 0.3s ease, background-color 0.3s ease;
-            overflow: hidden;
-        }
-
-        body.light-mode .sidebar {
-            background-color: var(--sidebar-bg-color-light);
-        }
-
-        .sidebar:hover {
-            width: 200px;
-            /* Expands on hover */
-        }
-
-        /* Sidebar hamburger icon */
-        .sidebar-icon-container {
-            display: flex;
-            justify-content: flex-end;
-            padding: 3px;
-            position: relative;
-        }
-
-        /* Sidebar icon (hamburger menu) */
-        .hamburger-icon {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 24px;
-            /* Adjusted height to fit 3 lines */
-        }
-
-        .sidebar-icon {
-            width: 25px;
-            height: 3px;
-            background-color: #fff;
-            margin: 0;
-            transition: 0.4s;
-        }
-
-        /* Sidebar content */
-        .sidebar-content {
-            padding: 20px;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transition-delay: 0s;
-        }
-
-        body.light-mode .sidebar-content h2 {
-            color: #ffffff;
-        }
-
-        .sidebar:hover .sidebar-content {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.3s;
-        }
-
-        .sidebar:hover .sidebar-content h2 {
-            transition-delay: 0.3s;
-        }
-
-        .sidebar:hover .sidebar-content p {
-            transition-delay: 0.4s;
-        }
-
-        /* Sidebar links */
-        .sidebar-links a {
-            display: block;
-            padding: 10px 0;
-            color: #FFFFFF;
-            /* Default dark mode text color */
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        body.light-mode .sidebar-links a {
-            color: #cacaca;
-            /* Darker color for light mode */
-        }
-
-        .sidebar-links a:hover {
-            color: #2F9DFF;
-            /* Hover effect for dark mode */
-        }
-
-        body.light-mode .sidebar-links a:hover {
-            color: #4f8585;
-            /* Hover effect for light mode */
-        }
 
         /* Main content area divided into columns */
         .main-content {
@@ -584,24 +495,37 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             align-items: center;
         }
 
+        .icons:has(.icon) {
+            padding-right: 20px;
+        
+        }
+
         .icon {
             padding: 10px;
-            background-color: #364562;
-            border-radius: 10px;
+            background-color: var(--icon-bg-dark);
+            border-radius: 25%;
             cursor: pointer;
+            height: 45px;
             transition: background-color 0.3s ease;
         }
 
+        .toggle-button ion-icon {
+            position: relative;
+            top: 0.5px;
+            left: 0.5px;
+        }
+
+
         .icon:hover {
-            background-color: #4a6fa1;
+            background-color: var(--icon-bg-dark-hover);
         }
 
         body.light-mode .icon {
-            background-color: #95c0c4;
+            background-color: var(--icon-bg-light);
         }
 
         body.light-mode .icon:hover {
-            background-color: #c1e1e2;
+            background-color: var(--icon-bg-light-hover);
         }
 
         .column-3 {
@@ -615,26 +539,28 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* Toggle button styling */
         .toggle-button {
-            background-color: #364562;
+            background-color: var(--icon-bg-dark);
             border: none;
-            border-radius: 10px;
+            height: 45px;
+            border-radius: 25%;
             color: #ffffff;
             padding: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
+
         .toggle-button:hover {
-            background-color: #4a6fa1;
+            background-color: var(--icon-bg-dark-hover);
         }
 
         body.light-mode .toggle-button {
-            background-color: #95c0c4;
+            background-color: var(--icon-bg-light);
             color: #000000;
         }
 
         body.light-mode .toggle-button:hover {
-            background-color: #c1e1e2;
+            background-color: var(--icon-bg-light-hover);
         }
 
         /* Profile Card Styling */
@@ -697,26 +623,27 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         /* Scrollbar Styling for.profile-details */
-       .profile-details::-webkit-scrollbar {
+        .profile-details::-webkit-scrollbar {
             width: 10px;
         }
 
-       .profile-details::-webkit-scrollbar-track {
+        .profile-details::-webkit-scrollbar-track {
             background: transparent;
         }
 
-       .profile-details::-webkit-scrollbar-thumb {
+        .profile-details::-webkit-scrollbar-thumb {
             background-color: var(--scrollbar-dark);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
 
-       .profile-details::-webkit-scrollbar-thumb:hover {
-            background-color: var(--scrollbar-dark-hover);        }
+        .profile-details::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-dark-hover);
+        }
 
         body.light-mode.profile-details::-webkit-scrollbar-thumb {
-            background-color:var(--scrollbar-light);
+            background-color: var(--scrollbar-light);
         }
 
         body.light-mode.profile-details::-webkit-scrollbar-thumb:hover {
