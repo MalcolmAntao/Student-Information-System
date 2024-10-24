@@ -8,12 +8,5 @@ M: Male
 F: Female
 X: Other
 
-Grade:
-only accepts unique tuples to ensure that each course taken by a student has a unique assessment id 
+add trigger in courses table such that when a core course is added for a department and semester, it adds it in the enrolls in table for all the students of that department and semester 
 
-grade allocation(Nathania):
-join tables students, enrolls in and teaches
-allow teacher to choose the student using a drop down 
-course id is fetched from teaches table automatically
-semester is fetched from students table automatically
-year is updated using date function

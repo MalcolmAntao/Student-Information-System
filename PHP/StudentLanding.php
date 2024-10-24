@@ -156,13 +156,20 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
     <title>Homepage</title>
     <style>
         :root {
-            --bg-color-dark: #15141A;
+            --bg-color-dark: #120E0E;
             --bg-color-light: #d9e8e8;
 
             --text-color-dark: #ffffff;
             --text-color-light: #000000;
 
-            --sidebar-bg-color-dark: #212026;
+            --sidebar-bg-color-dark: linear-gradient(130deg,
+                    hsl(0deg 0% 7%) 0%,
+                    hsl(0deg 0% 8%) 24%,
+                    hsl(0deg 0% 9%) 35%,
+                    hsl(0deg 1% 10%) 44%,
+                    hsl(0deg 3% 12%) 64%,
+                    hsl(0deg 4% 13%) 100%);
+
             --sidebar-bg-color-light: #253b42;
 
             --icons-color-dark: #ffffff;
@@ -174,14 +181,22 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --icon-color-dark: #ffffff;
             --icon-color-light: #000000;
 
-            --sidebar-circe-dark: #FF5112;
+            --sidebar-circe-dark: #f8290b;
             --sidebar-circe-light: #0f0;
 
-            --card-color-dark: #212026;
+            --card-color-dark: linear-gradient(175deg, hsl(0deg 0% 7%) 0%,
+                    hsl(0deg 0% 8%) 24%,
+                    hsl(0deg 0% 9%) 35%,
+                    hsl(0deg 1% 10%) 44%,
+                    hsl(0deg 3% 12%) 64%,
+                    hsl(0deg 4% 13%) 100%);
             --card-color-light: #ffffff;
 
             --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
             --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
+
+            --shadow-card-details-dark: var(--shadow-dark);
+            --shadow-card-details-light: #F19B1A;
 
             --cot-dark: #D7FE65;
             --cot-light: #0f0;
@@ -192,11 +207,33 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --gradient-bg-dark: linear-gradient(200deg, #070709, #1B1B1D, #18181A);
             --gradient-bg-light: linear-gradient(200deg, #ff7e5f, #feb47b, #86a8e7);
 
-            --icon-bg-dark: #FF5112;
+            --icon-bg-dark: #f8290b;
             --icon-bg-light: var(--card-color-light);
 
             --icon-bg-dark-hover: #E88010;
             --icon-bg-light-hover: #cccccc;
+
+            --course-card-dark-gradient: linear-gradient(200deg, #F19B1A, #F8290B, #18181A);
+
+
+            --course-card-dark: #1f1f1f;
+            --course-card-light: #f0f0f0;
+
+            --course-card-dark-gradient-hover: linear-gradient(200deg,
+                    hsl(0deg 95% 48%) 0%,
+                    hsl(4deg 94% 48%) 8%,
+                    hsl(7deg 93% 48%) 17%,
+                    hsl(11deg 93% 48%) 25%,
+                    hsl(15deg 92% 48%) 33%,
+                    hsl(18deg 91% 48%) 42%,
+                    hsl(22deg 90% 48%) 50%,
+                    hsl(26deg 89% 48%) 58%,
+                    hsl(29deg 88% 48%) 67%,
+                    hsl(33deg 87% 48%) 75%,
+                    hsl(37deg 87% 47%) 83%,
+                    hsl(40deg 86% 47%) 92%,
+                    hsl(44deg 85% 47%) 100%);
+            --course-card-light-hover: #f0f0f0;
         }
 
 
@@ -242,8 +279,59 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
 
         .gradient-bg {
-            background: var(--gradient-bg-dark);
+            background: var(--course-card-dark-gradient);
             ;
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-bg-hover {
+            background: var(--course-card-dark-gradient-hover);
+
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 10s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-sidebar {
+            background: var(--sidebar-bg-color-dark);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-card {
+            background: var(--card-color-dark);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 50s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        body.light-mode .gradient-bg-hover {
+            background: var(--course-card-light-hover);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 10s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        body.light-mode .gradient-sidebar {
+            background: var(--sidebar-bg-color-light);
             background-size: 400% 400%;
             /* Enlarge background for smooth transitions */
             animation: gradient-animation 15s ease infinite;
@@ -255,8 +343,14 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         body.light-mode .gradient-bg {
             background: var(--gradient-bg-light);
             background-size: 400% 400%;
+
+        }
+
+        body.light-mode .gradient-card {
+            background: var(--card-color-light);
+            background-size: 400% 400%;
             /* Enlarge background for smooth transitions */
-            animation: gradient-animation 15s ease infinite;
+            animation: gradient-animation 50s ease infinite;
             /* Slow animation loop */
             transition: animation-duration 0.5s ease;
             /* Smooth transition to fast speed */
@@ -300,7 +394,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* gpa and Date blocks smaller */
         .small-block {
-            background-color: var(--card-color-dark);
+            /* background-color: var(--card-color-dark); */
             border-radius: 10px;
             padding: 10px;
             text-align: center;
@@ -357,6 +451,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             top: 0;
         }
 
+        .search-bar h2 {
+            padding-top: 15px;
+            color: #F8290B;
+        }
+
         .search-bar input {
             width: 100%;
             padding: 10px;
@@ -379,6 +478,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             padding: 20px;
             display: flex;
             gap: 10px;
+            height: 70vh;
             flex-wrap: wrap;
             overflow-y: auto;
             justify-content: space-around;
@@ -392,12 +492,14 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* Course card container */
         .course-card {
-            background-color: #1B222E;
+            background-color: var(--course-card-dark);
             border-radius: 10px;
             padding: 10px;
             margin: 10px 0;
             text-align: center;
             max-width: 300px;
+            max-height: 135px;
+            height: 40%;
             word-wrap: break-word;
             position: relative;
             cursor: pointer;
@@ -407,6 +509,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             min-width: 200px;
             /* Prevent cards from getting too small */
             box-sizing: border-box;
+            transform: scale(0.98);
+            box-shadow: var(--shadow-card-details-dark);
         }
 
         .course-card:hover {
@@ -415,8 +519,10 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .course-card {
-            background-color: #efeeee;
+            background-color: var(--course-card-light);
             color: #000;
+            box-shadow: var(--shadow-light);
+
         }
 
         /* Course basic info */
@@ -425,10 +531,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             z-index: 1;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
+        .course-basic strong{
+            color: #F8290B;
+        }
 
         /* Course marks card (initially hidden under basic info) */
         .course-marks {
-            background-color: rgba(54, 62, 78, 0.95);
+            background-color: var(--course-card-dark-gradient-hover);
             color: #c1e1e2;
             border-radius: 10px;
             padding: 10px;
@@ -497,7 +606,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         .icons:has(.icon) {
             padding-right: 20px;
-        
+
         }
 
         .icon {
@@ -507,6 +616,29 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             cursor: pointer;
             height: 45px;
             transition: background-color 0.3s ease;
+            transition: transform 0.5s ease;
+        }
+
+        .icon:hover {
+            background: linear-gradient(0deg,
+                    hsl(315deg 73% 10%) 0%,
+                    hsl(2deg 58% 29%) 3%,
+                    hsl(9deg 71% 37%) 9%,
+                    hsl(12deg 79% 43%) 19%,
+                    hsl(15deg 86% 47%) 31%,
+                    hsl(17deg 95% 50%) 45%,
+                    hsl(23deg 96% 58%) 60%,
+                    hsl(30deg 96% 62%) 74%,
+                    hsl(36deg 97% 65%) 86%,
+                    hsl(43deg 99% 68%) 96%,
+                    hsl(50deg 100% 70%) 100%);
+
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+
+            transition: 0.5 ease;
+            transform: scale(1.3);
+            /* Increase size by 20% on hover */
         }
 
         .toggle-button ion-icon {
@@ -539,7 +671,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* Toggle button styling */
         .toggle-button {
-            background-color: var(--icon-bg-dark);
+            /* background-color: var(--icon-bg-dark); */
             border: none;
             height: 45px;
             border-radius: 25%;
@@ -547,11 +679,30 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             padding: 10px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            transition: transform 0.5s ease;
         }
 
 
         .toggle-button:hover {
-            background-color: var(--icon-bg-dark-hover);
+            background: linear-gradient(0deg,
+                    hsl(315deg 73% 10%) 0%,
+                    hsl(2deg 58% 29%) 3%,
+                    hsl(9deg 71% 37%) 9%,
+                    hsl(12deg 79% 43%) 19%,
+                    hsl(15deg 86% 47%) 31%,
+                    hsl(17deg 95% 50%) 45%,
+                    hsl(23deg 96% 58%) 60%,
+                    hsl(30deg 96% 62%) 74%,
+                    hsl(36deg 97% 65%) 86%,
+                    hsl(43deg 99% 68%) 96%,
+                    hsl(50deg 100% 70%) 100%);
+
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+
+            transition: 0.5 ease;
+            transform: scale(1.3);
+            /* Increase size by 20% on hover */
         }
 
         body.light-mode .toggle-button {
@@ -655,7 +806,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             width: 100px;
 
-            background: var(--sidebar-bg-color-dark);
+            /* background: var(--sidebar-bg-color-dark); */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -732,7 +883,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             left: 68%;
             width: 60px;
             height: 58px;
-            background: var(--sidebar-circe-dark);
+            /* background: var(--sidebar-circe-dark); */
             border-radius: 50%;
             border: 6px solid var(--bg-color-dark);
             transition: 0.3s ease;
@@ -796,7 +947,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         body.light-mode .navigation {
             box-shadow: var(--sidebar-shadow-light);
-            background: var(--sidebar-bg-color-light);
+            /* background: var(--sidebar-bg-color-light); */
         }
 
         body.light-mode .navigation ul li a .icons {
@@ -813,7 +964,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .indicator {
-            background: var(--sidebar-circe-light);
+            /* background: var(--sidebar-circe-light); */
             border: 6px solid var(--bg-color-light);
         }
 
@@ -901,7 +1052,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
     </div>
     <div class="container">
         <!-- Sidebar -->
-        <div class="navigation">
+        <div class="navigation gradient-sidebar">
             <ul>
                 <li class="list active">
                     <a href="../PHP/StudentLanding.php">
@@ -927,7 +1078,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                         <span class="text">Logout</span>
                     </a>
                 </li>
-                <div class="indicator"></div>
+                <div class="indicator gradient-bg"></div>
             </ul>
         </div>
 
@@ -937,15 +1088,15 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             <div class="column-2">
                 <!-- Search Bar -->
                 <div class="search-bar">
-                    <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
+                    <h2 >Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 </div>
 
                 <!-- Date and GPA (side by side) -->
                 <div class="date-gpa">
-                    <div class="small-block" id="date-block">
+                    <div class="small-block gradient-card" id="date-block">
                         <p id="date-time" style="text-align:start; font-size:small; line-height:2em"></p>
                     </div>
-                    <div class="small-block">
+                    <div class="small-block gradient-card">
                         <div class="chart-container">
                             <div class="chart-block">
                                 <canvas id="cgpaChart" width="100" height="100"></canvas>
@@ -955,16 +1106,16 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                             </div>
                         </div>
                     </div>
-                    <div class="small-block">
+                    <div class="small-block gradient-card">
                         <p>What to put here?</p>
                     </div>
                 </div>
 
                 <!-- Courses section with scrollable content -->
                 <!-- Courses section with separate cards for basic info and marks -->
-                <div class="courses">
+                <div class="courses gradient-card">
                     <?php foreach ($courses as $course): ?>
-                        <div class="course-card">
+                        <div class="course-card ">
                             <!-- Basic Info Card -->
                             <div class="course-basic">
                                 <strong><?php echo htmlspecialchars($course['CourseName']); ?></strong> <br>
@@ -972,7 +1123,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                                 <em>Credits:</em> <?php echo htmlspecialchars($course['Credits']); ?>
                             </div>
                             <!-- Marks Info Card (Initially hidden) -->
-                            <div class="course-marks">
+                            <div class="course-marks gradient-bg-hover">
                                 <strong>Marks Details</strong>
                                 <p>Average IT Marks: <?= htmlspecialchars($course['Average_IT']); ?></p>
                                 <p>Semester Marks: <?= htmlspecialchars($course['Sem']); ?></p>
@@ -989,31 +1140,31 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             <div class="column-3">
                 <!-- Icons (Reminders, Game, Profile) aligned to the right -->
                 <div class="icons">
-                    <div class="icon">
+                    <div class="icon gradient-bg">
 
                         <a href="../PHP/Announcements.php"><span class="colored-icon"><ion-icon name="notifications-outline" style="width: 25px; height: 25px"></ion-icon></span></a>
                     </div>
-                    <div class="icon">
+                    <div class="icon gradient-bg">
                         <a href="../HTML/Game.html"><span class="colored-icon"><ion-icon name="game-controller-outline" style="width: 25px; height: 25px"></ion-icon></span></a>
                     </div>
-                    <div class="icon">
+                    <div class="icon gradient-bg">
                         <a href="../PHP/StudentProfile.php"><span class="colored-icon"><ion-icon name="person-outline" style="width: 25px; height: 25px"></ion-icon></span></a>
                     </div>
                     <!-- Dark Mode Toggle Button -->
-                    <button class="toggle-button" id="toggle-mode">
+                    <button class="toggle-button gradient-bg" id="toggle-mode">
                         <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
                     </button>
                 </div>
 
                 <!-- Performance block -->
-                <div class="small-block">
-                    <p>performance
+                <div class="small-block gradient-card">
+                    <p style="color: transparent;">Made by Malcolm Antao
                     <p>
                         <canvas id="performanceChart" style="height: 100%; margin:5px; position:relative; top:-10px;"></canvas> <!-- Radar chart canvas -->
                 </div>
 
                 <!-- Profile section -->
-                <div class="small-block">
+                <div class="small-block gradient-card">
                     <div class="profile-card">
                         <div style="flex-direction: column;">
                             <p><strong>Profile</strong></p>
@@ -1033,7 +1184,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 </div>
 
                 <!-- Notices section -->
-                <div class="small-block" style="align-items: start;">
+                <div class="small-block gradient-card" style="align-items: start;">
                     <p style="text-align: center; "><strong>Notices:</strong></p>
                     <ul class="notice-block">
                         <?php foreach ($announcements as $announcement): ?>
@@ -1096,8 +1247,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             const optionsTime = {
                 hour: '2-digit',
                 minute: '2-digit',
-                second: '2-digit',
-                hour12: false
+                hour12: true
             };
 
             const formattedDate = now.toLocaleDateString('en-US', optionsDate).replace(',', ''); // Format the date
@@ -1202,7 +1352,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 // CGPA Chart Colors
                 cgpa: isLightMode ? ['#F39C12', '#8E44AD'] // Light Mode
                     :
-                    ['#1E90FF', '#FF5A5F'], // Dark Mode
+                    ['#08C922', '#FF5A5F'], // Dark Mode
 
                 // SGPA Chart Colors
                 sgpa: isLightMode ? ['#9B1B30', '#2C3E50'] // Light Mode
