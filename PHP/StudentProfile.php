@@ -306,6 +306,14 @@ if ($student) {
             --icons-color: #ffffff;
             --icons-color-active: #000000;
             --icons-text-color: #ffffff;
+
+            --mode-btn: #273c75;
+
+            --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.5);
+
+            --scrollbar: #273c75;
+            --scrollbar-hover: #45454505;
+
         }
 
         body.dark-mode {
@@ -335,6 +343,15 @@ if ($student) {
             --icons-color: #ffffff;
             --icons-color-active: #000000;
             --icons-text-color: #ffffff;
+
+            --mode-btn: grey;
+
+            --shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+            --scrollbar: #454545;
+            --scrollbar-hover: #454545;
+
+
         }
 
         * {
@@ -364,124 +381,6 @@ if ($student) {
             position: relative;
         }
 
-        /* Dark Mode Toggle Button */
-        .toggle-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            padding: 0;
-            z-index: 1000;
-            transition: transform 0.3s;
-        }
-
-        .toggle-button img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .toggle-button:focus {
-            outline: none;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
-            width: 45px;
-            height: 100%;
-            background-color: var(--sidebar-bg);
-            position: relative;
-            transition: width 0.3s ease, background-color 0.3s ease;
-            overflow: hidden;
-        }
-
-
-        .sidebar:hover {
-            width: 200px;
-            /* Expands on hover */
-        }
-
-        /* Sidebar hamburger icon */
-        .sidebar-icon-container {
-            display: flex;
-            justify-content: flex-end;
-            padding: 3px;
-            position: relative;
-        }
-
-        /* Sidebar icon (hamburger menu) */
-        .hamburger-icon {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 24px;
-            /* Adjusted height to fit 3 lines */
-        }
-
-        .sidebar-icon {
-            width: 25px;
-            height: 3px;
-            background-color: #fff;
-            margin: 0;
-            transition: 0.4s;
-        }
-
-        /* Sidebar content */
-        .sidebar-content {
-            padding: 20px;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transition-delay: 0s;
-        }
-
-        body.light-mode .sidebar-content h2 {
-            color: #ffffff;
-        }
-
-        .sidebar:hover .sidebar-content {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 0.3s;
-        }
-
-        .sidebar:hover .sidebar-content h2 {
-            transition-delay: 0.3s;
-        }
-
-        .sidebar:hover .sidebar-content p {
-            transition-delay: 0.4s;
-        }
-
-        /* Sidebar links */
-        .sidebar-links a {
-            display: block;
-            padding: 10px 0;
-            color: #FFFFFF;
-            /* Default dark mode text color */
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        body.light-mode .sidebar-links a {
-            color: #cacaca;
-            /* Darker color for light mode */
-        }
-
-        .sidebar-links a:hover {
-            color: #2F9DFF;
-            /* Hover effect for dark mode */
-        }
-
-        body.light-mode .sidebar-links a:hover {
-            color: #4f8585;
-            /* Hover effect for light mode */
-        }
-
         /* Main Content Styles */
         .main-content {
             display: flex;
@@ -493,6 +392,25 @@ if ($student) {
             /* For positioning expanded-courses */
         }
 
+
+        .profile-middle::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .profile-middle::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .profile-middle::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .profile-middle::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-hover);        }
+
         /* Scrollbar Styling */
         .main-content::-webkit-scrollbar {
             width: 10px;
@@ -503,23 +421,16 @@ if ($student) {
         }
 
         .main-content::-webkit-scrollbar-thumb {
-            background-color: #555555;
+            background-color: transparent;
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
 
         .main-content::-webkit-scrollbar-thumb:hover {
-            background-color: #3c5a99;
+            background-color: transparent;
         }
 
-        body.dark-mode .main-content::-webkit-scrollbar-thumb {
-            background-color: #888888;
-        }
-
-        body.dark-mode .main-content::-webkit-scrollbar-thumb:hover {
-            background-color: #aaa;
-        }
 
         /* Scrollbar Styling */
         .expanded-content::-webkit-scrollbar {
@@ -531,27 +442,20 @@ if ($student) {
         }
 
         .expanded-content::-webkit-scrollbar-thumb {
-            background-color: #555555;
+            background-color: var(--scrollbar);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
 
         .expanded-content::-webkit-scrollbar-thumb:hover {
-            background-color: #3c5a99;
+            background-color: var(--scrollbar-hover);
         }
 
-        body.dark-mode .expanded-content::-webkit-scrollbar-thumb {
-            background-color: #888888;
-        }
-
-        body.dark-mode .expanded-content::-webkit-scrollbar-thumb:hover {
-            background-color: #aaa;
-        }
 
         /* Scrollbar Styling */
         .courses::-webkit-scrollbar {
-            width: 10px;
+            width: 6px;
         }
 
         .courses::-webkit-scrollbar-track {
@@ -559,22 +463,14 @@ if ($student) {
         }
 
         .courses::-webkit-scrollbar-thumb {
-            background-color: #555555;
+            background-color: var(--scrollbar);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
 
         .courses::-webkit-scrollbar-thumb:hover {
-            background-color: #3c5a99;
-        }
-
-        body.dark-mode .courses::-webkit-scrollbar-thumb {
-            background-color: #888888;
-        }
-
-        body.dark-mode .courses::-webkit-scrollbar-thumb:hover {
-            background-color: #aaa;
+            background-color: var(--scrollbar-hover);
         }
 
         /* Scrollbar Styling for #edit-form */
@@ -587,7 +483,7 @@ if ($student) {
         }
 
         #edit-form::-webkit-scrollbar-thumb {
-            background-color: #555555;
+            background-color: var(--scrollbar);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
@@ -597,13 +493,6 @@ if ($student) {
             background-color: #3c5a99;
         }
 
-        body.dark-mode #edit-form::-webkit-scrollbar-thumb {
-            background-color: #888888;
-        }
-
-        body.dark-mode #edit-form::-webkit-scrollbar-thumb:hover {
-            background-color: #aaa;
-        }
 
         /* Card Styles */
         .card {
@@ -995,6 +884,32 @@ if ($student) {
             outline: none;
         }
 
+        /* Dark Mode Toggle Button */
+        .toggle-switch {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            padding: 8px;
+            background: var(--mode-btn);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            color: var(--text-color);
+            cursor: pointer;
+            box-shadow: var(--shadow);
+
+            transition: background-color 0.3s;
+        }
+
+        .toggle-switch ion-icon {
+            position: relative;
+            top: 1px;
+        }
+
+        .toggle-button:focus {
+            outline: none;
+        }
+
         .student-profile img {
             border-radius: 50%;
             width: 150px;
@@ -1235,13 +1150,16 @@ if ($student) {
             position: relative;
 
             width: 100px;
-            height: 100vh;
+
             background: var(--sidebar-bg) !important;
             display: flex;
             justify-content: center;
             align-items: center;
-            border-top-right-radius: 18px;
-            border-bottom-right-radius: 18px;
+            height: 95vh;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
             z-index: 2;
         }
 
@@ -1700,8 +1618,8 @@ if ($student) {
             <div class="profile-top">
                 <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
                 <!-- Dark Mode Toggle Button -->
-                <button class="toggle-button" id="mode-toggle" style="height: 5vh; width: 5vh;">
-                    <img src="../Assets/Light_mode.svg" alt="Toggle Dark Mode" id="toggle-icon">
+                <button class="toggle-switch" id="toggle-mode">
+                    <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
                 </button>
             </div>
             <div class="profile-middle">
@@ -1809,7 +1727,7 @@ if ($student) {
 
     </div>
 
-    <script src="../JS/Preloader.js" ></script>
+    <script src="../JS/Preloader.js"></script>
     <!-- navbar script -->
     <script>
         const list = document.querySelectorAll('.list');
@@ -1931,32 +1849,7 @@ if ($student) {
                 });
         });
 
-        // // Handle profile picture deletion
-        // document.getElementById('delete-profile-pic-btn').addEventListener('click', function() {
-        //     if (confirm('Are you sure you want to delete your profile picture?')) {
-        //         const formData = new FormData();
-        //         formData.append('delete_profile_pic', 'true');
 
-        //         // Send the request to the server
-        //         fetch('update_profile.php', {
-        //                 method: 'POST',
-        //                 body: formData
-        //             })
-        //             .then(response => response.json()) // Parse the JSON response
-        //             .then(data => {
-        //                 if (data.status === 'success') {
-        //                     showAlert('Profile picture deleted successfully!', 'success');
-        //                     // Optionally, clear the profile picture from the UI
-        //                     document.getElementById('profile-picture'); // Adjust based on your img element's ID
-        //                 } else {
-        //                     showAlert('Error: ' + data.message, 'error');
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 showAlert('An error occurred: ' + error.message, 'error');
-        //             });
-        //     }
-        // });
 
         // Function to display success/error alerts
         function showAlert(message, type) {
@@ -2236,14 +2129,14 @@ if ($student) {
 
     <script>
         // Dark mode toggle functionality
-        const toggleButton = document.getElementById('mode-toggle');
-        const toggleIcon = document.getElementById('toggle-icon');
+        const toggleButton = document.getElementById('toggle-mode');
+        const toggleIcon = document.querySelector('.colored-icon ion-icon'); // Select the ion-icon element
 
         // Check local storage for saved mode preference
         const savedMode = localStorage.getItem('mode');
         if (savedMode) {
             document.body.classList.toggle('light-mode', savedMode === 'light');
-            toggleIcon.src = savedMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
+            toggleIcon.setAttribute('name', savedMode === 'light' ? 'sunny-outline' : 'moon-outline'); // Change icon based on mode
         }
 
         // Redraw charts after mode change
@@ -2252,16 +2145,17 @@ if ($student) {
             sgpaChart.update(); // Redraw SGPA chart
             performanceChart.update(); // Redraw Radar chart
         }
+
         // Function to apply mode
         function applyMode(mode) {
             if (mode === 'dark') {
                 document.body.classList.add('dark-mode');
-                toggleIcon.src = '../Assets/Dark_mode.svg'; // Path to Dark Mode icon
+                toggleIcon.setAttribute('name', 'moon-outline'); // Set dark mode icon
                 toggleIcon.alt = 'Switch to Light Mode';
                 courseColor(); // Assuming this function changes course-related colors
             } else {
                 document.body.classList.remove('dark-mode');
-                toggleIcon.src = '../Assets/Light_mode.svg'; // Path to Light Mode icon
+                toggleIcon.setAttribute('name', 'sunny-outline'); // Set light mode icon
                 toggleIcon.alt = 'Switch to Dark Mode';
                 courseColor(); // Assuming this function changes course-related colors
             }
@@ -2269,7 +2163,6 @@ if ($student) {
                 icon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--icons-color');
             });
             console.log('Current mode:', mode, 'Dark mode class applied:', document.body.classList.contains('dark-mode'));
-
         }
 
         // Apply the saved mode on page load
@@ -2281,12 +2174,9 @@ if ($student) {
             const newMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
             applyMode(newMode);
             localStorage.setItem('mode', newMode);
-            toggleIcon.src = newMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
 
             console.log('Mode changed to:', newMode);
 
-            // Check if dark mode class is applied
-            console.log('Dark mode applied:', document.body.classList.contains('dark-mode'));
             // Redraw the doughnut charts with new colors
             const chartColors = getChartColors();
             cgpaChart.data.datasets[0].backgroundColor = chartColors.cgpa;
@@ -2305,6 +2195,7 @@ if ($student) {
             updateRadarChartColors(); // Call to update other radar chart colors, if necessary
         });
     </script>
+
 
 
     <!-- //script for cgpa/sgpa chart -->

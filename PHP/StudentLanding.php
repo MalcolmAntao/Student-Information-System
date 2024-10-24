@@ -156,13 +156,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
     <title>Homepage</title>
     <style>
         :root {
-            --bg-color-dark: #1f1821;
+            --bg-color-dark: #0D0D0F;
             --bg-color-light: #d9e8e8;
 
             --text-color-dark: #ffffff;
             --text-color-light: #000000;
 
-            --sidebar-bg-color-dark: #232B3A;
+            --sidebar-bg-color-dark: #16191E;
             --sidebar-bg-color-light: #253b42;
 
             --icons-color-dark: #ffffff;
@@ -170,7 +170,29 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             --icons-color-active-dark: #000000;
             --icons-color-active-light: #000000;
+
+            --icon-color-dark: #ffffff;
+            --icon-color-light: #000000;
+
+            --sidebar-circe-dark: #F22E2E;
+            --sidebar-circe-light: #0f0;
+
+            --card-color-dark: #16191E;
+            --card-color-light: #364562;
+
+            --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
+            --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
+
+            --cot-dark: #D7FE65;
+            --cot-light: #0f0;
+
+            --cot-dark-hover: #D3F263;
+            --cot-light-hover: #0f0;
+
+            --gradient-bg-dark: linear-gradient(200deg, #070709, #1B1B1D, #18181A);
+            --gradient-bg-light: linear-gradient(200deg, #ff7e5f, #feb47b, #86a8e7);
         }
+
 
         * {
             margin: 0;
@@ -197,9 +219,52 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             color: var(--text-color-light);
         }
 
+        /* Keyframes for gradient animation */
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        .gradient-bg {
+            background: var(--gradient-bg-dark);
+            ;
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        body.light-mode .gradient-bg {
+            background: var(--gradient-bg-light);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
         .container {
             display: flex;
+            background: var(--bg-color-dark);
             height: 100vh;
+            transition: 0.3s ease;
+        }
+
+        body.light-mode .container {
+            background: var(--bg-color-light);
         }
 
         /* Sidebar styling */
@@ -324,7 +389,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* gpa and Date blocks smaller */
         .small-block {
-            background-color: #232B3A;
+            background-color: var(--card-color-dark);
             border-radius: 10px;
             padding: 10px;
             text-align: center;
@@ -336,6 +401,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             justify-content: center;
             overflow: hidden;
             position: relative;
+            box-shadow: var(--shadow-dark);
             /* For positioning course-marks */
         }
 
@@ -347,7 +413,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .notice-block {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: start;
             padding-left: 20px;
         }
 
@@ -357,12 +423,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .notice-block a {
-            background-color: #c3d8da;
+            background-color: transparent;
             color: #000000;
         }
 
         body.light-mode .small-block {
-            background-color: #c3d8da;
+            box-shadow: var(--shadow-light);
+            background: var(--card-color-light);
         }
 
         /* Flex container for date and gpa to be side by side */
@@ -396,7 +463,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* Courses section */
         .courses {
-            background-color: #232B3A;
+            background-color: var(--card-color-dark);
             border-radius: 10px;
             padding: 20px;
             display: flex;
@@ -404,10 +471,12 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             flex-wrap: wrap;
             overflow-y: auto;
             justify-content: space-around;
+            box-shadow: var(--shadow-dark);
         }
 
         body.light-mode .courses {
-            background-color: #c3d8da;
+            background-color: var(--card-color-light);
+            box-shadow: var(--shadow-light);
         }
 
         /* Course card container */
@@ -572,8 +641,9 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .profile-card {
             display: flex;
             align-items: center;
+            height: 100%;
             /* Align items to the start vertically */
-            background-color: #232B3A;
+            background-color: transparent;
             border-radius: 10px;
             padding: 10px;
             gap: 15px;
@@ -588,7 +658,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .profile-card {
-            background-color: #c3d8da;
+            background-color: transparent;
         }
 
         body.light-mode .profile-card img {
@@ -599,8 +669,9 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             display: grid;
             grid-template-columns: auto;
             row-gap: 0.1px;
-            height: 100%;
+            height: 130%;
             padding: 5px;
+            overflow: auto;
             /* Removed column gap since labels and values are on the same line */
         }
 
@@ -625,17 +696,49 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             width: 110px !important;
         }
 
+        /* Scrollbar Styling for.profile-details */
+       .profile-details::-webkit-scrollbar {
+            width: 10px;
+        }
+
+       .profile-details::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+       .profile-details::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-dark);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+       .profile-details::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-dark-hover);        }
+
+        body.light-mode.profile-details::-webkit-scrollbar-thumb {
+            background-color:var(--scrollbar-light);
+        }
+
+        body.light-mode.profile-details::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-light-hover);
+        }
+
         .navigation {
             position: relative;
 
             width: 100px;
-            height: 100vh;
+
             background: var(--sidebar-bg-color-dark);
             display: flex;
             justify-content: center;
             align-items: center;
-            border-top-right-radius: 18px;
-            border-bottom-right-radius: 18px;
+            height: 95vh;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-dark);
+            transition: 0.3s ease;
 
         }
 
@@ -702,7 +805,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             left: 68%;
             width: 60px;
             height: 58px;
-            background: #29fd53;
+            background: var(--sidebar-circe-dark);
             border-radius: 50%;
             border: 6px solid var(--bg-color-dark);
             transition: 0.3s ease;
@@ -765,6 +868,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .navigation {
+            box-shadow: var(--sidebar-shadow-light);
             background: var(--sidebar-bg-color-light);
         }
 
@@ -774,7 +878,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         body.light-mode .navigation ul li.active a .icons {
             color: var(--icons-color-active-light);
-            ;
+
         }
 
         body.light-mode .navigation ul li a .text {
@@ -782,6 +886,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .indicator {
+            background: var(--sidebar-circe-light);
             border: 6px solid var(--bg-color-light);
         }
 
@@ -849,12 +954,22 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             max-height: 100%;
             /* Ensure canvas does not overflow */
         }
+
+        .colored-icon {
+            font-weight: 500;
+            color: var(--icon-color-dark);
+        }
+
+        body.light-mode .colored-icon {
+            color: var(--icon-color-light);
+        }
     </style>
 </head>
 
 <body>
     <div id="preloader">
         <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
+        <h3>Welcome Back <?php echo htmlspecialchars($student_name); ?></h3>
         <!-- <div class="spinner"></div> -->
     </div>
     <div class="container">
@@ -901,7 +1016,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 <!-- Date and GPA (side by side) -->
                 <div class="date-gpa">
                     <div class="small-block" id="date-block">
-                        <p id="date-time"></p>
+                        <p id="date-time" style="text-align:start; font-size:small; line-height:2em"></p>
                     </div>
                     <div class="small-block">
                         <div class="chart-container">
@@ -949,17 +1064,17 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 <div class="icons">
                     <div class="icon">
 
-                        <a href="../PHP/Announcements.php"><img src="../Assets/Notification.svg" alt="Notification" width="25" height="25"></a>
+                        <a href="../PHP/Announcements.php"><span class="colored-icon"><ion-icon name="notifications-outline" style="width: 25px; height: 25px"></ion-icon></span></a>
                     </div>
                     <div class="icon">
-                        <a href="../HTML/Game.html"><img src="../Assets/Game.svg" alt="Game" width="25" height="25"></a>
+                        <a href="../HTML/Game.html"><span class="colored-icon"><ion-icon name="game-controller-outline" style="width: 25px; height: 25px"></ion-icon></span></a>
                     </div>
                     <div class="icon">
-                        <a href="../PHP/StudentProfile.php"><img src="../Assets/Profile.svg" alt="Profile" width="25" height="25"></a>
+                        <a href="../PHP/StudentProfile.php"><span class="colored-icon"><ion-icon name="person-outline" style="width: 25px; height: 25px"></ion-icon></span></a>
                     </div>
                     <!-- Dark Mode Toggle Button -->
                     <button class="toggle-button" id="toggle-mode">
-                        <img src="../Assets/Dark_mode.svg" alt="Dark mode" width="25" height="25">
+                        <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
                     </button>
                 </div>
 
@@ -967,13 +1082,17 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 <div class="small-block">
                     <p>performance
                     <p>
-                        <canvas id="performanceChart"></canvas> <!-- Radar chart canvas -->
+                        <canvas id="performanceChart" style="height: 100%; margin:5px; position:relative; top:-10px;"></canvas> <!-- Radar chart canvas -->
                 </div>
 
                 <!-- Profile section -->
                 <div class="small-block">
                     <div class="profile-card">
-                        <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
+                        <div style="flex-direction: column;">
+                            <p><strong>Profile</strong></p>
+                            <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
+
+                        </div>
 
                         <div class="profile-details">
                             <p><strong>Name:</strong> <?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name'] . " " . $profile['Last_Name']); ?></p>
@@ -987,8 +1106,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 </div>
 
                 <!-- Notices section -->
-                <div class="small-block">
-                    <p style="text-align: center;"><strong>Notices:</strong></p>
+                <div class="small-block" style="align-items: start;">
+                    <p style="text-align: center; "><strong>Notices:</strong></p>
                     <ul class="notice-block">
                         <?php foreach ($announcements as $announcement): ?>
                             <li><a href="Announcements.php?id=<?= htmlspecialchars($announcement['Announcement_ID']); ?>">
@@ -1000,7 +1119,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             </div>
         </div>
     </div>
-    <script src="../JS/Preloader.js" ></script>
+    <script src="../JS/Preloader.js"></script>
     <!-- navbar script -->
     <script>
         const list = document.querySelectorAll('.list');
@@ -1041,18 +1160,28 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         // Date and time display
         function updateDateTime() {
             const now = new Date();
-            const options = {
+            const optionsDate = {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric',
+                day: 'numeric'
+            };
+            const optionsTime = {
                 hour: '2-digit',
                 minute: '2-digit',
+                second: '2-digit',
                 hour12: false
             };
-            const formattedDateTime = now.toLocaleDateString('en-US', options).replace(',', ''); // Remove the comma after day
-            document.getElementById('date-time').textContent = formattedDateTime;
+
+            const formattedDate = now.toLocaleDateString('en-US', optionsDate).replace(',', ''); // Format the date
+            const formattedTime = now.toLocaleTimeString('en-US', optionsTime); // Format the time
+
+            // Combine the formatted date and time with an HTML line break
+            const dateTimeString = `DATE: ${formattedDate} <br> TIME: ${formattedTime}`;
+
+            document.getElementById('date-time').innerHTML = dateTimeString; // Use innerHTML to render the <br> tag
         }
+
 
         // Update every minute
         setInterval(updateDateTime, 60000);
@@ -1060,13 +1189,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         // Dark mode toggle functionality
         const toggleButton = document.getElementById('toggle-mode');
-        const toggleIcon = toggleButton.querySelector('img');
+        const toggleIcon = toggleButton.querySelector('ion-icon'); // Change from img to ion-icon
 
         // Check local storage for saved mode preference
         const savedMode = localStorage.getItem('mode');
         if (savedMode) {
             document.body.classList.toggle('light-mode', savedMode === 'light');
-            toggleIcon.src = savedMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
+            toggleIcon.setAttribute('name', savedMode === 'light' ? 'sunny-outline' : 'moon-outline'); // Update Ionicon
         }
         // Redraw charts after mode change
         function redrawCharts() {
@@ -1078,7 +1207,9 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             document.body.classList.toggle('light-mode');
             const newMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
             localStorage.setItem('mode', newMode);
-            toggleIcon.src = newMode === 'light' ? '../Assets/Light_mode.svg' : '../Assets/Dark_mode.svg';
+
+            // Update the Ionicon icon based on the mode
+            toggleIcon.setAttribute('name', newMode === 'light' ? 'sunny-outline' : 'moon-outline'); // Toggle between icons
 
             // Redraw the doughnut charts with new colors
             const chartColors = getChartColors();
@@ -1114,7 +1245,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             // Check if light mode is enabled
             const isLightMode = document.body.classList.contains('light-mode');
-            const textColor = isLightMode ? '#000' : '#fff'; // Black for light mode, white for dark mode
+            const textColor = isLightMode ? '#000000' : '#ffffff'; // Black for light mode, white for dark mode
 
             ctx.restore();
             const fontSize = (height / 114).toFixed(2);

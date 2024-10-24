@@ -44,7 +44,7 @@ if ($noticeID) {
             --text-color-dark: #ffffff;
             --text-color-light: #000000;
 
-            --sidebar-bg-color-dark: #232B3A;
+            --sidebar-bg-color-dark: #2d2d2d;
             --sidebar-bg-color-light: #253b42;
 
             --icons-color-dark: #ffffff;
@@ -55,12 +55,28 @@ if ($noticeID) {
 
             --table-header-dark: #4a4a4a;
             --table-header-light: #dddddd;
+
             --card-bg-dark: #2d2d2d;
             --card-bg-light: #ffffff;
+
             --card-hover-bg-dark: #3a3a3a;
             --card-hover-bg-light: #f1f1f1;
+
             --shadow-dark: rgba(0, 0, 0, 0.3);
             --shadow-light: rgba(0, 0, 0, 0.1);
+
+            --icon-color-dark: #ffffff;
+            --icon-color-light: #ffffff;
+
+            --scrollbar-dark:transparent;
+            --scrollbar-light:transparent;
+
+            --scrollbar-dark-hover:transparent;
+            --scrollbar-light-hover:transparent;
+
+            --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);;
+            --shadow-light: 0 0 10px rgba(0, 0, 0, 0.2);;
+
         }
 
         body {
@@ -73,7 +89,7 @@ if ($noticeID) {
 
             opacity: 0;
             /* Start with full transparency */
-            transition: opacity 1.5s ease-in;
+            /* transition: opacity 1.5s ease-in; */
             /* Adjust duration as needed */
         }
 
@@ -112,18 +128,28 @@ if ($noticeID) {
             position: absolute;
             top: 10px;
             right: 20px;
-            padding: 10px;
+            padding: 8px;
             background: var(--sidebar-bg-color-dark);
             border: none;
-            border-radius: 10px;
+            border-radius: 50%;
+            width: 45px;
             color: var(--text-color-dark);
             cursor: pointer;
+            box-shadow: var(--shadow-dark);
             transition: background-color 0.3s;
         }
 
         body.light-mode .toggle-switch {
             background: var(--sidebar-bg-color-light);
             color: var(--text-color-dark);
+            box-shadow: var(--shadow-light);
+
+        }
+
+        .toggle-switch ion-icon {
+            position: relative;
+            top: 1px;
+            left: 0.5px;
         }
 
         /* Notice Cards */
@@ -217,13 +243,15 @@ if ($noticeID) {
         .navigation {
             position: relative;
             width: 100px;
-            height: 100vh;
             background: var(--sidebar-bg-color-dark);
             display: flex;
             justify-content: center;
             align-items: center;
-            border-top-right-radius: 18px;
-            border-bottom-right-radius: 18px;
+            height: 95vh;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
 
         }
 
@@ -366,7 +394,7 @@ if ($noticeID) {
 
         body.light-mode .navigation ul li.active a .icons {
             color: var(--icons-color-active-light);
-            ;
+
         }
 
         body.light-mode .navigation ul li a .text {
@@ -432,22 +460,30 @@ if ($noticeID) {
         }
 
         .scrollable::-webkit-scrollbar-thumb {
-            background-color: #555555;
+            background-color: var(--scrollbar-dark);
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
 
         .scrollable::-webkit-scrollbar-thumb:hover {
-            background-color: #3c5a99;
+            background-color: var(--scrollbar-dark-hover);        }
+
+        body.light-mode .scrollable::-webkit-scrollbar-thumb {
+            background-color:var(--scrollbar-light);
         }
 
-        body.dark-mode .scrollable::-webkit-scrollbar-thumb {
-            background-color: #888888;
+        body.light-mode .scrollable::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-light-hover);
         }
 
-        body.dark-mode .scrollable::-webkit-scrollbar-thumb:hover {
-            background-color: #aaa;
+        .colored-icon {
+            font-weight: 500;
+            color: var(--icon-color-dark);
+        }
+
+        body.light-mode .colored-icon {
+            color: var(--icon-color-light);
         }
     </style>
 </head>
@@ -493,8 +529,11 @@ if ($noticeID) {
         <div class="main-content">
             <header>
                 <h1>Notices</h1>
-                <button class="toggle-switch" id="toggle-mode">Toggle Theme</button>
+
             </header>
+            <button class="toggle-switch" id="toggle-mode">
+                <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
+            </button>
             <!-- Notice Detail Card -->
             <div id="notice-details" class="notice-detail">
                 <?php if ($noticeDetail): ?>
@@ -587,9 +626,34 @@ if ($noticeID) {
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
         });
+        // Toggle light/dark mode on button click
         document.getElementById('toggle-mode').addEventListener('click', function() {
+            // Toggle the light mode class on the body
             document.body.classList.toggle('light-mode');
-            localStorage.setItem('mode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+
+            // Update the local storage with the current mode
+            const newMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            localStorage.setItem('mode', newMode);
+
+            // Update the Ionicon based on the current mode
+            const iconElement = this.querySelector('ion-icon'); // Get the Ionicon element
+            if (newMode === 'light') {
+                iconElement.setAttribute('name', 'sunny-outline'); // Change to the light mode icon
+            } else {
+                iconElement.setAttribute('name', 'moon-outline'); // Change to the dark mode icon
+            }
+        });
+
+        // Optional: Set the initial state of the toggle button icon on page load
+        window.addEventListener('load', function() {
+            const iconElement = document.getElementById('toggle-mode').querySelector('ion-icon'); // Get the Ionicon element
+            const currentMode = localStorage.getItem('mode') || 'dark'; // Default to dark mode
+            if (currentMode === 'light') {
+                document.body.classList.add('light-mode');
+                iconElement.setAttribute('name', 'sunny-outline'); // Set the light mode icon
+            } else {
+                iconElement.setAttribute('name', 'moon-outline'); // Set the dark mode icon
+            }
         });
 
         window.onload = function() {
