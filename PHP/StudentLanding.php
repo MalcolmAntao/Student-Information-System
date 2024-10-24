@@ -178,7 +178,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --icons-color-active-dark: #000000;
             --icons-color-active-light: #000000;
 
-            --icon-color-dark: #ffffff;
+            --icon-color-dark: #000000;
             --icon-color-light: #000000;
 
             --sidebar-circe-dark: #f8290b;
@@ -198,13 +198,16 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --shadow-card-details-dark: var(--shadow-dark);
             --shadow-card-details-light: #F19B1A;
 
+            --shadow-profile-dark: 0 0 10px rgba(25, 81, 10, 1);
+            --shadow-profile-light: #74e857;
+
             --cot-dark: #D7FE65;
             --cot-light: #0f0;
 
             --cot-dark-hover: #D3F263;
             --cot-light-hover: #0f0;
 
-            --gradient-bg-dark: linear-gradient(200deg, #070709, #1B1B1D, #18181A);
+            --gradient-bg-dark: radial-gradient(at right bottom, #EFEA75, #02D12F);
             --gradient-bg-light: linear-gradient(200deg, #ff7e5f, #feb47b, #86a8e7);
 
             --icon-bg-dark: #f8290b;
@@ -213,27 +216,24 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --icon-bg-dark-hover: #E88010;
             --icon-bg-light-hover: #cccccc;
 
-            --course-card-dark-gradient: linear-gradient(200deg, #F19B1A, #F8290B, #18181A);
+            --icon-gradient-bg-dark-hover: radial-gradient(at right bottom,#2980b9, #6dd5fa, #ffffff);
+            --icon-gradient-bg-light-hover: #cccccc;
 
+            --course-card-dark-gradient:radial-gradient(at right bottom, #EFEA75, #02D12F);
+            --course-card-light-gradient: linear-gradient(200deg, #F19B1A, #F8290B, #18181A);
 
             --course-card-dark: #1f1f1f;
             --course-card-light: #f0f0f0;
 
-            --course-card-dark-gradient-hover: linear-gradient(200deg,
-                    hsl(0deg 95% 48%) 0%,
-                    hsl(4deg 94% 48%) 8%,
-                    hsl(7deg 93% 48%) 17%,
-                    hsl(11deg 93% 48%) 25%,
-                    hsl(15deg 92% 48%) 33%,
-                    hsl(18deg 91% 48%) 42%,
-                    hsl(22deg 90% 48%) 50%,
-                    hsl(26deg 89% 48%) 58%,
-                    hsl(29deg 88% 48%) 67%,
-                    hsl(33deg 87% 48%) 75%,
-                    hsl(37deg 87% 47%) 83%,
-                    hsl(40deg 86% 47%) 92%,
-                    hsl(44deg 85% 47%) 100%);
-            --course-card-light-hover: #f0f0f0;
+            --course-card-dark-gradient-hover: radial-gradient(at right top, rgba(11,181,24,1) 0%, rgba(152,205,120,1) 28%, rgba(67,216,29,1) 63%, rgba(219,223,147,1) 93%);
+
+            --course-card-light-gradient-hover: #f0f0f0;
+
+            --bold-text-dark:#08C922;
+            --bold-text-light:rgba(0, 140, 255) ;
+
+            --profile-border-dark:#54b23c;
+            --profile-border-light:#74e857;
         }
 
 
@@ -436,6 +436,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             box-shadow: var(--shadow-light);
             background: var(--card-color-light);
         }
+        
 
         /* Flex container for date and gpa to be side by side */
         .date-gpa {
@@ -453,7 +454,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         .search-bar h2 {
             padding-top: 15px;
-            color: #F8290B;
+            color: var( --bold-text-dark);
+        }
+
+        body.light-mode h2{
+            color: var(--bold-text-light);
         }
 
         .search-bar input {
@@ -532,13 +537,17 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .course-basic strong{
-            color: #F8290B;
+            color: var(--bold-text-dark);
+        }
+
+        body.light-mode .course-basic strong{
+            color: var(--bold-text-light);
         }
 
         /* Course marks card (initially hidden under basic info) */
         .course-marks {
             background-color: var(--course-card-dark-gradient-hover);
-            color: #c1e1e2;
+            color: var(--text-color-light);
             border-radius: 10px;
             padding: 10px;
             box-sizing: border-box;
@@ -588,7 +597,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         /* Ensure "Marks Details" changes color along with other texts */
         .course-marks strong {
-            color: white;
+            color: var(--text-color-light);
         }
 
         body.light-mode .course-marks strong {
@@ -620,18 +629,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         .icon:hover {
-            background: linear-gradient(0deg,
-                    hsl(315deg 73% 10%) 0%,
-                    hsl(2deg 58% 29%) 3%,
-                    hsl(9deg 71% 37%) 9%,
-                    hsl(12deg 79% 43%) 19%,
-                    hsl(15deg 86% 47%) 31%,
-                    hsl(17deg 95% 50%) 45%,
-                    hsl(23deg 96% 58%) 60%,
-                    hsl(30deg 96% 62%) 74%,
-                    hsl(36deg 97% 65%) 86%,
-                    hsl(43deg 99% 68%) 96%,
-                    hsl(50deg 100% 70%) 100%);
+            background: linear-gradient(to right, #a8ff78, #78ffd6);
 
             background-size: 400% 400%;
             /* Enlarge background for smooth transitions */
@@ -684,19 +682,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
 
         .toggle-button:hover {
-            background: linear-gradient(0deg,
-                    hsl(315deg 73% 10%) 0%,
-                    hsl(2deg 58% 29%) 3%,
-                    hsl(9deg 71% 37%) 9%,
-                    hsl(12deg 79% 43%) 19%,
-                    hsl(15deg 86% 47%) 31%,
-                    hsl(17deg 95% 50%) 45%,
-                    hsl(23deg 96% 58%) 60%,
-                    hsl(30deg 96% 62%) 74%,
-                    hsl(36deg 97% 65%) 86%,
-                    hsl(43deg 99% 68%) 96%,
-                    hsl(50deg 100% 70%) 100%);
-
+            background: var(--icon-gradient-bg-dark-hover);
             background-size: 400% 400%;
             /* Enlarge background for smooth transitions */
 
@@ -725,13 +711,26 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             padding: 10px;
             gap: 15px;
         }
+        .profile-card strong{
+            color:var(--bold-text-dark)
+        }
+        .small-block strong{
+            color:var(--bold-text-dark);
+        }
+
+        body.light-mode .profile-card strong{
+            color:var(--bold-text-light);
+        }
+        body.light-mode strong{
+            color:var(--bold-text-light);
+        }
 
         .profile-card img {
             width: 100px;
             height: 100px;
             object-fit: cover;
             border-radius: 50%;
-            border: 2px solid #fff;
+            box-shadow: var(--shadow-profile-dark);
         }
 
         body.light-mode .profile-card {
@@ -739,7 +738,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .profile-card img {
-            border: 2px solid #000;
+            box-shadow: var(--shadow-profile-light);
         }
 
         .profile-details {
@@ -764,6 +763,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .profile-details p strong {
             width: 120px;
             text-align: left;
+            color: var(--bold-text-dark);
             /* Ensure labels are left-aligned */
             padding-right: 10px;
             font-weight: bold;
@@ -1167,7 +1167,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 <div class="small-block gradient-card">
                     <div class="profile-card">
                         <div style="flex-direction: column;">
-                            <p><strong>Profile</strong></p>
+                            <p><strong> </strong></p>
                             <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
 
                         </div>
@@ -1457,10 +1457,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         function getRadarChartColors() {
             const isLightMode = document.body.classList.contains('light-mode');
             return {
-                backgroundColor: isLightMode ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 193, 7, 0.2)',
-                borderColor: isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 193, 7, 1)',
-                ticksColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)',
-                gridColor: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'
+                
             };
         }
 
@@ -1525,8 +1522,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             performanceChart.options.scales.r.grid.color = isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
 
             // Update chart colors
-            performanceChart.data.datasets[0].backgroundColor = isLightMode ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 193, 7, 0.2)';
-            performanceChart.data.datasets[0].borderColor = isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 193, 7, 1)';
+            performanceChart.data.datasets[0].backgroundColor = isLightMode ? 'rgba(153, 204, 255, 0.2)' : 'rgba(184, 245, 170, 0.2)';
+            performanceChart.data.datasets[0].borderColor = isLightMode ? 'rgba(0, 140, 255,1) ' : 'rgba(54, 162, 22, 1)';
 
             performanceChart.update();
         }
