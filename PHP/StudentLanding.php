@@ -216,10 +216,24 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 3% 12%) 64%,
                     hsl(0deg 4% 13%) 100%);
 
-            --card-color-light: linear-gradient(95deg,
-            rgba(50,81,95,1) 39%, rgba(121,147,159,1) 94%, rgba(119,148,163,1) 100%);
-
-            --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
+            --card-color-light: radial-gradient(at top left,
+            hsl(202deg 33% 32%) 0%,
+    hsl(202deg 29% 35%) 22%,
+    hsl(202deg 27% 38%) 37%,
+    hsl(202deg 25% 41%) 46%,
+    hsl(202deg 24% 44%) 52%,
+    hsl(201deg 23% 46%) 56%,
+    hsl(201deg 22% 49%) 60%,
+    hsl(201deg 22% 51%) 64%,
+    hsl(201deg 23% 53%) 68%,
+    hsl(201deg 25% 55%) 73%,
+    hsl(201deg 26% 57%) 78%,
+    hsl(201deg 28% 59%) 85%,
+    hsl(201deg 30% 61%) 92%,
+    hsl(201deg 32% 63%) 100%
+  );
+  
+  --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
             --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
 
             --shadow-card-details-dark: var(--shadow-dark);
@@ -375,7 +389,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         body.light-mode .gradient-card {
             background: var(--card-color-light);
             background-size: 400% 400%;
-            
+
         }
 
         .container {
@@ -451,7 +465,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         body.light-mode .notice-block a {
             background-color: transparent;
-            color:var(--text-color-dark);
+            color: var(--text-color-dark);
         }
 
         body.light-mode .small-block {
@@ -723,7 +737,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             background: var(--course-card-dark-gradient);
             ;
             background-size: 400% 400%;
-            
+
         }
 
         /* Profile Card Styling */
@@ -1455,6 +1469,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         });
     </script>
     <!-- //script for performance chart -->
+
     <script>
         // Fetch the course names and marks from PHP
         const courseNames = <?= json_encode($courseNames); ?>;
@@ -1462,7 +1477,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         // Function to fetch updated courses and marks periodically
         function fetchUpdatedData() {
-            fetch('fetch_courses_and_marks.php') // PHP file to return updated data in JSON
+            fetch('fetch_courses_and_marks.php')
                 .then(response => response.json())
                 .then(data => {
                     updatePerformanceChart(data.courses, data.marks);
@@ -1470,23 +1485,22 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 .catch(error => console.error('Error fetching data:', error));
         }
 
-        // // Poll the server every 30 seconds for updated data
-        // setInterval(fetchUpdatedData, 30000);
-
         // Function to update the radar chart dynamically
         function updatePerformanceChart(courses, marks) {
-            // Update radar chart data
             performanceChart.data.labels = courses;
             performanceChart.data.datasets[0].data = marks;
-
-            // Re-render the chart to reflect updated data
             performanceChart.update();
         }
+
         // Function to get colors for the radar chart based on the mode
         function getRadarChartColors() {
             const isLightMode = document.body.classList.contains('light-mode');
             return {
-
+                backgroundColor: isLightMode ? 'rgba(153, 204, 255, 0.2)' : 'rgba(184, 245, 170, 0.2)',
+                borderColor: isLightMode ? 'rgba(0, 140, 255,1)' : 'rgba(54, 162, 22, 1)',
+                ticksColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)',
+                gridColor: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)',
+                pointLabelsColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)' // Color for course titles
             };
         }
 
@@ -1496,70 +1510,73 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         const performanceChart = new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: courseNames, // Dynamic course names from PHP
+                labels: courseNames,
                 datasets: [{
-                    data: courseMarks, // Dynamic marks from PHP
-                    backgroundColor: radarColors.backgroundColor, // Light color for radar area
-                    borderColor: radarColors.borderColor, // Border color of the radar
-                    borderWidth: 2 // Border width of the lines
+                    data: courseMarks,
+                    backgroundColor: radarColors.backgroundColor,
+                    borderColor: radarColors.borderColor,
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Allows the chart to scale with the container size
+                maintainAspectRatio: false,
                 scales: {
                     r: {
-                        suggestedMin: 0, // Minimum value for the radar chart
-                        suggestedMax: 125, // Max marks is 125
+                        suggestedMin: 0,
+                        suggestedMax: 125,
                         ticks: {
-                            backdropColor: 'transparent', // Remove background color
+                            backdropColor: 'transparent',
                             color: radarColors.ticksColor,
-                            stepSize: 25, // Set the interval between ticks (25, 50, 75, 100, 125) // Color based on mode
+                            stepSize: 25
                         },
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.1)' // Grid line color
+                            color: radarColors.gridColor
                         },
                         angleLines: {
-                            display: true,
-                            color: 'rgba(0, 0, 0, 0.1)' // Adjust angle line color
+                            color: radarColors.gridColor
+                        },
+                        pointLabels: {
+                            color: radarColors.pointLabelsColor // Set color for course titles
                         }
                     }
                 },
                 layout: {
                     padding: {
-                        top: 5, // Add padding at the top to ensure no overlap
-                        bottom: 5 // Padding at the bottom for better spacing
+                        top: 5,
+                        bottom: 5
                     }
                 },
                 plugins: {
                     legend: {
-                        display: false // Hide the legend entirely
+                        display: false
                     }
                 }
             }
         });
-        updateRadarChartColors(); // to update the color based on the mode the user is in
 
         // Function to update radar chart colors based on light/dark mode
         function updateRadarChartColors() {
             const isLightMode = document.body.classList.contains('light-mode');
+            const radarColors = getRadarChartColors();
 
-            // Update tick color
-            performanceChart.options.scales.r.ticks.color = isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)';
+            // Update chart properties for colors
+            performanceChart.options.scales.r.ticks.color = radarColors.ticksColor;
+            performanceChart.options.scales.r.grid.color = radarColors.gridColor;
+            performanceChart.options.scales.r.pointLabels.color = radarColors.pointLabelsColor;
 
-            // Update grid color
-            performanceChart.options.scales.r.grid.color = isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
-
-            // Update chart colors
-            performanceChart.data.datasets[0].backgroundColor = isLightMode ? 'rgba(153, 204, 255, 0.2)' : 'rgba(184, 245, 170, 0.2)';
-            performanceChart.data.datasets[0].borderColor = isLightMode ? 'rgba(0, 140, 255,1) ' : 'rgba(54, 162, 22, 1)';
+            performanceChart.data.datasets[0].backgroundColor = radarColors.backgroundColor;
+            performanceChart.data.datasets[0].borderColor = radarColors.borderColor;
 
             performanceChart.update();
         }
-        fetchUpdatedData(); // <-- Important for initial chart rendering
-        setInterval(fetchUpdatedData, 30000); // Poll every 30 seconds
-        setInterval(redrawCharts, 30000); // Poll every 30 seconds
+
+        // Fetch initial data and set up intervals
+        fetchUpdatedData();
+        setInterval(fetchUpdatedData, 30000);
+        setInterval(updateRadarChartColors, 30000); // Ensure colors update periodically
     </script>
+
 
 </body>
 
