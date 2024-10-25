@@ -160,7 +160,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --bg-color-light: #d9e8e8;
 
             --text-color-dark: #ffffff;
-            --text-color-light: #000000;
+            --text-color-light: #ffffff;
 
             --sidebar-bg-color-dark: linear-gradient(130deg,
                     hsl(0deg 0% 7%) 0%,
@@ -171,32 +171,31 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 4% 13%) 100%);
 
             --sidebar-bg-color-light: linear-gradient(130deg,
-            hsl(196deg 49% 21%) 11%,
-    hsl(198deg 38% 25%) 29%,
-    hsl(199deg 32% 28%) 37%,
-    hsl(199deg 29% 31%) 41%,
-    hsl(200deg 27% 34%) 45%,
-    hsl(200deg 25% 36%) 48%,
-    hsl(200deg 24% 38%) 50%,
-    hsl(201deg 23% 40%) 52%,
-    hsl(201deg 22% 42%) 54%,
-    hsl(201deg 21% 44%) 55%,
-    hsl(201deg 21% 46%) 56%,
-    hsl(201deg 20% 48%) 57%,
-    hsl(202deg 20% 50%) 58%,
-    hsl(202deg 21% 51%) 59%,
-    hsl(202deg 22% 53%) 60%,
-    hsl(202deg 23% 54%) 61%,
-    hsl(202deg 24% 56%) 62%,
-    hsl(202deg 25% 57%) 63%,
-    hsl(202deg 26% 59%) 65%,
-    hsl(202deg 27% 60%) 66%,
-    hsl(202deg 29% 62%) 68%,
-    hsl(202deg 30% 63%) 70%,
-    hsl(202deg 32% 64%) 74%,
-    hsl(202deg 33% 66%) 79%,
-    hsl(202deg 35% 67%) 92%
-  );
+                    hsl(196deg 49% 21%) 11%,
+                    hsl(198deg 38% 25%) 29%,
+                    hsl(199deg 32% 28%) 37%,
+                    hsl(199deg 29% 31%) 41%,
+                    hsl(200deg 27% 34%) 45%,
+                    hsl(200deg 25% 36%) 48%,
+                    hsl(200deg 24% 38%) 50%,
+                    hsl(201deg 23% 40%) 52%,
+                    hsl(201deg 22% 42%) 54%,
+                    hsl(201deg 21% 44%) 55%,
+                    hsl(201deg 21% 46%) 56%,
+                    hsl(201deg 20% 48%) 57%,
+                    hsl(202deg 20% 50%) 58%,
+                    hsl(202deg 21% 51%) 59%,
+                    hsl(202deg 22% 53%) 60%,
+                    hsl(202deg 23% 54%) 61%,
+                    hsl(202deg 24% 56%) 62%,
+                    hsl(202deg 25% 57%) 63%,
+                    hsl(202deg 26% 59%) 65%,
+                    hsl(202deg 27% 60%) 66%,
+                    hsl(202deg 29% 62%) 68%,
+                    hsl(202deg 30% 63%) 70%,
+                    hsl(202deg 32% 64%) 74%,
+                    hsl(202deg 33% 66%) 79%,
+                    hsl(202deg 35% 67%) 92%);
 
             --icons-color-dark: #ffffff;
             --icons-color-light: #ffffff;
@@ -216,7 +215,9 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 1% 10%) 44%,
                     hsl(0deg 3% 12%) 64%,
                     hsl(0deg 4% 13%) 100%);
-            --card-color-light: #ffffff;
+
+            --card-color-light: linear-gradient(95deg,
+            rgba(50,81,95,1) 39%, rgba(121,147,159,1) 94%, rgba(119,148,163,1) 100%);
 
             --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
             --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -242,23 +243,23 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --icon-bg-dark-hover: #E88010;
             --icon-bg-light-hover: #cccccc;
 
-            --icon-gradient-bg-dark-hover: radial-gradient(at right bottom,#2980b9, #6dd5fa, #ffffff);
+            --icon-gradient-bg-dark-hover: radial-gradient(at right bottom, #2980b9, #6dd5fa, #ffffff);
             --icon-gradient-bg-light-hover: #cccccc;
 
-            --course-card-dark-gradient:radial-gradient(at right bottom, #EFEA75, #02D12F);
-            --course-card-light-gradient: radial-gradient(at left top, rgba(0,118,255,1) 0%, rgba(32,157,230,1) 35%, rgba(109,203,255,1) 69%, rgba(179,229,255,1) 99%);
+            --course-card-dark-gradient: radial-gradient(at right bottom, #EFEA75, #02D12F);
+            --course-card-light-gradient: radial-gradient(at left top, rgba(0, 118, 255, 1) 0%, rgba(32, 157, 230, 1) 35%, rgba(109, 203, 255, 1) 69%, rgba(179, 229, 255, 1) 99%);
 
             --course-card-dark: #232323;
             --course-card-light: #f0f0f0;
 
-            --course-card-dark-gradient-hover: radial-gradient(at right top, rgba(11,181,24,1) 0%, rgba(152,205,120,1) 28%, rgba(67,216,29,1) 63%, rgba(219,223,147,1) 93%);
-            --course-card-light-gradient-hover: radial-gradient(at left top, rgba(20,205,230,1) 0%, rgba(146,203,236,1) 40%, rgba(214,232,243,1) 77%, rgba(214,232,243,1) 77%);
+            --course-card-dark-gradient-hover: radial-gradient(at right top, rgba(11, 181, 24, 1) 0%, rgba(152, 205, 120, 1) 28%, rgba(67, 216, 29, 1) 63%, rgba(219, 223, 147, 1) 93%);
+            --course-card-light-gradient-hover: radial-gradient(at left top, rgba(20, 205, 230, 1) 0%, rgba(146, 203, 236, 1) 40%, rgba(214, 232, 243, 1) 77%, rgba(214, 232, 243, 1) 77%);
 
-            --bold-text-dark:#08C922;
-            --bold-text-light:#008CFF ;
+            --bold-text-dark: #08C922;
+            --bold-text-light: #58baf3;
 
-            --profile-border-dark:#54b23c;
-            --profile-border-light:#74e857;
+            --profile-border-dark: #54b23c;
+            --profile-border-light: #74e857;
         }
 
 
@@ -374,11 +375,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         body.light-mode .gradient-card {
             background: var(--card-color-light);
             background-size: 400% 400%;
-            /* Enlarge background for smooth transitions */
-            animation: gradient-animation 50s ease infinite;
-            /* Slow animation loop */
-            transition: animation-duration 0.5s ease;
-            /* Smooth transition to fast speed */
+            
         }
 
         .container {
@@ -454,14 +451,14 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         body.light-mode .notice-block a {
             background-color: transparent;
-            color: #000000;
+            color:var(--text-color-dark);
         }
 
         body.light-mode .small-block {
             box-shadow: var(--shadow-light);
-            background: var(--card-color-light);
+            /* background: var(--card-color-light); */
         }
-        
+
 
         /* Flex container for date and gpa to be side by side */
         .date-gpa {
@@ -479,10 +476,10 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         .search-bar h2 {
             padding-top: 15px;
-            color: var( --bold-text-dark);
+            color: var(--bold-text-dark);
         }
 
-        body.light-mode h2{
+        body.light-mode h2 {
             color: var(--bold-text-light);
         }
 
@@ -561,11 +558,12 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             z-index: 1;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        .course-basic strong{
+
+        .course-basic strong {
             color: var(--bold-text-dark);
         }
 
-        body.light-mode .course-basic strong{
+        body.light-mode .course-basic strong {
             color: var(--bold-text-light);
         }
 
@@ -722,7 +720,10 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .toggle-button:hover {
-            background-color: var(--icon-bg-light-hover);
+            background: var(--course-card-dark-gradient);
+            ;
+            background-size: 400% 400%;
+            
         }
 
         /* Profile Card Styling */
@@ -736,18 +737,21 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             padding: 10px;
             gap: 15px;
         }
-        .profile-card strong{
-            color:var(--bold-text-dark)
-        }
-        .small-block strong{
-            color:var(--bold-text-dark);
+
+        .profile-card strong {
+            color: var(--bold-text-dark)
         }
 
-        body.light-mode .profile-card strong{
-            color:var(--bold-text-light);
+        .small-block strong {
+            color: var(--bold-text-dark);
         }
-        body.light-mode strong{
-            color:var(--bold-text-light);
+
+        body.light-mode .profile-card strong {
+            color: var(--bold-text-light);
+        }
+
+        body.light-mode strong {
+            color: var(--bold-text-light);
         }
 
         .profile-card img {
@@ -1113,7 +1117,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             <div class="column-2">
                 <!-- Search Bar -->
                 <div class="search-bar">
-                    <h2 >Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
+                    <h2>Welcome back, <?php echo htmlspecialchars($student_name); ?></h2>
                 </div>
 
                 <!-- Date and GPA (side by side) -->
@@ -1347,7 +1351,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             // Check if light mode is enabled
             const isLightMode = document.body.classList.contains('light-mode');
-            const textColor = isLightMode ? '#000000' : '#ffffff'; // Black for light mode, white for dark mode
+            const textColor = isLightMode ? '#ffffff' : '#ffffff'; // Black for light mode, white for dark mode
 
             ctx.restore();
             const fontSize = (height / 114).toFixed(2);
@@ -1482,7 +1486,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         function getRadarChartColors() {
             const isLightMode = document.body.classList.contains('light-mode');
             return {
-                
+
             };
         }
 
