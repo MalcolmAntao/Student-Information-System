@@ -248,11 +248,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --course-card-dark-gradient:radial-gradient(at right bottom, #EFEA75, #02D12F);
             --course-card-light-gradient: radial-gradient(at left top, rgba(0,118,255,1) 0%, rgba(32,157,230,1) 35%, rgba(109,203,255,1) 69%, rgba(179,229,255,1) 99%);
 
-            --course-card-dark: #1f1f1f;
+            --course-card-dark: #232323;
             --course-card-light: #f0f0f0;
 
             --course-card-dark-gradient-hover: radial-gradient(at right top, rgba(11,181,24,1) 0%, rgba(152,205,120,1) 28%, rgba(67,216,29,1) 63%, rgba(219,223,147,1) 93%);
-            --course-card-light-gradient-hover: radial-gradient(at left top, rgba(0,140,255,1) 0%, rgba(56,207,249,1) 50%, rgba(209,230,241,1) 93%);
+            --course-card-light-gradient-hover: radial-gradient(at left top, rgba(20,205,230,1) 0%, rgba(146,203,236,1) 40%, rgba(214,232,243,1) 77%, rgba(214,232,243,1) 77%);
 
             --bold-text-dark:#08C922;
             --bold-text-light:#008CFF ;
