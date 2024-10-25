@@ -217,23 +217,22 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 4% 13%) 100%);
 
             --card-color-light: radial-gradient(at top left,
-            hsl(202deg 33% 32%) 0%,
-    hsl(202deg 29% 35%) 22%,
-    hsl(202deg 27% 38%) 37%,
-    hsl(202deg 25% 41%) 46%,
-    hsl(202deg 24% 44%) 52%,
-    hsl(201deg 23% 46%) 56%,
-    hsl(201deg 22% 49%) 60%,
-    hsl(201deg 22% 51%) 64%,
-    hsl(201deg 23% 53%) 68%,
-    hsl(201deg 25% 55%) 73%,
-    hsl(201deg 26% 57%) 78%,
-    hsl(201deg 28% 59%) 85%,
-    hsl(201deg 30% 61%) 92%,
-    hsl(201deg 32% 63%) 100%
-  );
-  
-  --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
+                    hsl(202deg 33% 32%) 0%,
+                    hsl(202deg 29% 35%) 22%,
+                    hsl(202deg 27% 38%) 37%,
+                    hsl(202deg 25% 41%) 46%,
+                    hsl(202deg 24% 44%) 52%,
+                    hsl(201deg 23% 46%) 56%,
+                    hsl(201deg 22% 49%) 60%,
+                    hsl(201deg 22% 51%) 64%,
+                    hsl(201deg 23% 53%) 68%,
+                    hsl(201deg 25% 55%) 73%,
+                    hsl(201deg 26% 57%) 78%,
+                    hsl(201deg 28% 59%) 85%,
+                    hsl(201deg 30% 61%) 92%,
+                    hsl(201deg 32% 63%) 100%);
+
+            --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
             --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
 
             --shadow-card-details-dark: var(--shadow-dark);
@@ -571,6 +570,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             padding: 10px;
             z-index: 1;
             transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .font-size{
+            padding: 5px;
+            font-size: small;
         }
 
         .course-basic strong {
@@ -1162,8 +1166,11 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                             <!-- Basic Info Card -->
                             <div class="course-basic">
                                 <strong><?php echo htmlspecialchars($course['CourseName']); ?></strong> <br>
-                                <em>Description:</em> <?php echo htmlspecialchars($course['Description']); ?> <br>
-                                <em>Credits:</em> <?php echo htmlspecialchars($course['Credits']); ?>
+                                <div class="font-size">
+                                    <em>Description:</em> <?php echo htmlspecialchars($course['Description']); ?> <br>
+                                    <em>Credits:</em> <?php echo htmlspecialchars($course['Credits']); ?>
+
+                                </div>
                             </div>
                             <!-- Marks Info Card (Initially hidden) -->
                             <div class="course-marks gradient-bg-hover">
