@@ -170,7 +170,33 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 3% 12%) 64%,
                     hsl(0deg 4% 13%) 100%);
 
-            --sidebar-bg-color-light: #253b42;
+            --sidebar-bg-color-light: linear-gradient(130deg,
+            hsl(196deg 49% 21%) 11%,
+    hsl(198deg 38% 25%) 29%,
+    hsl(199deg 32% 28%) 37%,
+    hsl(199deg 29% 31%) 41%,
+    hsl(200deg 27% 34%) 45%,
+    hsl(200deg 25% 36%) 48%,
+    hsl(200deg 24% 38%) 50%,
+    hsl(201deg 23% 40%) 52%,
+    hsl(201deg 22% 42%) 54%,
+    hsl(201deg 21% 44%) 55%,
+    hsl(201deg 21% 46%) 56%,
+    hsl(201deg 20% 48%) 57%,
+    hsl(202deg 20% 50%) 58%,
+    hsl(202deg 21% 51%) 59%,
+    hsl(202deg 22% 53%) 60%,
+    hsl(202deg 23% 54%) 61%,
+    hsl(202deg 24% 56%) 62%,
+    hsl(202deg 25% 57%) 63%,
+    hsl(202deg 26% 59%) 65%,
+    hsl(202deg 27% 60%) 66%,
+    hsl(202deg 29% 62%) 68%,
+    hsl(202deg 30% 63%) 70%,
+    hsl(202deg 32% 64%) 74%,
+    hsl(202deg 33% 66%) 79%,
+    hsl(202deg 35% 67%) 92%
+  );
 
             --icons-color-dark: #ffffff;
             --icons-color-light: #ffffff;
@@ -220,17 +246,16 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --icon-gradient-bg-light-hover: #cccccc;
 
             --course-card-dark-gradient:radial-gradient(at right bottom, #EFEA75, #02D12F);
-            --course-card-light-gradient: linear-gradient(200deg, #F19B1A, #F8290B, #18181A);
+            --course-card-light-gradient: radial-gradient(at left top, rgba(0,118,255,1) 0%, rgba(32,157,230,1) 35%, rgba(109,203,255,1) 69%, rgba(179,229,255,1) 99%);
 
             --course-card-dark: #1f1f1f;
             --course-card-light: #f0f0f0;
 
             --course-card-dark-gradient-hover: radial-gradient(at right top, rgba(11,181,24,1) 0%, rgba(152,205,120,1) 28%, rgba(67,216,29,1) 63%, rgba(219,223,147,1) 93%);
-
-            --course-card-light-gradient-hover: #f0f0f0;
+            --course-card-light-gradient-hover: radial-gradient(at left top, rgba(0,140,255,1) 0%, rgba(56,207,249,1) 50%, rgba(209,230,241,1) 93%);
 
             --bold-text-dark:#08C922;
-            --bold-text-light:rgba(0, 140, 255) ;
+            --bold-text-light:#008CFF ;
 
             --profile-border-dark:#54b23c;
             --profile-border-light:#74e857;
@@ -321,7 +346,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .gradient-bg-hover {
-            background: var(--course-card-light-hover);
+            background: var(--course-card-light-gradient-hover);
             background-size: 400% 400%;
             /* Enlarge background for smooth transitions */
             animation: gradient-animation 10s ease infinite;
@@ -341,7 +366,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .gradient-bg {
-            background: var(--gradient-bg-light);
+            background: var(--icon-gradient-bg-dark-hover);
             background-size: 400% 400%;
 
         }
