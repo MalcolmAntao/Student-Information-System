@@ -160,7 +160,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --bg-color-light: #d9e8e8;
 
             --text-color-dark: #ffffff;
-            --text-color-light: #ffffff;
+            --text-color-light: #000000;
 
             --sidebar-bg-color-dark: linear-gradient(130deg,
                     hsl(0deg 0% 7%) 0%,
@@ -171,37 +171,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 4% 13%) 100%);
 
             --sidebar-bg-color-light: linear-gradient(130deg,
-                    hsl(196deg 49% 21%) 11%,
-                    hsl(198deg 38% 25%) 29%,
-                    hsl(199deg 32% 28%) 37%,
-                    hsl(199deg 29% 31%) 41%,
-                    hsl(200deg 27% 34%) 45%,
-                    hsl(200deg 25% 36%) 48%,
-                    hsl(200deg 24% 38%) 50%,
-                    hsl(201deg 23% 40%) 52%,
-                    hsl(201deg 22% 42%) 54%,
-                    hsl(201deg 21% 44%) 55%,
-                    hsl(201deg 21% 46%) 56%,
-                    hsl(201deg 20% 48%) 57%,
-                    hsl(202deg 20% 50%) 58%,
-                    hsl(202deg 21% 51%) 59%,
-                    hsl(202deg 22% 53%) 60%,
-                    hsl(202deg 23% 54%) 61%,
-                    hsl(202deg 24% 56%) 62%,
-                    hsl(202deg 25% 57%) 63%,
-                    hsl(202deg 26% 59%) 65%,
-                    hsl(202deg 27% 60%) 66%,
-                    hsl(202deg 29% 62%) 68%,
-                    hsl(202deg 30% 63%) 70%,
-                    hsl(202deg 32% 64%) 74%,
-                    hsl(202deg 33% 66%) 79%,
-                    hsl(202deg 35% 67%) 92%);
+            #83a4d4, #b6fbff);
 
             --icons-color-dark: #ffffff;
-            --icons-color-light: #ffffff;
+            --icons-color-light: #000000;
 
             --icons-color-active-dark: #000000;
-            --icons-color-active-light: #000000;
+            --icons-color-active-light: #ffffff;
 
             --icon-color-dark: #000000;
             --icon-color-light: #000000;
@@ -217,23 +193,10 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 4% 13%) 100%);
 
             --card-color-light: radial-gradient(at top left,
-                    hsl(202deg 33% 32%) 0%,
-                    hsl(202deg 29% 35%) 22%,
-                    hsl(202deg 27% 38%) 37%,
-                    hsl(202deg 25% 41%) 46%,
-                    hsl(202deg 24% 44%) 52%,
-                    hsl(201deg 23% 46%) 56%,
-                    hsl(201deg 22% 49%) 60%,
-                    hsl(201deg 22% 51%) 64%,
-                    hsl(201deg 23% 53%) 68%,
-                    hsl(201deg 25% 55%) 73%,
-                    hsl(201deg 26% 57%) 78%,
-                    hsl(201deg 28% 59%) 85%,
-                    hsl(201deg 30% 61%) 92%,
-                    hsl(201deg 32% 63%) 100%);
+            #83a4d4, #b6fbff);
 
             --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
-            --shadow-light: 0 0 10px rgba(0, 0, 0, 0.5);
+            --shadow-light: 0 0 10px rgba(0, 0, 0, 0.1);
 
             --shadow-card-details-dark: var(--shadow-dark);
             --shadow-card-details-light: #F19B1A;
@@ -464,7 +427,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         body.light-mode .notice-block a {
             background-color: transparent;
-            color: var(--text-color-dark);
+            color: var(--text-color-light);
         }
 
         body.light-mode .small-block {
@@ -993,7 +956,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .navigation {
-            box-shadow: var(--sidebar-shadow-light);
+            box-shadow: var(--shadow-light);
             /* background: var(--sidebar-bg-color-light); */
         }
 
@@ -1007,7 +970,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         body.light-mode .navigation ul li a .text {
-            color: var(--text-color-dark);
+            color: var(--text-color-light);
         }
 
         body.light-mode .indicator {
@@ -1093,8 +1056,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
 <body>
     <div id="preloader">
-        <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
-        <h3>Welcome Back <?php echo htmlspecialchars($student_name); ?></h3>
+        <!-- <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
+        <h3>Welcome Back <?php echo htmlspecialchars($student_name); ?></h3> -->
         <!-- <div class="spinner"></div> -->
     </div>
     <div class="container">
