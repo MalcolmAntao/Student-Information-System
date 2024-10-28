@@ -38,35 +38,50 @@ if ($noticeID) {
     <title>Notices</title>
     <style>
         :root {
-            --bg-color-dark: #222327;
+            --bg-color-dark: #120E0E;
             --bg-color-light: #d9e8e8;
 
             --text-color-dark: #ffffff;
             --text-color-light: #000000;
 
-            --sidebar-bg-color-dark: #2d2d2d;
-            --sidebar-bg-color-light: #253b42;
+            --sidebar-bg-color-dark: linear-gradient(130deg,
+                    hsl(0deg 0% 7%) 0%,
+                    hsl(0deg 0% 8%) 24%,
+                    hsl(0deg 0% 9%) 35%,
+                    hsl(0deg 1% 10%) 44%,
+                    hsl(0deg 3% 12%) 64%,
+                    hsl(0deg 4% 13%) 100%);
+            --sidebar-bg-color-light:linear-gradient(130deg,
+            #83a4d4, #b6fbff);
 
             --icons-color-dark: #ffffff;
-            --icons-color-light: #ffffff;
+            --icons-color-light: #000000;
 
             --icons-color-active-dark: #000000;
-            --icons-color-active-light: #000000;
+            --icons-color-active-light: #ffffff;
 
             --table-header-dark: #4a4a4a;
             --table-header-light: #dddddd;
 
-            --card-bg-dark: #2d2d2d;
-            --card-bg-light: #ffffff;
+            --card-bg-dark: var(--sidebar-bg-color-dark);
+            --card-bg-light: var(--sidebar-bg-color-light);
 
-            --card-hover-bg-dark: #3a3a3a;
-            --card-hover-bg-light: #f1f1f1;
+            --card-color-dark: linear-gradient(130deg,
+                    hsl(0deg 0% 7%) 0%,
+                    hsl(0deg 0% 8%) 24%,
+                    hsl(0deg 0% 9%) 35%,
+                    hsl(0deg 1% 10%) 44%,
+                    hsl(0deg 3% 12%) 64%,
+                    hsl(0deg 4% 13%) 100%);
+
+            --card-color-light: linear-gradient(130deg,
+            #83a4d4, #b6fbff);
 
             --shadow-dark: rgba(0, 0, 0, 0.3);
             --shadow-light: rgba(0, 0, 0, 0.1);
 
-            --icon-color-dark: #ffffff;
-            --icon-color-light: #ffffff;
+            --icon-color-dark: #000000;
+            --icon-color-light: #000000;
 
             --scrollbar-dark:transparent;
             --scrollbar-light:transparent;
@@ -75,7 +90,26 @@ if ($noticeID) {
             --scrollbar-light-hover:transparent;
 
             --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);;
-            --shadow-light: 0 0 10px rgba(0, 0, 0, 0.2);;
+            --shadow-light: 0 0 10px rgba(0, 0, 0, 0.1);;
+
+            --course-card-dark-gradient: radial-gradient(at right bottom, #EFEA75, #02D12F);
+            --course-card-light-gradient: radial-gradient(at left top, rgba(0, 118, 255, 1) 0%, rgba(32, 157, 230, 1) 35%, rgba(109, 203, 255, 1) 69%, rgba(179, 229, 255, 1) 99%);
+
+            --course-card-dark: #232323;
+            --course-card-light: #B5E9FF;
+
+            --card-hover-bg-dark: #3a3a3a;
+            --card-hover-bg-light: #C8E9FF;
+            
+            --course-card-dark-gradient-hover: radial-gradient(at right top, rgba(11, 181, 24, 1) 0%, rgba(152, 205, 120, 1) 28%, rgba(67, 216, 29, 1) 63%, rgba(219, 223, 147, 1) 93%);
+            --course-card-light-gradient-hover: radial-gradient(at left top, rgba(20, 205, 230, 1) 0%, rgba(146, 203, 236, 1) 40%, rgba(214, 232, 243, 1) 77%, rgba(214, 232, 243, 1) 77%);
+
+            --icon-gradient-bg-dark-hover: radial-gradient(at right bottom, #2980b9, #6dd5fa, #ffffff);
+            --icon-gradient-bg-light-hover: #cccccc;
+
+            --bold-text-dark: #08C922;
+            --bold-text-light: #1D5FA5;
+            --bold-text-light-small: #1D5FA5;
 
         }
 
@@ -91,6 +125,96 @@ if ($noticeID) {
             /* Start with full transparency */
             /* transition: opacity 1.5s ease-in; */
             /* Adjust duration as needed */
+        }
+
+        /* Keyframes for gradient animation */
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        .gradient-bg {
+            background: var(--course-card-dark-gradient);
+            ;
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-bg-hover {
+            background: var(--course-card-dark-gradient-hover);
+
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 10s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-sidebar {
+            background: var(--sidebar-bg-color-dark);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-card {
+            background: var(--card-color-dark);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 50s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        body.light-mode .gradient-bg-hover {
+            background: var(--course-card-light-gradient-hover);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 10s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        body.light-mode .gradient-sidebar {
+            background: var(--sidebar-bg-color-light);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        body.light-mode .gradient-bg {
+            background: var(--icon-gradient-bg-dark-hover);
+            background-size: 400% 400%;
+
+        }
+
+        body.light-mode .gradient-card {
+            background: var(--card-color-light);
+            background-size: 400% 400%;
+
         }
 
         body.loaded {
@@ -129,7 +253,7 @@ if ($noticeID) {
             top: 30px;
             right: 40px;
             padding: 8px;
-            background: var(--sidebar-bg-color-dark);
+            /* background: var(--sidebar-bg-color-dark); */
             border: none;
             border-radius: 25%;
             width: 45px;
@@ -137,13 +261,29 @@ if ($noticeID) {
             cursor: pointer;
             box-shadow: var(--shadow-dark);
             transition: background-color 0.3s;
+            transition: transform 0.5s ease;
+        }
+
+        .toggle-switch:hover{
+            background: var(--icon-gradient-bg-dark-hover);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+
+            transition: 0.5s ease;
+            transform: scale(1.2);
+            /* Increase size by 20% on hover */
         }
 
         body.light-mode .toggle-switch {
-            background: var(--sidebar-bg-color-light);
-            color: var(--text-color-dark);
-            box-shadow: var(--shadow-light);
+            /* background: var(--sidebar-bg-color-light); */
+            background-color: var(--icon-bg-light);
+            color: #000000;
 
+        }
+
+        body.light-mode .toggle-switch:hover{
+            background: var(--course-card-dark-gradient);
+            background-size: 400% 400%;
         }
 
         .toggle-switch ion-icon {
@@ -156,7 +296,7 @@ if ($noticeID) {
         /* Notice Cards */
         .notice-detail,
         .notice-card {
-            background-color: var(--card-bg-dark);
+            /* background: var(--card-bg-dark); */
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 8px var(--shadow-dark);
@@ -167,6 +307,7 @@ if ($noticeID) {
 
         /* New Classes for Fading Effects */
         .notice-card {
+            background: var(--course-card-dark);
             transform: scale(0.9);
             transition: 0.3 ease-in-out;
             opacity: 0;
@@ -184,18 +325,20 @@ if ($noticeID) {
             transform: translateY(-20px);
         }
 
-
-
-
         body.light-mode .notice-detail,
         body.light-mode .notice-card {
-            background-color: var(--card-bg-light);
+            /* background: var(--card-bg-light); */
             box-shadow: 0 4px 8px var(--shadow-light);
         }
 
+
         .notice-card:hover {
-            background-color: var(--card-hover-bg-dark);
+            background: var(--card-hover-bg-dark);
             box-shadow: 0 6px 12px var(--shadow-dark);
+        }
+
+        body.light-mode .notice-card{
+            background: var(--course-card-light);
         }
 
         body.light-mode .notice-card:hover {
@@ -205,7 +348,23 @@ if ($noticeID) {
 
         .notice-card h3 {
             margin: 0;
-            color: #29fd53;
+            color: var(--bold-text-dark)
+        }
+        body.light-mode .notice-card h3{
+            color: var(--bold-text-light);
+        }
+        header h1{
+            color: var(--bold-text-dark);
+        }
+        body.light-mode header h1{
+            color: var(--bold-text-light);
+        }
+
+        h2{
+            color: var(--bold-text-dark);
+        }
+        body.light-mode h2{
+            color: var(--bold-text-light);
         }
 
         .notice-card p {
@@ -243,7 +402,7 @@ if ($noticeID) {
         .navigation {
             position: relative;
             width: 100px;
-            background: var(--sidebar-bg-color-dark);
+            /* background: var(--sidebar-bg-color-dark); */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -319,7 +478,7 @@ if ($noticeID) {
             left: 68%;
             width: 50px;
             height: 48px;
-            background: #29fd53;
+            /* background: #29fd53; */
             border-radius: 50%;
             border: 6px solid var(--bg-color-dark);
             transition: 0.3s ease;
@@ -385,7 +544,8 @@ if ($noticeID) {
         }
 
         body.light-mode .navigation {
-            background: var(--sidebar-bg-color-light);
+            box-shadow: var(--shadow-light);
+            /* background: var(--sidebar-bg-color-light); */
         }
 
         body.light-mode .navigation ul li a .icons {
@@ -398,7 +558,7 @@ if ($noticeID) {
         }
 
         body.light-mode .navigation ul li a .text {
-            color: var(--text-color-dark);
+            color: var(--text-color-light);
         }
 
         body.light-mode .indicator {
@@ -485,6 +645,8 @@ if ($noticeID) {
         body.light-mode .colored-icon {
             color: var(--icon-color-light);
         }
+
+        
     </style>
 </head>
 
@@ -495,7 +657,7 @@ if ($noticeID) {
     </div>
     <div class="container">
         <!-- Sidebar -->
-        <div class="navigation">
+        <div class="navigation gradient-sidebar">
             <ul>
                 <li class="list ">
                     <a href="../PHP/StudentLanding.php">
@@ -521,7 +683,7 @@ if ($noticeID) {
                         <span class="text">Logout</span>
                     </a>
                 </li>
-                <div class="indicator"></div>
+                <div class="indicator gradient-bg"></div>
             </ul>
         </div>
 
@@ -531,13 +693,13 @@ if ($noticeID) {
                 <h1>Notices</h1>
 
             </header>
-            <button class="toggle-switch" id="toggle-mode">
+            <button class="toggle-switch gradient-bg" id="toggle-mode">
                 <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
             </button>
             <!-- Notice Detail Card -->
-            <div id="notice-details" class="notice-detail">
+            <div id="notice-details" class="notice-detail gradient-bg-hover" style="color: #000000;">
                 <?php if ($noticeDetail): ?>
-                    <h2><?= htmlspecialchars($noticeDetail['Title']); ?></h2>
+                    <h2 style="color: #000000;"><?= htmlspecialchars($noticeDetail['Title']); ?></h2>
                     <p><strong>Posted by:</strong> <?= htmlspecialchars($noticeDetail['First_Name'] . ' ' . $noticeDetail['Last_Name']); ?></p>
                     <p><strong>Posted on:</strong> <?= date('F j, Y', strtotime($noticeDetail['Posting_Date'])); ?></p>
                     <p><?= nl2br(htmlspecialchars($noticeDetail['Content'])); ?></p>

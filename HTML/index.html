@@ -1,191 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CampusConnect</title>
-    <link rel="stylesheet" href="../CSS/Landing.css">
+    <link rel="stylesheet" href="../CSS/Landing.css" />
+    <link rel="icon" href="../Assets/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../Assets/icon.png" type="image/png">
     <link rel="stylesheet" href="../CSS/Preloader.css">
-</head>
-<body class="dark-mode"> <!-- Set default to dark mode -->
 
-<section>
-    <!-- Grid Background -->
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
+    <style>
+      /* Style for the password container and reveal button */
+      .password-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
 
-    <!-- Middle Layer and Form -->
-    <div class="middle-layer">
-        <img id="middle-img" src="../Assets/Darkmode.png" alt="Laptop">
-    </div>
+      #password {
+        padding-right: 40px; /* Leave space for reveal button */
+        width: 100%;
+        position: relative;
+        width: 100%;
+        background: #333333b9;
+        border: none;
+        outline: none;
+        padding: 10px; /* Adjust padding inside input fields */
+        border-radius: 4px;
+        color: #fff;
+      }
 
-    <div class="signin">
+      #togglePassword {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #888; /* Adjust color as needed */
+      }
+    </style>
+  </head>
+  <body class="dark-mode">
+    <!-- Set default to dark mode -->
+
+    <section>
+      <!-- Grid Background -->
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+      <!-- Middle Layer and Form -->
+      <div class="middle-layer">
+        <img id="middle-img" src="../Assets/Darkmode.png" alt="Laptop" />
+      </div>
+
+      <div class="signin">
         <div class="content">
-            <h2>CampusConnect</h2>
-            <p>Welcome To our Website.</p>
-            <form id="login-form" method="POST" action="../PHP/Login.php">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email"><br><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"><br><br>
-                <input type="submit" value="Submit">
-            </form>
+          <h2>CampusConnect</h2>
+          <p>Welcome To our Website.</p>
+          <form id="login-form" method="POST" action="../PHP/Login.php">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" /><br /><br />
+            <label for="password">Password:</label>
+            <div class="password-container">
+              <input type="password" id="password" name="password" />
+              <button type="button" id="togglePassword">
+                <ion-icon id="toggleIcon" name="eye-off-outline"></ion-icon>
+              </button>
+            </div>
+            <input type="submit" value="Submit" />
+          </form>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Dark/Light Mode Toggle -->
-<button class="theme-toggle" id="theme-toggle"><img src="../Assets/Dark_Mode.svg"></button>
-<script src="../JS/Preloader.js"></script>
-<script src="../JS/Landing.js"></script>
-<script src="../JS/login.js"></script>
-</body>
+    <!-- JavaScript for Password Reveal -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="../JS/PasswordReveal.js"></script>
+
+    <!-- Dark/Light Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle">
+        <ion-icon id="toggleIcon" name="eye-off-outline"></ion-icon>
+    </button>
+    <script src="../JS/Preloader.js"></script>
+    <script src="../JS/Landing.js"></script>
+    <script src="../JS/login.js"></script>
+  </body>
 </html>

@@ -281,62 +281,103 @@ if ($student) {
         :root {
             --background-color: #d9e8e8;
             --dashboard-bg: #d9e8e8;
-            --sidebar-bg: #273c75;
+
+            --sidebar-bg: linear-gradient(130deg,
+                    #83a4d4, #b6fbff);
             --sidebar-hover-bg: #3c5a99;
+
             --text-color: #000000;
-            --card-bg: white;
+
+            --card-bg: radial-gradient(at top left,
+                    #83a4d4, #b6fbff);
             --card-shadow: rgba(0, 0, 0, 0.1);
+
             --button-bg: #273c75;
             --button-text: white;
+
             --link-hover-color: #95c0c4;
-            --profile-bg: #9dc3e2;
+
+            --profile-bg: var(--sidebar-bg);
             --profile-border: #273c75;
+
+            --cta-gradient: radial-gradient(at left top, rgba(0, 118, 255, 1) 0%, rgba(32, 157, 230, 1) 35%, rgba(109, 203, 255, 1) 69%, rgba(179, 229, 255, 1) 99%);
+            --cta-gradient-hover: radial-gradient(at left top, rgba(20, 205, 230, 1) 0%, rgba(146, 203, 236, 1) 40%, rgba(214, 232, 243, 1) 77%, rgba(214, 232, 243, 1) 77%);
+
+            --cta-gradient-course-hover: radial-gradient(at left top, #6dd5ed, #acb6e5);
+
+
             --courses-list-border: #273c75;
             --bio-border: #273c75;
+
             --form-bg: #ffffff;
             --form-text: #000000;
+
             --enroll-button-bg: #273c75;
             --enroll-button-text: white;
+
             --overlay-bg: rgba(0, 0, 0, 0.5);
-            --expanded-card-bg: rgba(255, 255, 255, 0.95);
-            --hover_box: #9dc3e2;
+            --expanded-card-bg: rgb(191, 239, 255, 0.85);
+            --hover_box: #69BDD6;
             --course_hover: #f0f0f0;
             --course_details: #5a7fa2;
 
-            --icons-color: #ffffff;
-            --icons-color-active: #000000;
-            --icons-text-color: #ffffff;
+            --icons-color: #000000;
+            --icons-color-active: #ffffff;
+            --icons-text-color: #000000;
 
-            --mode-btn: #273c75;
+            --mode-btn: var(--cta-gradient);
 
-            --shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
             --scrollbar: #273c75;
-            --scrollbar-hover: #45454505;
+            --scrollbar-hover: #454545;
+            --icon-gradient-bg-hover: radial-gradient(at right bottom, #EFEA75, #02D12F);
 
+            --sub-card-bg:#ffffff;
         }
 
         body.dark-mode {
-            --background-color: #121212;
-            --dashboard-bg: #1e1e1e;
-            --sidebar-bg: #2c2c2c;
+            --background-color: #120E0E;
+            --dashboard-bg: #120E0E;
+
+            --sidebar-bg: linear-gradient(130deg,
+                    hsl(0deg 0% 7%) 0%,
+                    hsl(0deg 0% 8%) 24%,
+                    hsl(0deg 0% 9%) 35%,
+                    hsl(0deg 1% 10%) 44%,
+                    hsl(0deg 3% 12%) 64%,
+                    hsl(0deg 4% 13%) 100%);
             --sidebar-hover-bg: #333333;
+
             --text-color: #ffffff;
-            --card-bg: #2c2c2c;
+
+            --card-bg: linear-gradient(175deg, hsl(0deg 0% 7%) 0%,
+                    hsl(0deg 0% 8%) 24%,
+                    hsl(0deg 0% 9%) 35%,
+                    hsl(0deg 1% 10%) 44%,
+                    hsl(0deg 3% 12%) 64%,
+                    hsl(0deg 4% 13%) 100%);
             --button-bg: #555555;
             --button-text: #ffffff;
+
             --link-hover-color: #b0c4de;
-            --profile-bg: #2c2c2c;
+
+            --profile-bg: var(--sidebar-bg);
             --profile-border: #555555;
+
+            --cta-gradient: radial-gradient(at right bottom, #EFEA75, #02D12F);
+            --cta-gradient-hover: radial-gradient(at right top, rgba(11, 181, 24, 1) 0%, rgba(152, 205, 120, 1) 28%, rgba(67, 216, 29, 1) 63%, rgba(219, 223, 147, 1) 93%);
             --courses-list-border: #555555;
             --bio-border: #555555;
+
             --form-bg: #3a3a3a;
             --form-text: #ffffff;
             --enroll-button-bg: #555555;
             --enroll-button-text: #ffffff;
+
             --overlay-bg: rgba(0, 0, 0, 0.7);
-            --expanded-card-bg: rgba(50, 50, 50, 0.95);
-            --hover_box: #212121;
+            --expanded-card-bg: rgba(18, 14, 14, 0.95);
+            --hover_box: #4BBD3E;
             --course_hover: #333333;
             --course_details: #555555;
 
@@ -344,13 +385,16 @@ if ($student) {
             --icons-color-active: #000000;
             --icons-text-color: #ffffff;
 
-            --mode-btn: grey;
+            --mode-btn: var(--cta-gradient);
 
-            --shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
             --scrollbar: #454545;
             --scrollbar-hover: #454545;
 
+            --icon-gradient-bg-hover: radial-gradient(at right bottom, #2980b9, #6dd5fa, #ffffff);
+
+            --sub-card-bg:#97FFB2;
 
         }
 
@@ -371,6 +415,65 @@ if ($student) {
             height: 100vh;
             margin: 0;
         }
+
+
+        /* Keyframes for gradient animation */
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        .gradient-bg {
+            background: var(--cta-gradient);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-bg-hover {
+            background: var(--cta-gradient-hover);
+
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 10s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-sidebar {
+            background: var(--sidebar-bg);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
+        .gradient-card {
+            background: var(--card-bg);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 50s ease infinite;
+            /* Slow animation loop */
+            transition: animation-duration 0.5s ease;
+            /* Smooth transition to fast speed */
+        }
+
 
         .dashboard {
             display: flex;
@@ -497,7 +600,7 @@ if ($student) {
 
         /* Card Styles */
         .card {
-            background: var(--card-bg);
+            /* background: var(--card-bg); */
             padding: 15px;
             border-radius: 15px;
             box-shadow: 0 2px 10px var(--card-shadow);
@@ -530,7 +633,6 @@ if ($student) {
 
         .time-learning {
             display: flex;
-            ;
             justify-content: center;
             align-items: center;
         }
@@ -617,17 +719,24 @@ if ($student) {
         /* Enroll Button in Sub-Courses */
         .sub-course button {
             padding: 5px 10px;
-            background-color: var(--enroll-button-bg);
-            color: var(--enroll-button-text);
+            background: var(--cta-gradient);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 15s ease infinite;
+            /* Slow animation loop */
+            color: #000000;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
             align-self: flex-start;
             margin-top: 10px;
+            transform: scale(1);
+            transition: transform 0.3s ease;
         }
 
         .sub-course button:hover {
+            transform: scale(1.2);
             background-color: #1e90ff;
         }
 
@@ -646,6 +755,19 @@ if ($student) {
             justify-content: center;
             align-items: center;
             padding-right: 47vh;
+        }
+
+        .course-btn {
+            transition: background-color 0.3s;
+            transform: scale(1);
+            transition: transform 0.5s ease;
+        }
+
+        .course-btn:hover {
+            transform: scale(1.2);
+            background-color: var(--cta-gradient-course-hover);
+            transition: transform 0.5s ease;
+
         }
 
         .expanded-card {
@@ -699,6 +821,7 @@ if ($student) {
             justify-content: center;
             gap: 20px;
             margin-bottom: 20px;
+            
         }
 
         .course-nav button {
@@ -709,9 +832,11 @@ if ($student) {
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            transition: 0.3s ease;
         }
 
         .course-nav button:hover {
+            transform: scale(1.2);
             background-color: #1e90ff;
         }
 
@@ -728,7 +853,8 @@ if ($student) {
         .sub-course {
             padding: 15px;
             margin: 20px;
-            background-color: #f1f1f1;
+            background: var(--sub-card-bg);
+            box-shadow: var(--shadow);
             border-radius: 5px;
             transition: background-color 0.3s;
         }
@@ -779,6 +905,9 @@ if ($student) {
             border: 2px solid var(--profile-border);
         }
 
+        .teachers .icon{
+            fill:var(--icons-color)
+        }
         .teacher-image-container {
             position: relative;
             display: inline-block;
@@ -793,9 +922,7 @@ if ($student) {
             left: 50%;
             height: 50%;
             transform: translateX(-50%);
-            background-color: var(--hover_box);
-            /* Background color with transparency */
-            /* box-shadow: var(--shadow); */
+            background: var(--hover_box);
             color: #fff;
             text-align: center;
             padding: 8px;
@@ -834,7 +961,7 @@ if ($student) {
         /* Student Profile Card */
         .student-profile {
             width: 350px;
-            background-color: var(--profile-bg);
+            /* background: var(--profile-bg); */
             /* border-left: 2px solid var(--profile-border); */
             box-shadow: var(--shadow);
             padding: 20px;
@@ -900,7 +1027,7 @@ if ($student) {
             top: 10px;
             right: 20px;
             padding: 8px;
-            background: var(--mode-btn);
+            /* background: var(--mode-btn); */
             border: none;
             border-radius: 25%;
             width: 45px;
@@ -909,11 +1036,17 @@ if ($student) {
             box-shadow: var(--shadow);
             z-index: 2000;
             transition: background-color 0.3s;
+            transition: transform 0.5s ease;
         }
 
-        .toggle-switch ion-icon {
-            position: relative;
-            top: 1px;
+        .toggle-switch:hover {
+            background: var(--icon-gradient-bg-hover);
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+
+            transition: 0.5 ease;
+            transform: scale(1.2);
+            /* Increase size by 20% on hover */
         }
 
         .toggle-button:focus {
@@ -1072,11 +1205,17 @@ if ($student) {
             padding: 10px;
             margin: 5px 0;
             transition: background-color 0.3s ease;
+            transition: 0.3s ease;
         }
 
         .courses-list li:hover {
-            background-color: var(--course_hover);
-            /* Optional: Add a hover effect */
+            background: var(--cta-gradient-course-hover);
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-size: 400% 400%;
+            /* Enlarge background for smooth transitions */
+            animation: gradient-animation 10s ease infinite;
+            /* Slow animation loop */
         }
 
         /* Container for the delete button */
@@ -1161,7 +1300,7 @@ if ($student) {
 
             width: 100px;
 
-            background: var(--sidebar-bg) !important;
+            /* background: var(--sidebar-bg) !important; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1171,6 +1310,8 @@ if ($student) {
             margin-top: 20px;
             border-radius: 10px;
             z-index: 2;
+            box-shadow: var(--shadow);
+
         }
 
         .navigation ul {
@@ -1250,7 +1391,7 @@ if ($student) {
             left: 68%;
             width: 60px;
             height: 58px;
-            background: #29fd53;
+            /* background: #29fd53; */
             border-radius: 50%;
             border: 6px solid var(--dashboard-bg) !important;
 
@@ -1490,6 +1631,12 @@ if ($student) {
         .CourseNavigation ul li:nth-child(4).active~.CourseIndicator {
             transform: translateX(calc(70px * 3));
         }
+
+        .toggle-switch ion-icon {
+            color: #000000 !important;
+            position: relative;
+            top: 1px;
+        }
     </style>
 </head>
 
@@ -1500,7 +1647,7 @@ if ($student) {
     </div>
     <div class="dashboard">
         <!-- Sidebar -->
-        <div class="navigation">
+        <div class="navigation gradient-sidebar">
             <ul>
                 <li class="list ">
                     <a href="../PHP/StudentLanding.php">
@@ -1526,7 +1673,7 @@ if ($student) {
                         <span class="text">Logout</span>
                     </a>
                 </li>
-                <div class="indicator"></div>
+                <div class="indicator gradient-bg"></div>
             </ul>
         </div>
 
@@ -1534,12 +1681,11 @@ if ($student) {
         <div class="main-content" id="main-content">
             <!-- Top Row: Soft Skills, Marks Obtained -->
             <div class="top-row">
-                <div class="card performance">
-                    <p style="text-align: center;">Performance
-                    <p>
+                <div class="card performance gradient-card">
+                    <p style="text-align: center;">Performance</p>
                         <canvas id="performanceChart"></canvas> <!-- Radar chart canvas -->
                 </div>
-                <div class="card teacher-history">
+                <div class="card teacher-history gradient-card">
                     <h3>Teachers</h3>
 
                     <div class="Center-cards">
@@ -1567,14 +1713,14 @@ if ($student) {
 
             <!-- Middle Row: CGPA/SGPA, Courses -->
             <div class="middle-row">
-                <div class="card time-learning">
+                <div class="card time-learning gradient-card">
                     <canvas id="cgpaChart" width="100" height="100"></canvas>
                 </div>
-                <div class="card time-learning">
+                <div class="card time-learning gradient-card">
                     <canvas id="sgpaChart" width="100" height="100"></canvas>
                 </div>
 
-                <div class="card courses">
+                <div class="card courses gradient-card">
                     <h3>Courses</h3>
                     <button class="expand-button" id="expand-courses">
                         <img src="../Assets/Expand.svg" />
@@ -1617,20 +1763,20 @@ if ($student) {
 
             <!-- Bottom Row: Teachers teached will be displayed based on the courses taken by the student -->
             <div class="bottom-row">
-                <div class="card gemini">
+                <div class="card gemini gradient-card">
                     <p>I will put something here</p>
                 </div>
             </div>
         </div>
 
         <!-- Student Profile -->
-        <div class="student-profile">
+        <div class="student-profile gradient-card">
             <div class="profile-top">
                 <img src="<?= htmlspecialchars($profilePicture); ?>" alt="Profile Picture">
             </div>
             <!-- Dark Mode Toggle Button -->
-            <button class="toggle-switch" id="toggle-mode">
-                <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px"></ion-icon></span>
+            <button class="toggle-switch gradient-bg" id="toggle-mode">
+                <span class="colored-icon"><ion-icon name="sunny-outline" style="width: 25px; height: 25px; color:#000000"></ion-icon></span>
             </button>
             <div class="profile-middle">
                 <p><strong>Name:</strong> <?= htmlspecialchars($profile['First_Name'] . " " . $profile['Middle_Name'] . " " . $profile['Last_Name']); ?></p>
@@ -1693,10 +1839,10 @@ if ($student) {
                     </svg>
                 </div>
                 <div class="course-nav">
-                    <button id="current-courses-btn">Current Courses</button>
-                    <button id="prof-electives-btn">Professional Electives</button>
-                    <button id="open-electives-btn">Open Electives</button>
-                    <button id="majors-minors-btn">Major/Minor</button>
+                    <button id="current-courses-btn" class=" course-btn gradient-bg" style="color: #000000;">Current Courses</button>
+                    <button id="prof-electives-btn" class="course-btn gradient-bg" style="color: #000000;">Professional Electives</button>
+                    <button id="open-electives-btn" class="course-btn gradient-bg" style="color: #000000;">Open Electives</button>
+                    <button id="majors-minors-btn" class="course-btn gradient-bg" style="color: #000000;">Major/Minor</button>
                 </div>
                 <div class="expanded-content">
                     <!-- Core Courses Section -->
@@ -1906,12 +2052,6 @@ if ($student) {
         }
     `;
         document.head.appendChild(style);
-    </script>
-
-    <!-- //student enrollment -->
-    <script>
-
-
     </script>
 
     <script>
@@ -2221,7 +2361,7 @@ if ($student) {
 
             // Check if light mode is enabled
             const isLightMode = document.body.classList.contains('light-mode');
-            const textColor = isLightMode ? '#000' : '#fff'; // Black for light mode, white for dark mode
+            const textColor = isLightMode ? '#000000' : '#ffffff'; // Black for light mode, white for dark mode
 
             ctx.restore();
             const fontSize = (height / 114).toFixed(2);
@@ -2249,18 +2389,16 @@ if ($student) {
 
             return {
                 // CGPA Chart Colors
-                cgpa: isLightMode ? ['#F39C12', '#8E44AD'] // Light Mode
+                cgpa: isLightMode ? ['#06A9FF', '#0075FF'] // Light Mode
                     :
-                    ['#1E90FF', '#FF5A5F'], // Dark Mode
+                    ['#08C922', '#1E701E'], // Dark Mode
 
                 // SGPA Chart Colors
-                sgpa: isLightMode ? ['#9B1B30', '#2C3E50'] // Light Mode
+                sgpa: isLightMode ? ['#0075FF', '#06A9FF'] // Light Mode
                     :
-                    ['#00CED1', '#D5006D'] // Dark Mode
+                    ['#1E701E', '#08C922'] // Dark Mode
             };
         }
-
-
 
         // Doughnut chart for CGPA
         const cgpaCtx = document.getElementById('cgpaChart').getContext('2d');
@@ -2281,7 +2419,7 @@ if ($student) {
                         display: false // Hide the legend (labels)
                     }
                 },
-                cutout: '90%', // Thinner doughnut chart
+                cutout: '80%', // Thinner doughnut chart
                 responsive: true,
                 animation: {
                     animateScale: true
@@ -2313,7 +2451,7 @@ if ($student) {
                         display: false // Hide the legend (labels)
                     }
                 },
-                cutout: '90%', // Thinner doughnut chart
+                cutout: '80%', // Thinner doughnut chart
                 responsive: true,
                 animation: {
                     animateScale: true
@@ -2327,6 +2465,7 @@ if ($student) {
         });
     </script>
     <!-- //script for performance chart -->
+
     <script>
         // Fetch the course names and marks from PHP
         const courseNames = <?= json_encode($courseNames); ?>;
@@ -2334,7 +2473,7 @@ if ($student) {
 
         // Function to fetch updated courses and marks periodically
         function fetchUpdatedData() {
-            fetch('fetch_courses_and_marks.php') // PHP file to return updated data in JSON
+            fetch('fetch_courses_and_marks.php')
                 .then(response => response.json())
                 .then(data => {
                     updatePerformanceChart(data.courses, data.marks);
@@ -2342,26 +2481,22 @@ if ($student) {
                 .catch(error => console.error('Error fetching data:', error));
         }
 
-        // // Poll the server every 30 seconds for updated data
-        // setInterval(fetchUpdatedData, 30000);
-
         // Function to update the radar chart dynamically
         function updatePerformanceChart(courses, marks) {
-            // Update radar chart data
             performanceChart.data.labels = courses;
             performanceChart.data.datasets[0].data = marks;
-
-            // Re-render the chart to reflect updated data
             performanceChart.update();
         }
+
         // Function to get colors for the radar chart based on the mode
         function getRadarChartColors() {
             const isLightMode = document.body.classList.contains('light-mode');
             return {
-                backgroundColor: isLightMode ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 193, 7, 0.2)',
-                borderColor: isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 193, 7, 1)',
+                backgroundColor: isLightMode ? 'rgba(153, 204, 255, 0.2)' : 'rgba(184, 245, 170, 0.2)',
+                borderColor: isLightMode ? 'rgba(0, 140, 255,0.8)' : 'rgba(54, 162, 22, 1)',
                 ticksColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)',
-                gridColor: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'
+                gridColor: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)',
+                pointLabelsColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)' // Color for course titles
             };
         }
 
@@ -2371,68 +2506,72 @@ if ($student) {
         const performanceChart = new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: courseNames, // Dynamic course names from PHP
+                labels: courseNames,
                 datasets: [{
-                    data: courseMarks, // Dynamic marks from PHP
-                    backgroundColor: radarColors.backgroundColor, // Light color for radar area
-                    borderColor: radarColors.borderColor, // Border color of the radar
-                    borderWidth: 2 // Border width of the lines
+                    data: courseMarks,
+                    backgroundColor: radarColors.backgroundColor,
+                    borderColor: radarColors.borderColor,
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Allows the chart to scale with the container size
+                maintainAspectRatio: false,
                 scales: {
                     r: {
-                        suggestedMin: 0, // Minimum value for the radar chart
-                        suggestedMax: 125, // Max marks is 125
+                        suggestedMin: 0,
+                        suggestedMax: 125,
                         ticks: {
-                            backdropColor: 'transparent', // Remove background color
+                            backdropColor: 'transparent',
                             color: radarColors.ticksColor,
-                            stepSize: 25, // Set the interval between ticks (25, 50, 75, 100, 125) // Color based on mode
+                            stepSize: 25
                         },
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.1)' // Grid line color
+                            color: radarColors.gridColor
                         },
                         angleLines: {
-                            display: true,
-                            color: 'rgba(0, 0, 0, 0.1)' // Adjust angle line color
+                            color: radarColors.gridColor
+                        },
+                        pointLabels: {
+                            display:false,
+                            color: radarColors.pointLabelsColor // Set color for course titles
                         }
                     }
                 },
                 layout: {
                     padding: {
-                        top: 5, // Add padding at the top to ensure no overlap
-                        bottom: 5 // Padding at the bottom for better spacing
+                        top: 5,
+                        bottom: 5
                     }
                 },
                 plugins: {
                     legend: {
-                        display: false // Hide the legend entirely
+                        display: false
                     }
                 }
             }
         });
-        updateRadarChartColors(); // to update the color based on the mode the user is in
 
         // Function to update radar chart colors based on light/dark mode
         function updateRadarChartColors() {
             const isLightMode = document.body.classList.contains('light-mode');
+            const radarColors = getRadarChartColors();
 
-            // Update tick color
-            performanceChart.options.scales.r.ticks.color = isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)';
+            // Update chart properties for colors
+            performanceChart.options.scales.r.ticks.color = radarColors.ticksColor;
+            performanceChart.options.scales.r.grid.color = radarColors.gridColor;
+            performanceChart.options.scales.r.pointLabels.color = radarColors.pointLabelsColor;
 
-            // Update grid color
-            performanceChart.options.scales.r.grid.color = isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
-
-            // Update chart colors
-            performanceChart.data.datasets[0].backgroundColor = isLightMode ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 193, 7, 0.2)';
-            performanceChart.data.datasets[0].borderColor = isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 193, 7, 1)';
+            performanceChart.data.datasets[0].backgroundColor = radarColors.backgroundColor;
+            performanceChart.data.datasets[0].borderColor = radarColors.borderColor;
 
             performanceChart.update();
         }
-        fetchUpdatedData(); // <-- Important for initial chart rendering
-        setInterval(fetchUpdatedData, 30000); // Poll every 30 seconds
+
+        // Fetch initial data and set up intervals
+        fetchUpdatedData();
+        setInterval(fetchUpdatedData, 30000);
+        setInterval(updateRadarChartColors, 30000); // Ensure colors update periodically
     </script>
 </body>
 

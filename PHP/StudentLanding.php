@@ -232,7 +232,9 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             --course-card-light-gradient-hover: radial-gradient(at left top, rgba(20, 205, 230, 1) 0%, rgba(146, 203, 236, 1) 40%, rgba(214, 232, 243, 1) 77%, rgba(214, 232, 243, 1) 77%);
 
             --bold-text-dark: #08C922;
-            --bold-text-light: #58baf3;
+            --bold-text-light: #1D5FA5;
+            --bold-text-light-small: #1D5FA5;
+            /* --bold-text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); */
 
             --profile-border-dark: #54b23c;
             --profile-border-light: #74e857;
@@ -453,10 +455,12 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         .search-bar h2 {
             padding-top: 15px;
             color: var(--bold-text-dark);
+            text-shadow: var(--bold-text-shadow);
         }
 
         body.light-mode h2 {
             color: var(--bold-text-light);
+            text-shadow: var(--bold-text-shadow);
         }
 
         .search-bar input {
@@ -542,15 +546,17 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         .course-basic strong {
             color: var(--bold-text-dark);
+            text-shadow: var(--bold-text-shadow);
         }
 
         body.light-mode .course-basic strong {
             color: var(--bold-text-light);
+            text-shadow: var(--bold-text-shadow);
         }
 
         /* Course marks card (initially hidden under basic info) */
         .course-marks {
-            background-color: var(--course-card-dark-gradient-hover);
+            /* background-color: var(--course-card-dark-gradient-hover); */
             color: var(--text-color-light);
             border-radius: 10px;
             padding: 10px;
@@ -702,7 +708,6 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
         body.light-mode .toggle-button:hover {
             background: var(--course-card-dark-gradient);
-            ;
             background-size: 400% 400%;
 
         }
@@ -720,19 +725,23 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
         }
 
         .profile-card strong {
-            color: var(--bold-text-dark)
+            color: var(--bold-text-dark);
+            text-shadow: var(--bold-text-shadow);
         }
 
         .small-block strong {
             color: var(--bold-text-dark);
+            text-shadow: var(--bold-text-shadow);
         }
 
         body.light-mode .profile-card strong {
-            color: var(--bold-text-light);
+            color: var(--bold-text-light-small);
+            text-shadow: var(--bold-text-shadow);
         }
 
         body.light-mode strong {
-            color: var(--bold-text-light);
+            color: var(--bold-text-light-small);
+            text-shadow: var(--bold-text-shadow);
         }
 
         .profile-card img {
@@ -774,6 +783,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             width: 120px;
             text-align: left;
             color: var(--bold-text-dark);
+            text-shadow: var(--bold-text-shadow);
             /* Ensure labels are left-aligned */
             padding-right: 10px;
             font-weight: bold;
@@ -1117,7 +1127,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                         </div>
                     </div>
                     <div class="small-block gradient-card">
-                        <p>What to put here?</p>
+                        <p></p>
                     </div>
                 </div>
 
@@ -1335,7 +1345,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             // Check if light mode is enabled
             const isLightMode = document.body.classList.contains('light-mode');
-            const textColor = isLightMode ? '#ffffff' : '#ffffff'; // Black for light mode, white for dark mode
+            const textColor = isLightMode ? '#000000' : '#ffffff'; // Black for light mode, white for dark mode
 
             ctx.restore();
             const fontSize = (height / 114).toFixed(2);
@@ -1363,14 +1373,14 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
             return {
                 // CGPA Chart Colors
-                cgpa: isLightMode ? ['#F39C12', '#8E44AD'] // Light Mode
+                cgpa: isLightMode ? ['#06A9FF', '#0075FF'] // Light Mode
                     :
-                    ['#08C922', '#FF5A5F'], // Dark Mode
+                    ['#08C922', '#1E701E'], // Dark Mode
 
                 // SGPA Chart Colors
-                sgpa: isLightMode ? ['#9B1B30', '#2C3E50'] // Light Mode
+                sgpa: isLightMode ? ['#0075FF', '#06A9FF'] // Light Mode
                     :
-                    ['#00CED1', '#D5006D'] // Dark Mode
+                    ['#1E701E', '#08C922'] // Dark Mode
             };
         }
 
@@ -1467,7 +1477,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             const isLightMode = document.body.classList.contains('light-mode');
             return {
                 backgroundColor: isLightMode ? 'rgba(153, 204, 255, 0.2)' : 'rgba(184, 245, 170, 0.2)',
-                borderColor: isLightMode ? 'rgba(0, 140, 255,1)' : 'rgba(54, 162, 22, 1)',
+                borderColor: isLightMode ? 'rgba(0, 140, 255,0.8)' : 'rgba(54, 162, 22, 1)',
                 ticksColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)',
                 gridColor: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)',
                 pointLabelsColor: isLightMode ? 'rgba(0, 0, 0, 0.87)' : 'rgba(255, 255, 255, 0.87)' // Color for course titles
@@ -1507,6 +1517,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                             color: radarColors.gridColor
                         },
                         pointLabels: {
+                            display:false,
                             color: radarColors.pointLabelsColor // Set color for course titles
                         }
                     }
