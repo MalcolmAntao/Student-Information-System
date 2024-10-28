@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 07:58 PM
+-- Generation Time: Oct 28, 2024 at 02:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -113,7 +113,26 @@ INSERT INTO `courses` (`Course_ID`, `course_code`, `CourseName`, `Description`, 
 (33, 'CS609', 'Advanced Databases', 'Study of advanced database management systems and distributed databases.', 3, 1, 'V', 3),
 (34, 'CS610', 'Artificial Intelligence', 'Introduction to AI techniques including machine learning and neural networks.', 3, 1, 'V', 4),
 (35, 'CS611', 'Mobile App Development', 'Development of mobile apps using Android and iOS frameworks.', 3, 1, 'V', 4),
-(36, 'CS612', 'Human-Computer Interaction', 'Study of user interface design, UX principles, and usability.', 3, 1, 'V', 4);
+(36, 'CS612', 'Human-Computer Interaction', 'Study of user interface design, UX principles, and usability.', 3, 1, 'V', 4),
+(37, 'CS701', 'Advanced Computer Networks', 'Study of advanced topics in computer networks.', 4, 1, 'V', 5);
+
+--
+-- Triggers `courses`
+--
+DELIMITER $$
+CREATE TRIGGER `after_course_insert` AFTER INSERT ON `courses` FOR EACH ROW BEGIN
+    -- Check if the inserted course is of type 'Core' (e.g., Enrollment_Type_ID = 5)
+    IF NEW.Enrollment_Type_ID = 5 THEN
+        -- Insert enrollment records for all students of the same department and semester
+        INSERT INTO enrolls_in (Student_ID, Course_ID, Year)
+        SELECT s.Student_ID, NEW.Course_ID, YEAR(CURDATE())
+        FROM students s
+        WHERE s.Department_ID = NEW.Department_ID
+          AND s.Current_Semester = NEW.Semester;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -133,10 +152,10 @@ CREATE TABLE `course_selections` (
 --
 
 INSERT INTO `course_selections` (`Selection_ID`, `Student_ID`, `Course_ID`, `Accepted`) VALUES
-(35, 1, 22, 0),
 (36, 1, 23, 0),
 (37, 1, 34, 0),
-(40, 1, 16, 0);
+(40, 1, 16, 0),
+(41, 1, 24, 0);
 
 --
 -- Triggers `course_selections`
@@ -245,7 +264,11 @@ INSERT INTO `enrolls_in` (`Enrollment_ID`, `Student_ID`, `Course_ID`, `Year`) VA
 (128, 11, 12, 2023),
 (129, 12, 13, 2023),
 (130, 12, 14, 2023),
-(131, 13, 15, 2023);
+(131, 13, 15, 2023),
+(132, 1, 37, 2024),
+(133, 2, 37, 2024),
+(134, 11, 37, 2024),
+(135, 12, 37, 2024);
 
 -- --------------------------------------------------------
 
@@ -305,7 +328,8 @@ INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`,
 (37, 13, 13, 'V', 2023, 15.50, 16.50, 17.50, 58.70),
 (38, 14, 14, 'V', 2023, 16.00, 17.00, 18.00, 85.50),
 (39, 15, 15, 'V', 2023, 19.50, 20.00, 20.00, 92.10),
-(40, 1, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.00);
+(40, 1, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.00),
+(41, 1, 3, 'V', 2023, 22.50, 23.00, 24.50, 75.00);
 
 -- --------------------------------------------------------
 
@@ -366,12 +390,50 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `quotes`
+--
+
+CREATE TABLE `quotes` (
+  `Quote_ID` int(11) NOT NULL,
+  `Quote` text NOT NULL,
+  `Author` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `quotes`
+--
+
+INSERT INTO `quotes` (`Quote_ID`, `Quote`, `Author`) VALUES
+(1, 'Education is the most powerful weapon which you can use to change the world.', 'Nelson Mandela'),
+(2, 'The future belongs to those who believe in the beauty of their dreams.', 'Eleanor Roosevelt'),
+(3, 'The expert in anything was once a beginner.', 'Helen Hayes'),
+(4, 'Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.', 'Albert Schweitzer'),
+(5, 'The beautiful thing about learning is that no one can take it away from you.', 'B.B. King'),
+(6, 'Don’t watch the clock; do what it does. Keep going.', 'Sam Levenson'),
+(7, 'The secret to getting ahead is getting started.', 'Mark Twain'),
+(8, 'Your attitude, not your aptitude, will determine your altitude.', 'Zig Ziglar'),
+(9, 'Education is not the filling of a pail, but the lighting of a fire.', 'William Butler Yeats'),
+(10, 'A journey of a thousand miles begins with a single step.', 'Lao Tzu'),
+(11, 'The best way to predict your future is to create it.', 'Peter Drucker'),
+(12, 'Success is not final, failure is not fatal: it is the courage to continue that counts.', 'Winston Churchill'),
+(13, 'The only place where success comes before work is in the dictionary.', 'Vidal Sassoon'),
+(14, 'You are never too old to set another goal or to dream a new dream.', 'C.S. Lewis'),
+(15, 'Strive for progress, not perfection.', 'Unknown'),
+(16, 'Believe you can and you’re halfway there.', 'Theodore Roosevelt'),
+(17, 'It’s not about how bad you want it, it’s about how hard you’re willing to work for it.', 'Unknown'),
+(18, 'The harder you work for something, the greater you’ll feel when you achieve it.', 'Unknown'),
+(19, 'Don’t let what you cannot do interfere with what you can do.', 'John Wooden'),
+(20, 'The only limit to our realization of tomorrow is our doubts of today.', 'Franklin D. Roosevelt');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
   `Role_ID` int(11) NOT NULL,
-  `Role_Name` enum('student','teacher','admin') NOT NULL
+  `Role_Name` enum('student','teacher','admin','HOD') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -381,7 +443,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`Role_ID`, `Role_Name`) VALUES
 (1, 'student'),
 (2, 'teacher'),
-(3, 'admin');
+(3, 'admin'),
+(4, 'HOD');
 
 -- --------------------------------------------------------
 
@@ -431,7 +494,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Department_ID`) VALUES
-(1, 'Malcolm', 'Dos Reis', 'Antao', 'M', '2214025', 'U12345601', '2004-01-06', '2214025@dbcegoa.ac.in', '7499084979', 'V', '../Assets/ProfileImages/profile_67181d4d087d12.89484785.jpg', 'Computer Engineering student who needs help . ', 1),
+(1, 'Malcolm', 'Dos Reis', 'Antao', 'M', '2214025', 'U12345601', '2004-01-06', '2214025@dbcegoa.ac.in', '7499084979', 'V', '../Assets/ProfileImages/profile_671eada98781a0.11236213.jpg', 'Computer Engineering student . ', 1),
 (2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 1),
 (3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 2),
 (4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 2),
@@ -536,7 +599,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`User_ID`, `Email`, `Password`, `Role_ID`) VALUES
-(1, '1@dbcegoa.ac.in', '$2a$12$iLX8IrL0gSt0i15/UevSr.Y84diJJw31zMsKgXKt84d/SIY6Ph0Fu', 1),
+(1, '2214025@dbcegoa.ac.in', '$2a$12$iLX8IrL0gSt0i15/UevSr.Y84diJJw31zMsKgXKt84d/SIY6Ph0Fu', 1),
 (2, 'john.smith@dbcegoa.ac.in', '$2a$12$O7/iOmAO0MAKAK/6adBLXO/KQW43sLTFPlb4aVRAJIZh2LEeopZG.', 2),
 (3, 'admin@dbcegoa.ac.in', '$2a$12$6HWNitANOhSwGc45g8koOuT/kMfG68dN.O/U/Vf5wEhg/yhpnn.u.', 3);
 
@@ -622,6 +685,12 @@ ALTER TABLE `instructors`
   ADD KEY `FK_Instructor_Gender` (`Gender`);
 
 --
+-- Indexes for table `quotes`
+--
+ALTER TABLE `quotes`
+  ADD PRIMARY KEY (`Quote_ID`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -672,13 +741,13 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `course_selections`
 --
 ALTER TABLE `course_selections`
-  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -696,13 +765,13 @@ ALTER TABLE `enrollment_types`
 -- AUTO_INCREMENT for table `enrolls_in`
 --
 ALTER TABLE `enrolls_in`
-  MODIFY `Enrollment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `Enrollment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `instructors`
@@ -711,10 +780,16 @@ ALTER TABLE `instructors`
   MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `quotes`
+--
+ALTER TABLE `quotes`
+  MODIFY `Quote_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `Role_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Role_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `students`
