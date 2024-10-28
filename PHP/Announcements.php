@@ -652,7 +652,7 @@ if ($noticeID) {
 
 <body>
     <div id="preloader">
-        <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
+    <img src="../Assets/Loading.svg" alt="Loading..." class="preloader-image" />
         <!-- <div class="spinner"></div> -->
     </div>
     <div class="container">

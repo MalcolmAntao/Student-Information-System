@@ -25,7 +25,33 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(['student_id' => $student_id]);
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+//fetch random quotes
+try {
+    // Create a PDO instance
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Query to select a random quote and its author
+    $sql = "SELECT Quote, Author FROM quotes ORDER BY RAND() LIMIT 1";
+
+    // Prepare and execute the query
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+
+    // Fetch the random quote
+    $quoteData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Store the quote and author in variables if found
+    if ($quoteData) {
+        $quote = $quoteData['Quote'];
+        $author = $quoteData['Author'];
+    } else {
+        $quote = "No quote found.";
+        $author = "";
+    }
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage();
+}
 // Fetch recent notices (announcements)
 $sql = "SELECT Announcement_ID, Title
         FROM Announcements
@@ -171,7 +197,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 4% 13%) 100%);
 
             --sidebar-bg-color-light: linear-gradient(130deg,
-            #83a4d4, #b6fbff);
+                    #83a4d4, #b6fbff);
 
             --icons-color-dark: #ffffff;
             --icons-color-light: #000000;
@@ -193,7 +219,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                     hsl(0deg 4% 13%) 100%);
 
             --card-color-light: radial-gradient(at top left,
-            #83a4d4, #b6fbff);
+                    #83a4d4, #b6fbff);
 
             --shadow-dark: 0 0 10px rgba(0, 0, 0, 0.2);
             --shadow-light: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -539,7 +565,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .font-size{
+        .font-size {
             padding: 5px;
             font-size: small;
         }
@@ -821,6 +847,62 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
             background-color: var(--scrollbar-light-hover);
         }
 
+        /* Scrollbar Styling for .quotes */
+        .quotes::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .quotes::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .quotes::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-dark);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .quotes::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-dark-hover);
+        }
+
+        body.light-mode.quotes::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-light);
+        }
+
+        body.light-mode.quotes::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-light-hover);
+        }
+
+        /* Scrollbar Styling for.courses */
+        .courses::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .courses::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .courses::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-dark);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .courses::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-dark-hover);
+        }
+
+        body.light-mode.courses::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-light);
+        }
+
+        body.light-mode.courses::-webkit-scrollbar-thumb:hover {
+            background-color: var(--scrollbar-light-hover);
+        }
+
         .navigation {
             position: relative;
 
@@ -1066,8 +1148,8 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
 
 <body>
     <div id="preloader">
-        <!-- <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
-        <h3>Welcome Back <?php echo htmlspecialchars($student_name); ?></h3> -->
+        <img src="../Assets/Loading.svg" alt="Loading..." class="preloader-image" />
+        <h3>Welcome Back <?php echo htmlspecialchars($student_name); ?></h3>
         <!-- <div class="spinner"></div> -->
     </div>
     <div class="container">
@@ -1114,7 +1196,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                 <!-- Date and GPA (side by side) -->
                 <div class="date-gpa">
                     <div class="small-block gradient-card" id="date-block">
-                        <p id="date-time" style="text-align:start; font-size:small; line-height:2em"></p>
+                        <p id="date-time" style="text-align:start; font-size:medium; line-height:2em; font-weight:bolder"></p>
                     </div>
                     <div class="small-block gradient-card">
                         <div class="chart-container">
@@ -1126,8 +1208,13 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                             </div>
                         </div>
                     </div>
-                    <div class="small-block gradient-card">
-                        <p></p>
+                    <div class="small-block gradient-card quotes" style="overflow: auto;">
+                        <p>
+                            <?php
+                            // Display the quote and author
+                            echo htmlspecialchars($quote) . "<br><br>- <em>" . htmlspecialchars($author) . "</em>";
+                            ?>
+                        </p>
                     </div>
                 </div>
 
@@ -1517,7 +1604,7 @@ if (empty($profilePicture) || !file_exists($profilePicture)) {
                             color: radarColors.gridColor
                         },
                         pointLabels: {
-                            display:false,
+                            display: false,
                             color: radarColors.pointLabelsColor // Set color for course titles
                         }
                     }

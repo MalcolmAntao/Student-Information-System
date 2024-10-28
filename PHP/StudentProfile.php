@@ -367,6 +367,9 @@ if ($student) {
 
             --cta-gradient: radial-gradient(at right bottom, #EFEA75, #02D12F);
             --cta-gradient-hover: radial-gradient(at right top, rgba(11, 181, 24, 1) 0%, rgba(152, 205, 120, 1) 28%, rgba(67, 216, 29, 1) 63%, rgba(219, 223, 147, 1) 93%);
+           
+            --cta-gradient-course-hover: radial-gradient(at left top,#000000, #0f9b0f);
+           
             --courses-list-border: #555555;
             --bio-border: #555555;
 
@@ -1642,7 +1645,7 @@ if ($student) {
 
 <body>
     <div id="preloader">
-        <img src="../Assets/Game.svg" alt="Loading..." class="preloader-image" />
+    <img src="../Assets/Loading.svg" alt="Loading..." class="preloader-image" />
         <!-- <div class="spinner"></div> -->
     </div>
     <div class="dashboard">

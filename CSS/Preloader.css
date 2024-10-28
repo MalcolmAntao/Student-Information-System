@@ -5,13 +5,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: #fff; /* Background color */
+    background: #1f1f1f; /* Background color */
     z-index: 9999; /* Keep it above all other content */
     display: flex; /* Center the content */
     flex-direction: column; /* Stack the image and spinner vertically */
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
-    transition: opacity 0.8s ease-in-out; /* Smooth transition */
+    transition: opacity 0.4s ease-in-out; /* Smooth transition */
   }
   
   /* Fade-out effect */
