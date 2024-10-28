@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 02:58 AM
+-- Generation Time: Oct 28, 2024 at 09:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -302,10 +302,10 @@ CREATE TABLE `grades` (
   `Course_ID` int(11) NOT NULL,
   `Semester` varchar(20) NOT NULL,
   `Year` int(11) NOT NULL,
-  `IT1` decimal(5,2) NOT NULL,
-  `IT2` decimal(5,2) NOT NULL,
-  `IT3` decimal(5,2) NOT NULL,
-  `Sem` decimal(5,2) NOT NULL
+  `IT1` decimal(5,2) DEFAULT NULL,
+  `IT2` decimal(5,2) DEFAULT NULL,
+  `IT3` decimal(5,2) DEFAULT NULL,
+  `Sem` decimal(5,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -345,29 +345,30 @@ CREATE TABLE `instructors` (
   `Gender` enum('M','F','X') NOT NULL,
   `Contact_Info` varchar(150) DEFAULT NULL,
   `Profile_Picture` varchar(255) DEFAULT NULL,
-  `Department_ID` int(11) DEFAULT NULL
+  `Department_ID` int(11) DEFAULT NULL,
+  `Start_Date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Contact_Info`, `Profile_Picture`, `Department_ID`) VALUES
-(1, 'Alan', 'John', 'Smith', 'M', 'alansmith@dbcegoa.ac.in', NULL, 1),
-(2, 'Betty', 'Marie', 'Johnson', 'F', 'bettyjohnson@dbcegoa.ac.in', NULL, 1),
-(3, 'Charles', 'Michael', 'Davis', 'M', 'charlesdavis@dbcegoa.ac.in', NULL, 1),
-(4, 'Dorothy', 'Anne', 'Martinez', 'F', 'dorothymartinez@dbcegoa.ac.in', NULL, 1),
-(5, 'Edward', 'Richard', 'Garcia', 'M', 'edwardgarcia@dbcegoa.ac.in', NULL, 2),
-(6, 'Fiona', 'Sophia', 'Clark', 'F', 'fionaclark@dbcegoa.ac.in', NULL, 2),
-(7, 'George', 'Matthew', 'Rodriguez', 'M', 'georgerodriguez@dbcegoa.ac.in', NULL, 2),
-(8, 'Hannah', 'Elizabeth', 'Lewis', 'F', 'hannahlewis@dbcegoa.ac.in', NULL, 2),
-(9, 'Isaac', 'Anthony', 'Lee', 'M', 'isaaclee@dbcegoa.ac.in', NULL, 1),
-(10, 'Jack', 'Amelia', 'Walker', 'M', 'jackwalker@dbcegoa.ac.in', NULL, 1),
-(11, 'Kathy', 'Emily', 'Robinson', 'F', 'kathyrobinson@dbcegoa.ac.in', NULL, 2),
-(12, 'Louis', 'Charles', 'Young', 'M', 'louischarles@dbcegoa.ac.in', NULL, 2),
-(13, 'Molly', 'Grace', 'King', 'F', 'mollyking@dbcegoa.ac.in', NULL, 2),
-(14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1),
-(15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1);
+INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Contact_Info`, `Profile_Picture`, `Department_ID`, `Start_Date`) VALUES
+(1, 'Alan', 'John', 'Smith', 'M', 'alansmith@dbcegoa.ac.in', NULL, 1, '2020-01-15'),
+(2, 'Betty', 'Marie', 'Johnson', 'F', 'bettyjohnson@dbcegoa.ac.in', NULL, 1, '2021-02-10'),
+(3, 'Charles', 'Michael', 'Davis', 'M', 'charlesdavis@dbcegoa.ac.in', NULL, 1, '2022-03-20'),
+(4, 'Dorothy', 'Anne', 'Martinez', 'F', 'dorothymartinez@dbcegoa.ac.in', NULL, 1, '2020-04-25'),
+(5, 'Edward', 'Richard', 'Garcia', 'M', 'edwardgarcia@dbcegoa.ac.in', NULL, 2, '2021-05-18'),
+(6, 'Fiona', 'Sophia', 'Clark', 'F', 'fionaclark@dbcegoa.ac.in', NULL, 2, '2022-06-11'),
+(7, 'George', 'Matthew', 'Rodriguez', 'M', 'georgerodriguez@dbcegoa.ac.in', NULL, 2, '2020-07-09'),
+(8, 'Hannah', 'Elizabeth', 'Lewis', 'F', 'hannahlewis@dbcegoa.ac.in', NULL, 2, '2021-08-23'),
+(9, 'Isaac', 'Anthony', 'Lee', 'M', 'isaaclee@dbcegoa.ac.in', NULL, 1, '2022-09-14'),
+(10, 'Jack', 'Amelia', 'Walker', 'M', 'jackwalker@dbcegoa.ac.in', NULL, 1, '2020-10-29'),
+(11, 'Kathy', 'Emily', 'Robinson', 'F', 'kathyrobinson@dbcegoa.ac.in', NULL, 2, '2021-11-06'),
+(12, 'Louis', 'Charles', 'Young', 'M', 'louischarles@dbcegoa.ac.in', NULL, 2, '2022-12-17'),
+(13, 'Molly', 'Grace', 'King', 'F', 'mollyking@dbcegoa.ac.in', NULL, 2, '2020-01-08'),
+(14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1, '2021-02-27'),
+(15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1, '2022-03-15');
 
 --
 -- Triggers `instructors`
@@ -386,6 +387,42 @@ CREATE TRIGGER `update_instructor_email` AFTER UPDATE ON `instructors` FOR EACH 
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructor_assignments`
+--
+
+CREATE TABLE `instructor_assignments` (
+  `Instructor_ID` int(11) NOT NULL,
+  `Course_ID` int(11) DEFAULT NULL,
+  `Role_ID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mentorship`
+--
+
+CREATE TABLE `mentorship` (
+  `Mentorship_ID` int(11) NOT NULL,
+  `Instructor_ID` int(11) NOT NULL,
+  `Student_Roll_No` int(11) NOT NULL,
+  `Semester` varchar(20) NOT NULL,
+  `Department_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mentorship`
+--
+
+INSERT INTO `mentorship` (`Mentorship_ID`, `Instructor_ID`, `Student_Roll_No`, `Semester`, `Department_ID`) VALUES
+(1, 16, 11, 'V', 1),
+(2, 16, 12, 'V', 1),
+(3, 16, 111, 'V', 1),
+(4, 16, 112, 'V', 1);
 
 -- --------------------------------------------------------
 
@@ -433,7 +470,7 @@ INSERT INTO `quotes` (`Quote_ID`, `Quote`, `Author`) VALUES
 
 CREATE TABLE `roles` (
   `Role_ID` int(11) NOT NULL,
-  `Role_Name` enum('student','teacher','admin','HOD') NOT NULL
+  `Role_Name` enum('student','teacher','admin','hod','classteacher') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -444,7 +481,9 @@ INSERT INTO `roles` (`Role_ID`, `Role_Name`) VALUES
 (1, 'student'),
 (2, 'teacher'),
 (3, 'admin'),
-(4, 'HOD');
+(4, 'hod'),
+(5, 'hod'),
+(6, 'classteacher');
 
 -- --------------------------------------------------------
 
@@ -478,7 +517,7 @@ CREATE TABLE `students` (
   `Middle_Name` varchar(50) DEFAULT NULL,
   `Last_Name` varchar(50) NOT NULL,
   `Gender` enum('M','F','X') NOT NULL,
-  `Roll_No` varchar(50) NOT NULL,
+  `Roll_No` int(11) NOT NULL,
   `University_No` varchar(50) NOT NULL,
   `Date_Of_Birth` date DEFAULT NULL,
   `Email` varchar(150) DEFAULT NULL,
@@ -494,21 +533,21 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Gender`, `Roll_No`, `University_No`, `Date_Of_Birth`, `Email`, `PhoneNo`, `Current_Semester`, `Profile_Picture`, `Bio`, `Department_ID`) VALUES
-(1, 'Malcolm', 'Dos Reis', 'Antao', 'M', '2214025', 'U12345601', '2004-01-06', '2214025@dbcegoa.ac.in', '7499084979', 'V', '../Assets/ProfileImages/profile_671eada98781a0.11236213.jpg', 'Computer Engineering student . ', 1),
-(2, 'Alice', 'Marie', 'Smith', 'F', 'CSE1002', 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 1),
-(3, 'Bob', 'Robert', 'Johnson', 'M', 'CSE2001', 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 2),
-(4, 'Carol', 'Anne', 'Williams', 'F', 'CSE2002', 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 2),
-(5, 'Dave', 'Matthew', 'Brown', 'M', 'ME1001', 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', 3),
-(6, 'Eve', 'Sophia', 'Davis', 'F', 'ME1002', 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', 3),
-(7, 'Frank', 'Richard', 'Miller', 'M', 'CE1001', 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', 4),
-(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 'CE1002', 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', 4),
-(9, 'Hank', 'Anthony', 'Moore', 'M', 'ECS1001', 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', 5),
-(10, 'Ivy', 'Amelia', 'Taylor', 'F', 'ECS1002', 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', 5),
-(11, 'Jack', 'George', 'Anderson', 'M', 'CSE3001', 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', 1),
-(12, 'Kim', 'Sarah', 'Thomas', 'F', 'CSE3002', 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', 1),
-(13, 'Leo', 'Charles', 'Jackson', 'M', 'ME2001', 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', 3),
-(14, 'Mia', 'Emily', 'White', 'F', 'IT1003', 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', 2),
-(15, 'Nate', 'David', 'Harris', 'M', 'CE2001', 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', 4);
+(1, 'Malcolm', 'Dos Reis', 'Antao', 'M', 11, 'U12345601', '2004-01-06', '2214025@dbcegoa.ac.in', '7499084979', 'V', '../Assets/ProfileImages/profile_671eada98781a0.11236213.jpg', 'Computer Engineering student . ', 1),
+(2, 'Alice', 'Marie', 'Smith', 'F', 12, 'U12345602', '1999-05-23', '2@dbcegoa.ac.in', '9876543211', 'V', NULL, 'Loves AI research.', 1),
+(3, 'Bob', 'Robert', 'Johnson', 'M', 23, 'U22345601', '1998-11-30', '3@dbcegoa.ac.in', '9876543212', 'V', NULL, 'Expert in web development.', 2),
+(4, 'Carol', 'Anne', 'Williams', 'F', 24, 'U22345602', '2000-03-12', '4@dbcegoa.ac.in', '9876543213', 'V', NULL, 'Focuses on networking.', 2),
+(5, 'Dave', 'Matthew', 'Brown', 'M', 35, 'U32345601', '2001-07-18', '5@dbcegoa.ac.in', '9876543214', 'V', NULL, 'Mechanical Engineering student.', 3),
+(6, 'Eve', 'Sophia', 'Davis', 'F', 36, 'U32345602', '1999-12-22', '6@dbcegoa.ac.in', '9876543215', 'V', NULL, 'Interested in thermodynamics.', 3),
+(7, 'Frank', 'Richard', 'Miller', 'M', 47, 'U42345601', '2001-02-05', '7@dbcegoa.ac.in', '9876543216', 'V', NULL, 'Specializes in structural analysis.', 4),
+(8, 'Grace', 'Elizabeth', 'Wilson', 'F', 48, 'U42345602', '2000-09-17', '8@dbcegoa.ac.in', '9876543217', 'V', NULL, 'Focuses on geotechnical engineering.', 4),
+(9, 'Hank', 'Anthony', 'Moore', 'M', 59, 'U52345601', '1999-04-25', '9@dbcegoa.ac.in', '9876543218', 'V', NULL, 'Embedded systems enthusiast.', 5),
+(10, 'Ivy', 'Amelia', 'Taylor', 'F', 510, 'U52345602', '2001-06-10', '10@dbcegoa.ac.in', '9876543219', 'V', NULL, 'Loves digital signal processing.', 5),
+(11, 'Jack', 'George', 'Anderson', 'M', 111, 'U12345611', '1999-11-14', '11@dbcegoa.ac.in', '9876543220', 'V', NULL, 'Focuses on software engineering.', 1),
+(12, 'Kim', 'Sarah', 'Thomas', 'F', 112, 'U12345612', '2000-08-19', '12@dbcegoa.ac.in', '9876543221', 'V', NULL, 'Blockchain technology expert.', 1),
+(13, 'Leo', 'Charles', 'Jackson', 'M', 313, 'U32345613', '1998-12-03', '13@dbcegoa.ac.in', '9876543222', 'V', NULL, 'Mechanical design and fluid mechanics.', 3),
+(14, 'Mia', 'Emily', 'White', 'F', 214, 'U22345614', '2001-09-28', '14@dbcegoa.ac.in', '9876543223', 'V', NULL, 'Focuses on cloud computing.', 2),
+(15, 'Nate', 'David', 'Harris', 'M', 415, 'U42345615', '1999-07-04', '15@dbcegoa.ac.in', '9876543224', 'V', NULL, 'Civil Engineering, construction materials.', 4);
 
 --
 -- Triggers `students`
@@ -600,7 +639,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`User_ID`, `Email`, `Password`, `Role_ID`) VALUES
 (1, '2214025@dbcegoa.ac.in', '$2a$12$iLX8IrL0gSt0i15/UevSr.Y84diJJw31zMsKgXKt84d/SIY6Ph0Fu', 1),
-(2, 'john.smith@dbcegoa.ac.in', '$2a$12$O7/iOmAO0MAKAK/6adBLXO/KQW43sLTFPlb4aVRAJIZh2LEeopZG.', 2),
+(2, 'john.smith@dbcegoa.ac.in', '$2a$12$O7/iOmAO0MAKAK/6adBLXO/KQW43sLTFPlb4aVRAJIZh2LEeopZG.', 4),
 (3, 'admin@dbcegoa.ac.in', '$2a$12$6HWNitANOhSwGc45g8koOuT/kMfG68dN.O/U/Vf5wEhg/yhpnn.u.', 3);
 
 -- --------------------------------------------------------
@@ -685,6 +724,22 @@ ALTER TABLE `instructors`
   ADD KEY `FK_Instructor_Gender` (`Gender`);
 
 --
+-- Indexes for table `instructor_assignments`
+--
+ALTER TABLE `instructor_assignments`
+  ADD PRIMARY KEY (`Instructor_ID`),
+  ADD KEY `FK_Course_ID` (`Course_ID`),
+  ADD KEY `FK_Role_ID` (`Role_ID`);
+
+--
+-- Indexes for table `mentorship`
+--
+ALTER TABLE `mentorship`
+  ADD PRIMARY KEY (`Mentorship_ID`),
+  ADD KEY `FK_Mentorship_Student_Roll_No` (`Student_Roll_No`),
+  ADD KEY `FK_Mentorship_Department` (`Department_ID`);
+
+--
 -- Indexes for table `quotes`
 --
 ALTER TABLE `quotes`
@@ -710,7 +765,8 @@ ALTER TABLE `role_associations`
 ALTER TABLE `students`
   ADD PRIMARY KEY (`Student_ID`),
   ADD KEY `FK_Student_Department` (`Department_ID`),
-  ADD KEY `FK_Student_Gender` (`Gender`);
+  ADD KEY `FK_Student_Gender` (`Gender`),
+  ADD KEY `idx_roll_no` (`Roll_No`);
 
 --
 -- Indexes for table `teaches`
@@ -780,6 +836,12 @@ ALTER TABLE `instructors`
   MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `mentorship`
+--
+ALTER TABLE `mentorship`
+  MODIFY `Mentorship_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `quotes`
 --
 ALTER TABLE `quotes`
@@ -789,7 +851,7 @@ ALTER TABLE `quotes`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `Role_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Role_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `students`
@@ -847,6 +909,21 @@ ALTER TABLE `grades`
 ALTER TABLE `instructors`
   ADD CONSTRAINT `FK_Instructor_Gender` FOREIGN KEY (`Gender`) REFERENCES `gender_definitions` (`Gender_Code`) ON UPDATE CASCADE,
   ADD CONSTRAINT `instructors_ibfk_1` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`);
+
+--
+-- Constraints for table `instructor_assignments`
+--
+ALTER TABLE `instructor_assignments`
+  ADD CONSTRAINT `FK_Course_ID` FOREIGN KEY (`Course_ID`) REFERENCES `courses` (`Course_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Instructor_ID` FOREIGN KEY (`Instructor_ID`) REFERENCES `instructors` (`Instructor_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Role_ID` FOREIGN KEY (`Role_ID`) REFERENCES `roles` (`Role_ID`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `mentorship`
+--
+ALTER TABLE `mentorship`
+  ADD CONSTRAINT `FK_Mentorship_Department` FOREIGN KEY (`Department_ID`) REFERENCES `departments` (`Department_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Mentorship_Student_Roll_No` FOREIGN KEY (`Student_Roll_No`) REFERENCES `students` (`Roll_No`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role_associations`

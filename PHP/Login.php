@@ -50,14 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Redirect user based on role
                 switch ($role) {
-                    case 'student':
+                    case 'Student':
                         header("Location: StudentLanding.php");
                         break;
-                    case 'teacher':
+                    case 'Teacher':
                         header("Location: teacher_homepage.php");
                         break;
-                    case 'admin':
-                        header("Location: admin_homepage.php");
+                    case 'Admin':
+                        header("Location: NewAdminDashboard.php");
                         break;
                 }
                 exit();
