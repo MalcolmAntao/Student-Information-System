@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 09:10 AM
+-- Generation Time: Oct 28, 2024 at 04:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -114,7 +114,10 @@ INSERT INTO `courses` (`Course_ID`, `course_code`, `CourseName`, `Description`, 
 (34, 'CS610', 'Artificial Intelligence', 'Introduction to AI techniques including machine learning and neural networks.', 3, 1, 'V', 4),
 (35, 'CS611', 'Mobile App Development', 'Development of mobile apps using Android and iOS frameworks.', 3, 1, 'V', 4),
 (36, 'CS612', 'Human-Computer Interaction', 'Study of user interface design, UX principles, and usability.', 3, 1, 'V', 4),
-(37, 'CS701', 'Advanced Computer Networks', 'Study of advanced topics in computer networks.', 4, 1, 'V', 5);
+(37, 'CS701', 'Advanced Computer Networks', 'Study of advanced topics in computer networks.', 4, 1, 'V', 5),
+(38, 'cs404', 'Hacking Technology', 'Some course related to computer engineering', 3, 1, 'V', 5),
+(41, 'cs404', 'Hacking Technology', 'Some course related to computer engineering', 3, 1, 'V', 5),
+(42, 'cs404', 'Hacking Technology', 'Some course related to computer engineering', 3, 1, 'V', 5);
 
 --
 -- Triggers `courses`
@@ -152,10 +155,14 @@ CREATE TABLE `course_selections` (
 --
 
 INSERT INTO `course_selections` (`Selection_ID`, `Student_ID`, `Course_ID`, `Accepted`) VALUES
-(36, 1, 23, 0),
+(1, 1, 15, 0),
+(2, 9, 5, 1),
+(3, 4, 5, 0),
+(4, 11, 5, 0),
 (37, 1, 34, 0),
 (40, 1, 16, 0),
-(41, 1, 24, 0);
+(41, 1, 24, 0),
+(42, 1, 22, 0);
 
 --
 -- Triggers `course_selections`
@@ -268,7 +275,17 @@ INSERT INTO `enrolls_in` (`Enrollment_ID`, `Student_ID`, `Course_ID`, `Year`) VA
 (132, 1, 37, 2024),
 (133, 2, 37, 2024),
 (134, 11, 37, 2024),
-(135, 12, 37, 2024);
+(135, 12, 37, 2024),
+(140, 2, 38, 2024),
+(141, 11, 38, 2024),
+(142, 12, 38, 2024),
+(147, 2, 41, 2024),
+(148, 11, 41, 2024),
+(149, 12, 41, 2024),
+(154, 2, 42, 2024),
+(155, 11, 42, 2024),
+(156, 12, 42, 2024),
+(161, 9, 5, 2024);
 
 -- --------------------------------------------------------
 
@@ -313,7 +330,7 @@ CREATE TABLE `grades` (
 --
 
 INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`, `IT1`, `IT2`, `IT3`, `Sem`) VALUES
-(25, 1, 1, 'V', 2023, 18.50, 19.00, 20.00, 85.00),
+(25, 1, 1, 'V', 2024, 19.00, 19.00, 20.00, 85.00),
 (26, 2, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.50),
 (27, 3, 3, 'V', 2023, 20.00, 20.00, 19.00, 91.25),
 (28, 4, 4, 'V', 2023, 16.50, 17.50, 18.00, 65.30),
@@ -329,7 +346,8 @@ INSERT INTO `grades` (`Grade_ID`, `Student_ID`, `Course_ID`, `Semester`, `Year`,
 (38, 14, 14, 'V', 2023, 16.00, 17.00, 18.00, 85.50),
 (39, 15, 15, 'V', 2023, 19.50, 20.00, 20.00, 92.10),
 (40, 1, 2, 'V', 2023, 17.00, 18.00, 19.00, 72.00),
-(41, 1, 3, 'V', 2023, 22.50, 23.00, 24.50, 75.00);
+(41, 1, 3, 'V', 2023, 22.50, 23.00, 24.50, 75.00),
+(42, 6, 1, 'V', 2024, 20.00, 15.00, 18.00, 85.00);
 
 -- --------------------------------------------------------
 
@@ -368,7 +386,8 @@ INSERT INTO `instructors` (`Instructor_ID`, `First_Name`, `Middle_Name`, `Last_N
 (12, 'Louis', 'Charles', 'Young', 'M', 'louischarles@dbcegoa.ac.in', NULL, 2, '2022-12-17'),
 (13, 'Molly', 'Grace', 'King', 'F', 'mollyking@dbcegoa.ac.in', NULL, 2, '2020-01-08'),
 (14, 'Nathan', 'David', 'Scott', 'M', 'nathanscott@dbcegoa.ac.in', NULL, 1, '2021-02-27'),
-(15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1, '2022-03-15');
+(15, 'Olivia', 'Helen', 'Green', 'F', 'oliviagreen@dbcegoa.ac.in', NULL, 1, '2022-03-15'),
+(16, 'John', 'Brian', 'Smith', 'M', 'john.smith@dbcegoa.ac.in', NULL, 1, '2020-04-12');
 
 --
 -- Triggers `instructors`
@@ -399,6 +418,13 @@ CREATE TABLE `instructor_assignments` (
   `Course_ID` int(11) DEFAULT NULL,
   `Role_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `instructor_assignments`
+--
+
+INSERT INTO `instructor_assignments` (`Instructor_ID`, `Course_ID`, `Role_ID`) VALUES
+(1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -470,7 +496,7 @@ INSERT INTO `quotes` (`Quote_ID`, `Quote`, `Author`) VALUES
 
 CREATE TABLE `roles` (
   `Role_ID` int(11) NOT NULL,
-  `Role_Name` enum('student','teacher','admin','hod','classteacher') DEFAULT NULL
+  `Role_Name` enum('Student','Teacher','Admin','HOD','ClassTeacher') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -478,12 +504,11 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`Role_ID`, `Role_Name`) VALUES
-(1, 'student'),
-(2, 'teacher'),
-(3, 'admin'),
-(4, 'hod'),
-(5, 'hod'),
-(6, 'classteacher');
+(1, 'Student'),
+(2, 'Teacher'),
+(3, 'Admin'),
+(4, 'HOD'),
+(5, 'ClassTeacher');
 
 -- --------------------------------------------------------
 
@@ -553,6 +578,33 @@ INSERT INTO `students` (`Student_ID`, `First_Name`, `Middle_Name`, `Last_Name`, 
 -- Triggers `students`
 --
 DELIMITER $$
+CREATE TRIGGER `auto_enroll_core_courses` AFTER INSERT ON `students` FOR EACH ROW BEGIN
+  -- Insert into Enrolls_In for core courses in the same department and semester
+  INSERT INTO enrolls_in (Student_ID, Course_ID, Year)
+  SELECT NEW.Student_ID, c.Course_ID, YEAR(CURDATE())
+  FROM courses c
+  WHERE c.Department_ID = NEW.Department_ID  -- Same department as student
+    AND c.Semester = NEW.Current_Semester    -- Same semester as student
+    AND c.Enrollment_Type_ID = 1;            -- Core course (Enrollment_Type_ID = 1)
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `auto_enroll_core_courses_after_update` AFTER UPDATE ON `students` FOR EACH ROW BEGIN
+  -- Check if the department or current semester has been changed
+  IF NEW.Department_ID != OLD.Department_ID OR NEW.Current_Semester != OLD.Current_Semester THEN
+    -- Insert into Enrolls_In for core courses in the updated department and semester
+    INSERT INTO enrolls_in (Student_ID, Course_ID, Year)
+    SELECT NEW.Student_ID, c.Course_ID, YEAR(CURDATE())
+    FROM courses c
+    WHERE c.Department_ID = NEW.Department_ID  -- Same updated department as student
+      AND c.Semester = NEW.Current_Semester    -- Same updated semester as student
+      AND c.Enrollment_Type_ID = 1;            -- Core course (Enrollment_Type_ID = 1)
+  END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
 CREATE TRIGGER `update_student_email` AFTER UPDATE ON `students` FOR EACH ROW BEGIN
     IF OLD.Email != NEW.Email THEN
         UPDATE users
@@ -618,7 +670,10 @@ INSERT INTO `teaches` (`Instructor_ID`, `Course_ID`) VALUES
 (12, 12),
 (13, 13),
 (14, 14),
-(15, 15);
+(15, 15),
+(16, 1),
+(16, 5),
+(16, 15);
 
 -- --------------------------------------------------------
 
@@ -797,13 +852,13 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `course_selections`
 --
 ALTER TABLE `course_selections`
-  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `Selection_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -821,19 +876,19 @@ ALTER TABLE `enrollment_types`
 -- AUTO_INCREMENT for table `enrolls_in`
 --
 ALTER TABLE `enrolls_in`
-  MODIFY `Enrollment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `Enrollment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Instructor_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `mentorship`

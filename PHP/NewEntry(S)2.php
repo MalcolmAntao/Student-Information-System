@@ -1431,12 +1431,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                         <div class="form-group">
                                             <label for="Current_Semester">Semester:</label>
-                                            <input type="text" id="Current_Semester" name="Current_Semester" placeholder="Current Semester" required>
+                                            <select id="Current_Semester" name="Current_Semester" style="width: 55%;" required>
+                                                <option value="">Select Semester</option>
+                                                <option value="I">I</option>
+                                                <option value="II">II</option>
+                                                <option value="III">III</option>
+                                                <option value="IV">IV</option>
+                                                <option value="V">V</option>
+                                                <option value="VI">VI</option>
+                                                <option value="VII">VII</option>
+                                                <option value="VIII">VIII</option>
+                                            </select>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-row" style="margin-top: 20px; margin-bottom: 20px;">
                                             <label for="Department_ID">Department Id:</label>
-                                            <input type="text" id="Department_ID" name="Department_ID" placeholder="Department ID" required>
+                                            <select id="Department_ID" name="Department_ID" required>
+                                                <option value="" disabled selected>Choose Department</option>
+                                                <option value="1">Computer Engineering</option>
+                                                <option value="2">Information Technology</option>
+                                                <option value="3">Mechanical Engineering</option>
+                                                <option value="4">Civil Engineering</option>
+                                                <option value="5">Electronics and Computer Science</option>
+                                            </select>
                                         </div>
 
                                         <button type="submit" class="add-more-btn" style="width: 30%;"><ion-icon name="person-add-outline"></ion-icon></button>

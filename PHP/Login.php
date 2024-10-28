@@ -54,7 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         header("Location: StudentLanding.php");
                         break;
                     case 'Teacher':
-                        header("Location: teacher_homepage.php");
+                        header("Location: teacherlanding.php");
+                        break;
+                    case 'HOD':
+                        header("Location: teacherlanding.php");
                         break;
                     case 'Admin':
                         header("Location: NewAdminDashboard.php");
@@ -71,4 +74,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $e->getMessage();
     }
 }
-?>

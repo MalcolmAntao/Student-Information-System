@@ -1244,13 +1244,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         transition: background-color 0.3s ease;
         border: 2px solid white;
         color: black;
-        width: 30%;        /* Button width */
+        width: 30%;
+        /* Button width */
     }
 
     .add-more-btn ion-icon {
-    color: white; /* Change icon color to white */
-    font-size: 1.5em; /* Adjust size if needed */
-}
+        color: white;
+        /* Change icon color to white */
+        font-size: 1.5em;
+        /* Adjust size if needed */
+    }
 
     body.light-mode .add-more-btn {
         background-color: #c0c0c0;
@@ -1371,14 +1374,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                         <br>
 
-                                        <div class="form-group" >
+                                        <div class="form-group">
                                             <label for="Contact_Info">Contact_Info:</label>
                                             <input type="email" id="Contact_Info" name="Contact_Info" placeholder="Email" required>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="Department_ID">Department ID:</label>
-                                            <input type="text" id="Department_ID" name="Department_ID" placeholder="Department ID" required>
+                                        <div class="form-row" style="margin-top: 20px; margin-bottom: 20px;">
+                                            <label for="Department_ID">Department Id:</label>
+                                            <select id="Department_ID" name="Department_ID" required>
+                                                <option value="" disabled selected>Choose Department</option>
+                                                <option value="1">Computer Engineering</option>
+                                                <option value="2">Information Technology</option>
+                                                <option value="3">Mechanical Engineering</option>
+                                                <option value="4">Civil Engineering</option>
+                                                <option value="5">Electronics and Computer Science</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group">

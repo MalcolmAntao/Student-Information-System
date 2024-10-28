@@ -10,16 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $course_code = $_POST['course_code'];
     $Description = $_POST['Description'];
     $Credits = $_POST['Credits'];
-    $Semester = $_POST['Semester'];
+    $Semester = $_POST['Current_Semester']; // Updated to match HTML name attribute
     $Enrollment_Type_ID = $_POST['Enrollment_Type_ID'];
 
     // Check if any department was selected
     if (isset($_POST['Department_ID'])) {
-        $departmentIds = $_POST['Department_ID']; // Array of department IDs
-        
+        $departmentIds = (array) $_POST['Department_ID']; // Cast to array if it is a single value
+
         // Prepare SQL statement to insert data
         $sql = "INSERT INTO courses (course_code, CourseName, Description, Credits, Department_ID, Semester, Enrollment_Type_ID) 
-                VALUES (:course_code, :CourseName, :Description, :Credits, :Department_ID, :Semester, :Enrollment_Type_ID)";
+            VALUES (:course_code, :CourseName, :Description, :Credits, :Department_ID, :Semester, :Enrollment_Type_ID)";
 
         // Loop through each department ID and insert a new row for each
         foreach ($departmentIds as $Department_ID) {
@@ -1397,7 +1397,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <!-- Form Section -->
                                 <div class="form-container">
                                     <!-- Form to submit course data -->
-                                    <form id="student-form" action="../PHP/NewCourse2.php" method="POST">
+                                    <form id="student-form" action="../php/NewCourse2.php" method="POST">
                                         <div class="form-row">
                                             <label for="CourseName">Course Name</label>
                                             <input type="text" id="CourseName" name="CourseName" placeholder="Course Name" required>
@@ -1427,8 +1427,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             </select>
                                             </select>
                                         </div>
-                                        <div class="form-row">
-                                            <label for="Department_ID">Course By</label>
+                                        <div class="form-row" style="margin-top: 20px; margin-bottom: 20px;">
+                                            <label for="Department_ID">Department Id:</label>
                                             <select id="Department_ID" name="Department_ID" required>
                                                 <option value="" disabled selected>Choose Department</option>
                                                 <option value="1">Computer Engineering</option>
@@ -1438,14 +1438,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <option value="5">Electronics and Computer Science</option>
                                             </select>
                                         </div>
-                                        <div class="form-row">
-                                            <label for="Semester">Semester For</label>
-                                            <input type="text" id="Semester" name="Semester" placeholder="Current Semester" required>
+                                        <div class="form-group">
+                                            <label for="Current_Semester">Semester:</label>
+                                            <select id="Current_Semester" name="Current_Semester" style="width: 70%;" required>
+                                                <option value="">Select Semester</option>
+                                                <option value="I">I</option>
+                                                <option value="II">II</option>
+                                                <option value="III">III</option>
+                                                <option value="IV">IV</option>
+                                                <option value="V">V</option>
+                                                <option value="VI">VI</option>
+                                                <option value="VII">VII</option>
+                                                <option value="VIII">VIII</option>
+                                            </select>
                                         </div>
-                                        <div class="form-row">
+
+                                        <div class="form-row" style="margin-top: 20px; margin-bottom: 20px;">
                                             <label for="Enrollment_Type_ID">Enrollment Type</label>
-                                            <input type="text" id="Enrollment_Type_ID" name="Enrollment_Type_ID" placeholder="Enrollment Type" required>
+                                            <select id="Enrollment_Type_ID" name="Enrollment_Type_ID" required>
+                                                <option value="" disabled selected>Choose Department</option>
+                                                <option value="1">Major</option>
+                                                <option value="2">Minor</option>
+                                                <option value="3">Proffesional Elective</option>
+                                                <option value="4">Open Elective</option>
+                                                <option value="5">Core</option>
+                                            </select>
                                         </div>
+
                                         <button type="submit" class="save-btn">Save</button>
                                     </form>
                                 </div>
