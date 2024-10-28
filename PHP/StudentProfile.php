@@ -379,7 +379,7 @@ if ($student) {
             --enroll-button-text: #ffffff;
 
             --overlay-bg: rgba(0, 0, 0, 0.7);
-            --expanded-card-bg: rgba(18, 14, 14, 0.95);
+            --expanded-card-bg: rgba(35, 37, 38, 0.95);
             --hover_box: #4BBD3E;
             --course_hover: #333333;
             --course_details: #555555;
@@ -638,6 +638,7 @@ if ($student) {
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 35vh;
         }
 
         .marks-obtained,
@@ -664,6 +665,7 @@ if ($student) {
         }
 
         .courses {
+            min-height: 35vh;
             overflow: auto;
         }
 
@@ -1766,9 +1768,9 @@ if ($student) {
 
             <!-- Bottom Row: Teachers teached will be displayed based on the courses taken by the student -->
             <div class="bottom-row">
-                <div class="card gemini gradient-card">
+                <!-- <div class="card gemini gradient-card">
                     <p>I will put something here</p>
-                </div>
+                </div> -->
             </div>
         </div>
 
