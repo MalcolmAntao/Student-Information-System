@@ -223,7 +223,7 @@
         .course-and-profile {
             display: flex;
             justify-content: space-between; /* To space out both divs */
-            felx-wrap: wrap;
+            flex-wrap: wrap;
         }
 
         .course-info, .student-profile-container {
