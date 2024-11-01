@@ -71,7 +71,7 @@ This project includes multiple tables, triggers and views for managing student, 
 - **users**: Manages all system users, including their login credentials and roles.
   
 
-  ### Triggers
+### Triggers
 
 - **after_course_insert**: Automatically enrolls students into a core course when a new core course is added. This inserts enrollment records for all students in the same department and semester as the course.
 
@@ -85,7 +85,7 @@ This project includes multiple tables, triggers and views for managing student, 
 
 - **update_student_email**: Updates the email in the `users` table whenever a student's email is modified.
 
-  ### Views
+### Views
   
 - **student_sgpa_cgpa**: Stores semester grade point averages (SGPA) and cumulative grade point averages (CGPA) for students
 
